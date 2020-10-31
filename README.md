@@ -11,15 +11,12 @@ First, go to Github Codespaces, select "Create new codespace", and enter in the 
 
 Once the environment has been created, open your Terminal and run 
 
-`gem install rails`
-
-followed by
-
 `bundle install`
 
-#### Congratulations, you're now running your first rails app!
+Wait for a minute or so, then run 
 
-Now we need to take one more step to view what we've created. Click on the "Remote" tab on the left of the interface, and find the "Forwarded Ports" section...
+`rails s`
 
+#### Congratulations, you're now running your first rails app on codespaces
 
-WIP - to finish later
+To allow others to see your app on the internet, we need to take one more step. Click on the "Remote" tab on the left of the interface, and find the "Forwarded Ports" section. Then forward port 3000. Now, click the globe icon to view your live rails app.
