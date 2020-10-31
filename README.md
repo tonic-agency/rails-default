@@ -1,4 +1,4 @@
-# README
+# Rails 6, Tailwind, Editmode Starter
 
 This repository is an easily-forkable, stripped-back Rails codebase which includes only Tailwind & Editmode, and is intended to demonstrate how quickly you can get up and running building a website on Rails. It is **designed for beginners**. If you know even a little HTML and CSS, and you have Codespaces access, you should still be able to get up and running. This is because we've intentionally left out things which require additional proficiency such as webpack or npm.  
 
