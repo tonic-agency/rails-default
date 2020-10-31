@@ -1,0 +1,11 @@
+{
+    "em_authentication_token": "",
+    "em_default_snippet_template": "rails_erb",
+    "em_urls": {
+      "create" : "https://api.editmode.com/chunks"
+    },
+    "em_snippet_templates": {
+      "rails_erb": "<%= E('{identifier}') %>",
+      "rails_interpolated": "= E('{identifier}')"
+    }
+}
