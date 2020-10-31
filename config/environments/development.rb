@@ -47,4 +47,6 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 
+  # Using Rails 6 with codespaces gives an error unless this line is added.
+  config.hosts.clear
 end
