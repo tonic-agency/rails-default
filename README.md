@@ -17,12 +17,13 @@ Wait for a minute or so, then run
 
 `rails s`
 
-#### Congratulations, you're now running your first rails app on codespaces
-
 To allow others to see your app on the internet, we need to take one more step. Click on the "Remote" tab on the left of the interface, and find the "Forwarded Ports" section. Then forward port 3000. Now, click the globe icon to view your live rails app.
 
+#### Congratulations, you're now running your first rails app on codespaces
 
-### (Update - Nov 12 '20) Works with Replit
+### Works with Replit
 
 Relpit also allows you to run a development environment in your browser. It is substantially less powerful than Codespaces, but is free and open, and for the purposes of this codebase is more than sufficient.
+
+(WIP - will add replit instructions soon)
 
