@@ -10,3 +10,5 @@ This repository is an easily-forkable, stripped-back Rails codebase which includ
   - Update database names in `config/database.yml` from starter_production, starter_development, starter_test to reflect the app name.
   - Update the `<title>` in `app/views/layouts/application.html.erb` to reflect the app name.
   - Update the default module name in `config/application.rb` to reflect the app name.
+- Create the database
+  - `rake db:create`
