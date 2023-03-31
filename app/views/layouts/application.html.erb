@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full">
   <head>
-    <title>Starter</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'tailwind', media: 'all' %>
+    <%= render :partial=> "shared/head" %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="relative h-full bg-subtle-colors">
+
+    <%= render :partial => "shared/partial_containers" %>
+
+    <div id="main-content"> 
+      <%= yield %>
+    </div>
+      
   </body>
+
 </html>

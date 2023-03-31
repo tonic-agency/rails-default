@@ -1,0 +1,138 @@
+
+:root {
+
+  /* Color scheme 1. From Jordan Hughes - https://twitter.com/jordanphughes/status/1620438761619312640 */
+  
+  --text-dark: #1A1F2A;
+
+  --bg-callout: #1D2A3A;
+  --bg-callout-text: #EDF8FD;
+
+  --bg-callout2: #DCFF54;
+  --bg-callout2-text: #1D2A3A;
+
+  --bg-gray: #E4E7E0;
+  --bg-gray-text: var(--text-dark);
+
+  --bg-gray2: #F5F5F5;
+  --bg-custom-light: #F2EDDA;
+
+  --border-gray: #E4E7E0;
+
+}
+
+.bg-callout {
+  background-color: var(--bg-callout);
+  color: var(--bg-callout-text);
+}
+
+.bg-callout2 {
+  background-color: var(--bg-callout2);
+  color: var(--bg-callout2-text);
+}
+
+.bg-gray {
+  background-color: var(--bg-gray);
+  color: var(--bg-gray-text);
+}
+
+.border-gray {
+  border-color: var(--border-gray);
+}
+
+.text-dark {
+  color: var(--text-dark);
+}
+
+.custom-button {
+  background-color: var(--bg-callout);
+  color: var(--bg-callout-text);
+  border: 2px solid transparent;
+}
+
+.custom-button-minor {
+  background-color: #fff;
+  color: var(--text-dark);
+  border: 2px solid transparent;
+}
+
+.compact-container {
+  max-width: 1100px;
+}
+
+.toasts-container {
+  max-width: 300px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.toasts-container .toast {
+  transform: translateY(-120%);
+  position: fixed;
+}
+
+.toasts-container .toast-animate-in { 
+  position: relative;
+  transition: 0.5s;
+  transform: translateY(0%);
+}
+
+.toasts-container .toast-animate-out {
+  transform: translateX(120%);
+  transition: 0.5s;
+}
+
+.from-below {
+  transform: translateY(20%);
+}
+
+:focus-visible {
+  outline: none
+}
+
+.focus-border:focus {
+  border-color: #191919;
+}
+
+.border-3 {
+  border-width: 3px;
+}
+
+
+shimmer {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 100px; 
+  position: relative; 
+  
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards; 
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderShimmer;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes placeholderShimmer {
+ 0% {
+   background-position: -468px 0;
+ }
+ 
+ 100% {
+   background-position: 468px 0; 
+ }
+}
+
+
+@media (max-width: 768px) {
+  
+}
+
+.tooltip {
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
