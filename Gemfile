@@ -8,6 +8,7 @@ gem "sprockets-rails"
 gem "turbo-rails"
 
 gem "bootsnap", require: false
+gem "pry-rails"
 
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
@@ -20,4 +21,6 @@ gem 'arctic_admin'
 gem 'httparty'
 gem 'hamlit'
 gem 'figaro'
+gem 'devise'
 gem 'inline_svg' 
+gem 'passenger'

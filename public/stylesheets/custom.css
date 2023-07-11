@@ -21,6 +21,10 @@
 
 }
 
+html {
+  font-family: 'Outfit', sans-serif;
+}
+
 .bg-callout {
   background-color: var(--bg-callout);
   color: var(--bg-callout-text);

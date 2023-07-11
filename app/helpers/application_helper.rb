@@ -1,12 +1,15 @@
 module ApplicationHelper
 
-    def page_title
-      "Site Title"
-    end
+  def page_title
+    "Site"
+  end
 
-    def user_signed_in?
-      # This is a stub, which should be removed when authentication is implemented
-      false
+  def cache_buster 
+    if Rails.env.production?
+      ""
+    else
+      "?stamp=#{DateTime.now.to_s}"
     end
+  end
 
 end
