@@ -1,25 +1,25 @@
-form:not(.omit-default-form-styling) label:not(.omit-default-form-element-styling) {
+form:not(.no-style) label:not(.no-style) {
   font-weight:  bold;
   cursor:       pointer;
   display:      block ;
   font-size:    1.25rem;
 }
 
-form:not(.omit-default-form-styling) [type='text'],
-form:not(.omit-default-form-styling) [type='email'],
-form:not(.omit-default-form-styling) [type='url'],
-form:not(.omit-default-form-styling) [type='password'],
-form:not(.omit-default-form-styling) [type='number'],
-form:not(.omit-default-form-styling) [type='date'],
-form:not(.omit-default-form-styling) [type='datetime-local'],
-form:not(.omit-default-form-styling) [type='month'],
-form:not(.omit-default-form-styling) [type='search'],
-form:not(.omit-default-form-styling) [type='tel'],
-form:not(.omit-default-form-styling) [type='time'],
-form:not(.omit-default-form-styling) [type='week'],
-form:not(.omit-default-form-styling) [multiple],
-form:not(.omit-default-form-styling) textarea,
-form:not(.omit-default-form-styling) select {
+form:not(.no-style) [type='text']:not(.no-style),
+form:not(.no-style) [type='email']:not(.no-style),
+form:not(.no-style) [type='url']:not(.no-style),
+form:not(.no-style) [type='password']:not(.no-style),
+form:not(.no-style) [type='number']:not(.no-style),
+form:not(.no-style) [type='date']:not(.no-style),
+form:not(.no-style) [type='datetime-local']:not(.no-style),
+form:not(.no-style) [type='month']:not(.no-style),
+form:not(.no-style) [type='search']:not(.no-style),
+form:not(.no-style) [type='tel']:not(.no-style),
+form:not(.no-style) [type='time']:not(.no-style),
+form:not(.no-style) [type='week']:not(.no-style),
+form:not(.no-style) [multiple]:not(.no-style),
+form:not(.no-style) textarea:not(.no-style),
+form:not(.no-style) select:not(.no-style) {
   border-width:   var(--form-input-border-width-small-screens, 0 0 1px 0 );
   border-radius:  var(--form-input-border-radius-small-screens, 0);
   padding:        var(--form-input-border-padding-small-screens, 0.5rem 0rem);
@@ -27,26 +27,26 @@ form:not(.omit-default-form-styling) select {
   transition :    border 500ms ease-out;
 }
 
-form:not(.omit-default-form-styling) [type='text']:focus,
-form:not(.omit-default-form-styling) [type='email']:focus,
-form:not(.omit-default-form-styling) [type='url']:focus,
-form:not(.omit-default-form-styling) [type='password']:focus,
-form:not(.omit-default-form-styling) [type='number']:focus,
-form:not(.omit-default-form-styling) [type='date']:focus,
-form:not(.omit-default-form-styling) [type='datetime-local']:focus,
-form:not(.omit-default-form-styling) [type='month']:focus,
-form:not(.omit-default-form-styling) [type='search']:focus,
-form:not(.omit-default-form-styling) [type='tel']:focus,
-form:not(.omit-default-form-styling) [type='time']:focus,
-form:not(.omit-default-form-styling) [type='week']:focus,
-form:not(.omit-default-form-styling) [multiple]:focus,
-form:not(.omit-default-form-styling) textarea:focus,
-form:not(.omit-default-form-styling) select:focus {
+form:not(.no-style) [type='text']:focus:not(.no-style),
+form:not(.no-style) [type='email']:focus:not(.no-style),
+form:not(.no-style) [type='url']:focus:not(.no-style),
+form:not(.no-style) [type='password']:focus:not(.no-style),
+form:not(.no-style) [type='number']:focus:not(.no-style),
+form:not(.no-style) [type='date']:focus:not(.no-style),
+form:not(.no-style) [type='datetime-local']:focus:not(.no-style),
+form:not(.no-style) [type='month']:focus:not(.no-style),
+form:not(.no-style) [type='search']:focus:not(.no-style),
+form:not(.no-style) [type='tel']:focus:not(.no-style),
+form:not(.no-style) [type='time']:focus:not(.no-style),
+form:not(.no-style) [type='week']:focus:not(.no-style),
+form:not(.no-style) [multiple]:focus:not(.no-style),
+form:not(.no-style) textarea:focus:not(.no-style),
+form:not(.no-style) select:focus:not(.no-style) {
   outline: none;
   border-color:   var(--form-input-border-color-focus, #191919);
 }
 
-form:not(.omit-default-form-styling) [type='submit'] {
+form:not(.no-style) [type='submit']:not(.no-style) {
   background-color:   rgba(var(--primary-bg-color,1,90,226),.9); 
   border-radius:      var(--form-input-border-radius, 0.25rem);
   text-transform:     uppercase;
@@ -70,33 +70,33 @@ form:not(.omit-default-form-styling) [type='submit'] {
   width:              100%;
 }
 
-form:not(.omit-default-form-styling) [type='submit']:hover {
+form:not(.no-style) [type='submit']:hover:not(.no-style) {
   transform:          translateY(-2px);
   background-color:   rgba(var(--primary-bg-color,1,90,226),1); 
 }
 
 @media (min-width: 640px) {
-  form:not(.omit-default-form-styling) [type='text'],
-  form:not(.omit-default-form-styling) [type='email'],
-  form:not(.omit-default-form-styling) [type='url'],
-  form:not(.omit-default-form-styling) [type='password'],
-  form:not(.omit-default-form-styling) [type='number'],
-  form:not(.omit-default-form-styling) [type='date'],
-  form:not(.omit-default-form-styling) [type='datetime-local'],
-  form:not(.omit-default-form-styling) [type='month'],
-  form:not(.omit-default-form-styling) [type='search'],
-  form:not(.omit-default-form-styling) [type='tel'],
-  form:not(.omit-default-form-styling) [type='time'],
-  form:not(.omit-default-form-styling) [type='week'],
-  form:not(.omit-default-form-styling) [multiple],
-  form:not(.omit-default-form-styling) textarea,
-  form:not(.omit-default-form-styling) select {
+  form:not(.no-style) [type='text']:not(.no-style),
+  form:not(.no-style) [type='email']:not(.no-style),
+  form:not(.no-style) [type='url']:not(.no-style),
+  form:not(.no-style) [type='password']:not(.no-style),
+  form:not(.no-style) [type='number']:not(.no-style),
+  form:not(.no-style) [type='date']:not(.no-style),
+  form:not(.no-style) [type='datetime-local']:not(.no-style),
+  form:not(.no-style) [type='month']:not(.no-style),
+  form:not(.no-style) [type='search']:not(.no-style),
+  form:not(.no-style) [type='tel']:not(.no-style),
+  form:not(.no-style) [type='time']:not(.no-style),
+  form:not(.no-style) [type='week']:not(.no-style),
+  form:not(.no-style) [multiple]:not(.no-style),
+  form:not(.no-style) textarea:not(.no-style),
+  form:not(.no-style) select:not(.no-style) {
     border-color:   var(--form-input-border-color, #e5e7eb);
     border-width:   var(--form-input-border-width, 2px);
     border-radius:  var(--form-input-border-radius, 0.25rem);
     padding:        var(--form-input-border-padding, 0.75rem);
   }
-  form:not(.omit-default-form-styling) [type='submit'] {
+  form:not(.no-style) [type='submit']:not(.no-style) {
     padding: 16px 44px;
     min-width: 150px;
   }

@@ -1,52 +1,39 @@
-
 <title><%= page_title %></title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="<%= page_description %>">
 
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
-<link rel="stylesheet" media="screen" href="/stylesheets/tailwind-f475bbe.css" />
-<link rel="stylesheet" media="screen" href="/stylesheets/forms-f475bbe.css" />
-<link rel="stylesheet" media="screen" href="/stylesheets/custom.css<%= cache_buster %>" />
+<link rel="preload" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/stylesheets/forms-f475bbe.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="/stylesheets/custom.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
-<script src="/js/custom.js<%= cache_buster %>"></script>
-<script src="/js/pusher.min-7.0.js"></script>
-<script src="/js/htmx-1.8.0.js"></script>
-<script src="/js/hyperscript.min-0.9.7.js"></script>
-<script src="/js/popper-2.11.8.js"></script>
-<script src="/js/tippy-6.3.7.js"></script>
+<noscript>
+<link rel="stylesheet" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>">
+<link rel="stylesheet" href="/stylesheets/forms-f475bbe.css<%= cache_buster %>">
+<link rel="stylesheet" href="/stylesheets/custom.css<%= cache_buster %>">
+</noscript>
+
+<%= render :partial => "shared/inline_css" %>
+
+<script src="/js/custom.js<%= cache_buster %>" defer></script>
+<script src="/js/pusher.min-7.0.js<%= cache_buster %>" defer></script>
+<script src="/js/htmx-1.8.0.js<%= cache_buster %>" defer></script>
+<script src="/js/hyperscript.min-0.9.7.js<%= cache_buster %>" defer></script>
+<script src="/js/popper-2.11.8.js<%= cache_buster %>" defer></script>
+<script src="/js/tippy-6.3.7.js<%= cache_buster %>" defer></script>
   
 <% unless ENV["OFFLINE_DEV"].present? %>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap">
+  </noscript>
   
-  <script type="text/javascript">
-    
-    let client = new Pusher("<%= ENV['PUSHER_KEY'] %>", {
-      wsHost: "<%= ENV['PUSHER_HOST'] %>",
-      wsPort: 443,
-      wssPort: 443,
-      forceTLS: true,
-      encrypted: true,
-      disableStats: true,
-      enabledTransports: ['ws', 'wss'],
-    });
-
-    <%- if user_signed_in? %>
-
-      client.subscribe('user-toasts-<%= current_user.id.to_s %>').bind('new-toast', ({ content }) => {
-        console.log(`Received: ${content}`);
-        container = document.querySelector('.toasts-container')
-        container.insertAdjacentHTML('afterbegin', content)
-          _hyperscript.processNode(container)
-      });
-
-    <% end %>
-
-  </script>
-
 <% end %>
 
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">

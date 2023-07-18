@@ -1,7 +1,11 @@
 module ApplicationHelper
 
   def page_title
-    "Site"
+    "My App"
+  end
+
+  def page_description
+    "My App Description"
   end
 
   def cache_buster 
