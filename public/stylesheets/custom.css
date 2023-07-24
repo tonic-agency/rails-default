@@ -1,51 +1,27 @@
 
 :root {
 
-  /* Color scheme 1. From Jordan Hughes - https://twitter.com/jordanphughes/status/1620438761619312640 */
-  
-  --text-dark: #1A1F2A;
+  --font-family: 'Outfit', sans-serif;
+  --color-1: #F2EDDA;
+  --color-2: #E4E7E0;
+  --color-3: #DCFF54;
+  --color-4: #1D2A3A;
+  --color-5: #EDF8FD;
+  --color-6: #1A1F2A;
 
-  --bg-callout: #1D2A3A;
-  --bg-callout-text: #EDF8FD;
+  --gray-1: #F2F2F2;
+  --gray-2: #E6E6E6;
 
-  --bg-callout2: #DCFF54;
-  --bg-callout2-text: #1D2A3A;
+  --border-radius-1: 5px;
+  --border-radius-2: 10px;
+  --border-radius-3: 15px;
 
-  --bg-gray: #E4E7E0;
-  --bg-gray-text: var(--text-dark);
-
-  --bg-gray2: #F5F5F5;
-  --bg-custom-light: #F2EDDA;
-
-  --border-gray: #E4E7E0;
+  --bold-font-weight: 600;
 
 }
 
 html {
-  font-family: 'Outfit', sans-serif;
-}
-
-.bg-callout {
-  background-color: var(--bg-callout);
-  color: var(--bg-callout-text);
-}
-
-.bg-callout2 {
-  background-color: var(--bg-callout2);
-  color: var(--bg-callout2-text);
-}
-
-.bg-gray {
-  background-color: var(--bg-gray);
-  color: var(--bg-gray-text);
-}
-
-.border-gray {
-  border-color: var(--border-gray);
-}
-
-.text-dark {
-  color: var(--text-dark);
+  font-family: var(--font-family);
 }
 
 .custom-button {
@@ -139,4 +115,72 @@ shimmer {
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 13px;
+}
+
+
+.format-text h1 {
+  font-size: 2.5rem;
+  font-weight: var(--bold-font-weight);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.format-text h2 {
+  font-size: 2rem;
+  font-weight: var(--bold-font-weight);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.format-text h3 {
+  font-size: 1.5rem;
+  font-weight: var(--bold-font-weight);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.format-text h4 {
+  font-size: 1.25rem;
+  font-weight: var(--bold-font-weight);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.format-text p, 
+.format-text li {
+  font-size: 1.1rem;
+}
+
+.format-text code {
+  font-size: 0.9rem;
+}
+
+.format-text p, 
+.format-text code {
+  margin-bottom: 1rem;
+}
+
+.format-text strong {
+  font-weight: var(--bold-font-weight);
+}
+.format-text ul {
+  margin-bottom: 1rem;
+  list-style-type: disc;
+  margin-left: 20px;
+}
+.format-text ol {
+  margin-bottom: 1rem;
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+.format-text code, 
+.format-text pre code {
+  background-color: var(--gray-1);
+  border-radius: var(--border-radius-1);
+}
+.format-text code {
+  padding: 2px 4px;
+}
+.format-text pre code {
+  display: block;
+  padding: 12px;
 }

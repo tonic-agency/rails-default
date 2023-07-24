@@ -1,6 +1,9 @@
 
-<div class="absolute bottom-0 pb-3 pl-3 left-0 right-0">
-  <div class="container w-64 m-auto">
-    Hello World
+
+<div class="flex items-center justify-center">
+  <div class="m-auto rounded shadow w-full p-10" style="max-width:1200px">
+    <div class="format-text">
+      <%= @content.html_safe %>
+    </div>
   </div>
 </div>
