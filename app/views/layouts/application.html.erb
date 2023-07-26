@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html class="h-full" lang="en">
   <head>
     <%= render :partial=> "shared/head" %>
   </head>
@@ -8,9 +8,24 @@
 
     <%= render :partial => "shared/partial_containers" %>
 
-    <div id="main-content" class="h-full"> 
-      <%= yield %>
-    </div>
+    <% if disable_left_menu %>
+      <div id="main-content" class="h-full"> 
+        <%= yield %>
+      </div>
+    <% else %>
+      <div class="m-auto rounded shadow w-full p-10" style="max-width:1200px">
+        <div class="grid grid-cols-4 space-x-5">
+          <div class="col-span-1">
+            <%= render :partial => "shared/docs_menu" %>
+          </div>
+          <div class="col-span-3">
+            <div id="main-content" class="h-full"> 
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
       
   </body>
 
