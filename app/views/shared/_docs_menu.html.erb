@@ -1,0 +1,6 @@
+<div class="flex flex-col gap-y-1">
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "readme.md" %>" href="<%= root_path %>">Intro</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Basic Rails - Routes & Layouts</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/icons.md" %>" href="<%= docs_path("icons") %>">Icons</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "f.md" %>" href="<%= docs_path("readme") %>">Readme</a>
+</div>

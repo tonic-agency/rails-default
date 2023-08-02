@@ -96,8 +96,29 @@ form:not(.no-style) [type='submit']:hover:not(.no-style) {
     border-radius:  var(--form-input-border-radius, 0.25rem);
     padding:        var(--form-input-border-padding, 0.75rem);
   }
+  form:not(.no-style) [type='text']:not(.no-style).invalid,
+  form:not(.no-style) [type='email']:not(.no-style).invalid,
+  form:not(.no-style) [type='url']:not(.no-style).invalid,
+  form:not(.no-style) [type='password']:not(.no-style).invalid,
+  form:not(.no-style) [type='number']:not(.no-style).invalid,
+  form:not(.no-style) [type='date']:not(.no-style).invalid,
+  form:not(.no-style) [type='datetime-local']:not(.no-style).invalid,
+  form:not(.no-style) [type='month']:not(.no-style).invalid,
+  form:not(.no-style) [type='search']:not(.no-style).invalid,
+  form:not(.no-style) [type='tel']:not(.no-style).invalid,
+  form:not(.no-style) [type='time']:not(.no-style).invalid,
+  form:not(.no-style) [type='week']:not(.no-style).invalid,
+  form:not(.no-style) [multiple]:not(.no-style).invalid,
+  form:not(.no-style) textarea:not(.no-style).invalid,
+  form:not(.no-style) select:not(.no-style).invalid {
+    border-color: var(--form-input-border-color-invalid, rgba(239, 68, 68));
+  }
   form:not(.no-style) [type='submit']:not(.no-style) {
     padding: 16px 44px;
     min-width: 150px;
   }
+}
+
+form:not(.no-style) select:focus:not(.no-style).invalid {
+  border-color: var(--form-input-border-color-invalid, rgba(239, 68, 68));
 }

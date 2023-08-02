@@ -5,16 +5,17 @@
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
-<link rel="preload" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" href="/stylesheets/forms-f475bbe.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<link rel="preload" href="/stylesheets/custom.css<%= cache_buster %>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<!-- By default, we load in this large static tailwind file 👇 -->
+<link rel="stylesheet" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>" >
 
-<noscript>
-<link rel="stylesheet" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>">
+<!-- if you'd like to improve page speed, you can comment out the static tailwind file above
+    and use the much smaller file below. If you do this, you'll also need to run
+    `npx tailwindcss -o ./public/stylesheets/purged.css` to make sure it's up to date.
+-->
+<link rel="stylesheet" href="/stylesheets/purged.css<%= cache_buster %>">
+
 <link rel="stylesheet" href="/stylesheets/forms-f475bbe.css<%= cache_buster %>">
 <link rel="stylesheet" href="/stylesheets/custom.css<%= cache_buster %>">
-</noscript>
-
 
 <script src="/js/custom.js<%= cache_buster %>" defer></script>
 <script src="/js/pusher.min-7.0.js<%= cache_buster %>" defer></script>

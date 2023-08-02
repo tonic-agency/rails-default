@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: "site#index"
+  root to: "site#show_docs_page"
 
   get "/examples" => "site#examples", as: "examples"
 
@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   match "/plain_remote_form" => "site#plain_remote_form", as: "plain_remote_form", via: [:get,:post]
   match "/remote_form" => "site#remote_form", as: "remote_form", via: [:get,:post]
 
+
+  get "/docs/:file" => "site#show_docs_page", as: "docs"
 end
