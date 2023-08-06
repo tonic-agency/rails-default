@@ -9,6 +9,10 @@
   --color-5: #EDF8FD;
   --color-6: #1A1F2A;
 
+  --bg-primary: 26,31,42;
+
+  --link-color: #2688ff;
+
   --gray-1: #F2F2F2;
   --gray-2: #E6E6E6;
 
@@ -142,6 +146,11 @@ shimmer {
   font-weight: var(--bold-font-weight);
   line-height: 1.2;
   margin-bottom: 1rem;
+}
+
+.format-text a {
+  color: var(--link-color);
+  text-decoration: underline;
 }
 
 .format-text p, 

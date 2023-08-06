@@ -5,24 +5,24 @@
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
-<!-- By default, we load in this large static tailwind file 👇 -->
-<link rel="stylesheet" href="/stylesheets/tailwind-f475bbe.css<%= cache_buster %>" >
-
+<!-- By default, we load in a (reasonably large) static tailwind file 👇 -->
+<link rel="stylesheet" href="/stylesheets/tailwind-full.css" >
 <!-- if you'd like to improve page speed, you can comment out the static tailwind file above
     and use the much smaller file below. If you do this, you'll also need to run
-    `npx tailwindcss -o ./public/stylesheets/purged.css` to make sure it's up to date.
+    `npx tailwindcss -o ./public/stylesheets/tailwind-trimmed.css` to ensure it's up to date.
 -->
-<link rel="stylesheet" href="/stylesheets/purged.css<%= cache_buster %>">
-
-<link rel="stylesheet" href="/stylesheets/forms-f475bbe.css<%= cache_buster %>">
+<!-- link rel="stylesheet" href="/stylesheets/tailwind-trimmed.css<%= cache_buster %>" -->
+<link rel="stylesheet" href="/stylesheets/spartan-forms.css<%= cache_buster %>">
 <link rel="stylesheet" href="/stylesheets/custom.css<%= cache_buster %>">
+<link rel="stylesheet" href="/stylesheets/choices.min.css<%= cache_buster %>">
 
+<script src="/js/pusher.min-7.0.js" defer></script>
+<script src="/js/htmx-1.8.0.js" defer></script>
+<script src="/js/hyperscript.min-0.9.7.js" defer></script>
+<script src="/js/popper-2.11.8.js" defer></script>
+<script src="/js/tippy-6.3.7.js" defer></script>
+<script src="/js/choices.js" defer></script>
 <script src="/js/custom.js<%= cache_buster %>" defer></script>
-<script src="/js/pusher.min-7.0.js<%= cache_buster %>" defer></script>
-<script src="/js/htmx-1.8.0.js<%= cache_buster %>" defer></script>
-<script src="/js/hyperscript.min-0.9.7.js<%= cache_buster %>" defer></script>
-<script src="/js/popper-2.11.8.js<%= cache_buster %>" defer></script>
-<script src="/js/tippy-6.3.7.js<%= cache_buster %>" defer></script>
   
 <% unless ENV["OFFLINE_DEV"].present? %>
 

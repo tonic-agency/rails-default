@@ -1,24 +1,63 @@
-# Easy Rails
+# HTML First Rails
 
-This repository is designed to be the absolute *simplest* way to build web interfaces or applications as someone with limited experience. The documentation below will assume you have no knowledge of Ruby on Rails, and moderate/basic knowledge of HTML and CSS.
+This repository is designed to be the absolute simplest way to build web applications. The documentation will assume you have basic/beginner knowledge of HTML and CSS, and little-to-no knowledge of Ruby on Rails.
+
+#### Novice Friendliness as a core Design Principle
+
+I've written more about this in my blog [here](https://new.tonyennis.com/blog/f_8e9B0u6-nfacdp). The main idea behind the way we approach this codebase If the "learn-ability" of a codebase rises in step with each new concept added, then we should start with a few very simple concepts (html tags and properties), defer introducing more difficult concepts (and skills) until later, and not add new concepts to our codebase that will reduce it's learn-ability unless absolutely necessary. 
 
 #### Write Code. Not too much. Mostly HTML. 
 
-Conceptually, basic HTML is as low on the difficulty scale as you can get when it comes to building web software. This codebase, while built on top of Ruby on Rails, is designed primarily to be a container for html. We provide a few helper libraries to add some minor additional functionality to html, and a collection of cheat sheets with one-liners and examples, all centered around html, which should unlock 95%+ of the use cases you're likely to encounter.
+Conceptually, basic HTML is as low on the difficulty scale as you can get when building web software. And for most interfaces, it's sufficient. We use Rails for the things that plain HTML can't do - creating routes and templates, communicating with a database, and a few other small utilities. But we intentionally don't use many of the "Rails Way" patterns and libraries in places where limited value is offered over a plain HTML approach, and/or where an entirely new set of concepts/patterns needs to be learned.
 
-**For when the platform falls short...**
+#### For when the platform falls short...
 
-While we believe in **minimising** external libraries and relying on pure HTML as much as possible, there are a few places that we've added (small, simple) enhancements to plain 'ol html/css.
+If it wasn't clear from the title of the repository, we believe in **minimising** external libraries, concepts and patterns, and relying on plain HTML as much as possible. That said, there are a few areas where this approach falls short when it comes to UX and maintainability. To address these shortcomings, we've added a few (small, easy to learn) helpers and utilities to the codebase, along with examples of how to use them.
 
-- Single-purpose CSS classes make it substantially easier to write and maintain CSS, by providing a-single-way-to-do-things (reducing the amount of decisions to be made). They are super quick to write, very readable, and that won't be accidentally broken later on. We use Tailwind for this. You can browse the classes that are available to you by default here.
-- One shortcoming of plain HTML is that it doesn't provide a way to easily update a **part** of a webpage or screen when a user clicks on or interacts with another part of it. Instead it requires the page undergo a full reload to load in new content. This can make interfaces feel slow, and falls short of the expectations of the average internet software user. We use htmx to fill this gap.
-- Performance: As your screens grow in size, the load speed of your page can get slower. Google page speed insights tells you how fast your pages are, and lists a number of ways to keep your application snappy on mobile and slower connections. Some of these patterns use non-standard ways of writing HTML but are important to keep your app fast. Two examples in this codebase are working with icons and loading in CSS and javascript files.
-
-#### Core Patterns
+- CSS is a powerful language, but it's cascading nature can make it difficult to debug (figure out why it's not behaving as expected), and maintain (add new styles without breaking existing styles) over time. Because of this, it's one of the most common places that novice developers get stuck when starting out. [Single-purpose CSS classes](https://tailwindcss.com/docs/utility-first) address this, by providing a-single-way-to-do-styling which prevents collisions and makes it very obvious where a style is being applied. We use [Tailwind](https://tailwindcss.com/) for this. You can browse the classes that are available to you by default here.
+- Another shortcoming of plain HTML is that it doesn't provide a way to easily update a **part** of a webpage or screen when a user clicks on or interacts with another part of it. Instead it requires the page undergo a full reload to load in new content. This can make interfaces feel slow, and falls short of the expectations of the average internet software user. We use [htmx](https://htmx.org/) to fill this gap.
 
 
+## Principles
 
-#### Modals
+#### Codebase Accessibility (Pothole Removal)
+- 
+
+#### Locality Of Behaviour 
+  - Aka No Separation without Strong Justification
+
+#### Use the Platform
+- Why? Future-proof codebase. Will run with browsers in 10+ years 
+
+
+#### No Obfuscation without Strong Justification
+  - What's obfuscation?
+    - Type A: Obfuscation by separation
+      - Aka "Working Memory obfuscation" aka "Frontend Separation of concerns"
+    - Type B: Obfuscation as Translation
+  - Good reasons to obfuscate
+    - Security    
+      - ActiveRecord
+    - Readability/Ergonomics
+      - This is targeted at SQL. While widespread - it is, quite frankly, 
+  - Bad reasons to obfuscate
+    - Because 
+    - "Because there's a gem for it"
+      - E.g. adding gems to add other libraries. Just add the library directly
+    - Code aesthetics
+      - This is tricky and often subjective - particularly the lines between aesthetics and readability. 
+  - Notes
+    - On rest APIs: In my experience it's almost always to use a rest API directly (with something like HTTParty), than via a wrapper or SDK. With the latter, you ultimately need to understand two syntaxes for the same thing (it's rare to not need to read the underlying API docs anywaay)
+### Order of operations
+  - HTML
+    - 
+  - CSS
+    - Inline Tailwind
+    - Inline CSS
+    - custom.css
+  - JS
+    - 
+-
 
 
 
@@ -33,5 +72,5 @@ Setup
 Refreshing the purged CSS 
 
 ```
-npx tailwindcss -o ./public/stylesheets/purged.css
+npx tailwindcss -o ./public/stylesheets/tailwind-trimmed.css
 ```

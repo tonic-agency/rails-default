@@ -1,5 +1,5 @@
 form:not(.no-style) label:not(.no-style) {
-  font-weight:  bold;
+  font-weight:  600;
   cursor:       pointer;
   display:      block ;
   font-size:    1.25rem;
@@ -47,7 +47,7 @@ form:not(.no-style) select:focus:not(.no-style) {
 }
 
 form:not(.no-style) [type='submit']:not(.no-style) {
-  background-color:   rgba(var(--primary-bg-color,1,90,226),.9); 
+  background-color:   rgba(var(--bg-primary,1,90,226),.9); 
   border-radius:      var(--form-input-border-radius, 0.25rem);
   text-transform:     uppercase;
 	letter-spacing:     0.04em; 
@@ -56,7 +56,7 @@ form:not(.no-style) [type='submit']:not(.no-style) {
   color:            #fff;
   cursor:             pointer;
   display:            inherit;
-  font-weight:        bold;
+  font-weight:        600;
   line-height:        24px;
   margin:             0;
   padding:            16px 20px;
@@ -72,7 +72,7 @@ form:not(.no-style) [type='submit']:not(.no-style) {
 
 form:not(.no-style) [type='submit']:hover:not(.no-style) {
   transform:          translateY(-2px);
-  background-color:   rgba(var(--primary-bg-color,1,90,226),1); 
+  background-color:   rgba(var(--bg-primary,1,90,226),1); 
 }
 
 @media (min-width: 640px) {
