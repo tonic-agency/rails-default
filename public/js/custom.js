@@ -9,8 +9,18 @@ function closeModal() {
   mainModal.classList.add('hidden');
 }
 
-function reinitializeJs() {  
-  initResponsiveLinks();
+const choices = new Choices('.js-choice');
+
+function initializeTooltips() {
+  tippy('[data-tippy-content]');
+}
+
+function getData() {
+
+}
+
+function reinitializeJs() { 
+  initializeTooltips();
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

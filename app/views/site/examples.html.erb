@@ -1,0 +1,165 @@
+
+<div class="flex flex-col py-4 gap-y-4">
+  <div class="font-semibold text-xl">
+    General Patterns 
+  </div>
+
+  <div class="rounded shadow p-5" >
+    <a class="inline cursor-pointer" data-tippy-content="This is a tooltip">
+      Basic Tooltip 
+      <span class="font-xs">(Hover to show)</span>
+    </a>
+  </div>
+
+  <div class="rounded shadow p-5">
+    <a class="cursor-pointer underline" hx-get="<%= toast_content_path %>" hx-target=".toasts-container" hx-swap="afterbegin" >Basic Toast (Click To Trigger) </a>
+  </div>
+
+  <div class="rounded shadow p-5" >
+    <a class="cursor-pointer underline" onclick="showModal()" hx-get="<%= modal_content_path %>" hx-target="#main-modal-content">Basic Async Modal (Click to Show)</a>
+  </div>
+
+</div>
+
+<div class="flex flex-col py-4 gap-y-4">
+
+  <div class="font-semibold text-xl">
+    HTMX Examples
+  </div>
+
+  <p>
+    Note: When fetching <span class="italic inline">parts</span> of a page (what htmx is used for), we don't need the server to return the full page html (including the head). So in our controller, we check if the incoming request was triggered by htmx, and if it was, we render it <span class="font-semibold">without</span> the layout. We've abstracted this pattern out into a simple method (support_partial_response) which is included in the ApplicationController and can be used as the last line of any controller actions to enable this behaviour.
+  </p>
+
+  <div class="rounded shadow p-5" >
+    <a class="cursor-pointer underline" hx-get="<%= remote_content_path %>" hx-target="#remote-example-1">Remote Content (Click to load)</a>
+    <div id="remote-example-1"></div>
+  </div>
+
+  <div class="rounded shadow p-5" >
+    <div class="font-semibold"> 
+      Deferred Content 
+    </div>
+    <div hx-get="<%= deferred_content_path %>" hx-trigger="load"></div>
+  </div>
+
+  <div class="rounded shadow p-5 gap-y-3 flex-col flex" >
+    <div class="font-semibold"> 
+      Fetch dynamic content when a dropdown changes
+    </div>
+    <select class="border-2 border-gray-100 font-sm p-3 rounded" name="list" hx-get="<%= dropdown_content_path %>" hx-target="#dropdown-example-1" hx-trigger="change" >
+      <option value="">Select Option</option>
+      <option value="fruits">Fruits</option>
+      <option value="veg">Veg</option>
+    </select>
+
+    <div id="dropdown-example-1"></div>
+
+  </div>  
+</div>
+
+<div class="flex flex-col space-y-5">
+
+  <div class="font-semibold text-xl">
+    Forms
+  </div>
+
+  <p class="mb-5">
+    We have a pretty atypical approach to forms with rails, which is that we <span class="font-semibold">generally <span class="underline">don't</span> use rails form helpers</span> - gasp! 🙀. This leads to frontend code which is a bit more verbose, but is also much easier to reason about and understand, (read: much more novice friendly).
+  </p>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Form Styling
+    </div>
+    <p>
+      Default browser form elements are not very pretty. So we added a (very small) amount of styles that are applied to most form elements by default. They're designed to look good out of the box on both desktop and mobile. To enable these styles, just nest your inputs, selects, textareas, and buttons inside a form element. To disable them on a case-by-case basis, you can add the `.no-style` class to either the element or the form. To disable them entirely, you can remove the line that loads in the forms.css stylesheet.
+    </p>
+    <form>
+      <div class="grid grid-cols-7 md:space-x-4 space-y-3 md:space-y-0">
+        <div class="md:col-span-2 col-span-7">
+          <label for="text-field">Text Field</label>
+          <input id="text-field" type="text" placeholder="Your first name" />
+        </div>
+        <div class="md:col-span-2 col-span-7">
+          <label for="invalid-text-field">Field With Errors</label>
+          <input class="invalid" id="invalid-text-field" type="text" placeholder="Your first name" />
+        </div>
+        <div class="md:col-span-2 col-span-7">
+          <label for="select-field">Dropdown Field</label>
+          <select id="select-field">
+            <option>Ford</option>
+            <option>Toyota</option>
+            <option>Nissan</option>
+          </select>
+        </div>
+
+        <div class="md:col-span-1 col-span-7 pt-6">
+          <input type="submit" value="Submit">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <form>
+      <label for="datetime-picker">
+        Date Time Picker 
+      </label>
+      <input id="datetime-picker" type="datetime-local" onfocus="this.showPicker()" />
+    </form>
+  </div>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <form>
+      <label for="multi-select">
+        Multi Selects 
+      </label>
+      <select multiple class="js-choice" type="text" >
+        <option value="One">One</option>
+        <option value="Two">Two</option>
+      </select>
+    </form>
+  </div>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Remote form
+    </div>
+    <p>
+      Use this pattern when you don't want to refresh the entire page to submit a form. The form below is extracted into a partial so that it can be reused.
+    </p>
+    <div id="plain-remote-form">
+      <%= render partial: "partials/plain_remote_form" %>
+    </div>
+  </div>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Remote form with errors and validations
+    </div>
+    <p>
+      The previous form pattern demonstrates how to use remote forms, but it's rare you'll submit a form without persistence and validation. The example below does a few additional things: 1. It sets the default values of field inputs so they remain present after a form submit, 2. It uses the shared form errors partial to show errors, 3. It adds the invalid class to inputs with errors, and 4. It adds a success message on successful submission. We do most of this in plain old html (no form helpers).
+    </p>
+    
+    <div id="remote-form">
+      <%= render partial: "partials/remote_form" %>
+    </div>
+  </div>
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Form With custom elements
+    </div>
+    <form>
+      <input id="image_id" type="text" name="app[image_id]" />
+      <span _="on click set the value of #image_id to 1">Use image 1</span>
+      <select _="on change set the value of #image_id to @value">
+        <option value="1">Image 1</option>
+        <option value="2">Image 2</option>
+      </select>
+      <span :class="imageId == 1,'bg-black','bg-red' ">
+    </form>
+  </div>
+
+</div>

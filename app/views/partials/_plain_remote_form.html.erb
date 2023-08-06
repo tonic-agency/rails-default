@@ -1,0 +1,27 @@
+<%- local_assigns[:hx_target] ||= "#plain-remote-form" %>
+
+<% if request.post? %>
+  <div class="bg-blue-600 p-5 text-white rounded mb-5">
+    Looks like you just submitted the form
+  </div>
+<% end %>
+
+<form hx-post="<%= plain_remote_form_path %>" hx-target="<%= local_assigns[:hx_target] %>" >
+  <div class="grid grid-cols-7 md:space-x-4 space-y-3 md:space-y-0">
+    <div class="md:col-span-2 col-span-7">
+      <label for="plain-first-name-field">First Name</label>
+      <input id="plain-first-name-field" type="text" placeholder="Your first name" />
+    </div>
+    <div class="md:col-span-2 col-span-7">
+      <label for="plain-last-name-field">Last Name</label>
+      <input id="plain-last-name-field" type="text" placeholder="Your last name" />
+    </div>
+    <div class="md:col-span-2 col-span-7">
+      <label for="plain-email-field">Email</label>
+      <input id="plain-email-field" type="text" placeholder="Your email" />
+    </div>
+    <div class="md:col-span-1 col-span-7 pt-6">
+      <input type="submit" value="Submit">
+    </div>
+  </div>
+</form>

@@ -1,0 +1,17 @@
+<div class="p-4 rounded bg-gray-100 ">
+  <%- if params[:list] == "fruits" %>
+    <ul>
+      <li>Apple</li>
+      <li>Banana</li>
+      <li>Pear</li>
+    </ul>
+  <% elsif params[:list] == "veg" %>
+    <ul>
+      <li>Onion</li>
+      <li>Tomato</li>
+      <li>Carrot</li>
+    </ul>
+  <% else %>
+    No option selected
+  <% end %>
+</div>

@@ -1,6 +1,12 @@
+
 <div class="flex flex-col gap-y-1">
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "readme.md" %>" href="<%= root_path %>">Intro</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Basic Rails - Routes & Layouts</a>
+  <div class="text-xl font-semibold pb-2">Guides</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/html_css_basics.md" %>" href="<%= docs_path("html_css_basics") %>">HTML & CSS Basics</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/tailwind_layouts.md" %>" href="<%= docs_path("tailwind_layouts") %>">Building common layouts with Tailwind</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/erb.md" %>" href="<%= docs_path("erb") %>">Working with embedded ruby/a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Adding a new screen to your app</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Building templates</a>
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/icons.md" %>" href="<%= docs_path("icons") %>">Icons</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "f.md" %>" href="<%= docs_path("readme") %>">Readme</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>">Examples</a>
 </div>
