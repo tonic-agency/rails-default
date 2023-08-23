@@ -162,4 +162,51 @@
     </form>
   </div>
 
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      toast_content_path
+    </div>
+    <div>
+      <form>
+        <input :bind="first_name" onchange="state.first_name = this.value" type="text" />
+        <input type="text" value="{mini.first_name}" class="{mini.first_name == 'tony' ? 'bg-green', 'bg-red'}">
+      </form>
+    </div>
+  </div>
+
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Test Section
+    </div>
+    <div>
+      <form>
+
+
+        <input onchange="state.first_name = this.value" type="text" />
+
+
+
+        
+        <input type="text" :value="state.first_name" :class="state.first_name == 'tony' ? 'bg-green', 'bg-red'">
+      </form>
+    </div>
+  </div>
+
+
+
+
+  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl">   
+      Test Section
+    </div>
+    <div>
+      <form>
+        <input onchange="live.first_name = this.value" type="text" />        
+        <input type="text" live-value="live.first_name" live-class="live.first_name == 'tony' ? 'bg-green', 'bg-red'">
+      </form>
+    </div>
+  </div>
+
+
 </div>

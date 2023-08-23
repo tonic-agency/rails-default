@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   match "/plain_remote_form" => "site#plain_remote_form", as: "plain_remote_form", via: [:get,:post]
   match "/remote_form" => "site#remote_form", as: "remote_form", via: [:get,:post]
 
+  match "/minijs" => "site#minijs", via: [:get,:post]
+  match "/taylher_demo" => "site#taylher_demo", via: [:get]
+  
 
   get "/docs/:file" => "site#show_docs_page", as: "docs"
 end

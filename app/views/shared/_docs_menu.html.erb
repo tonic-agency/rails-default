@@ -1,12 +1,20 @@
 
 <div class="flex flex-col gap-y-1">
+  <div class="text-lg font-semibold py-2">Welcome</div>
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "readme.md" %>" href="<%= root_path %>">Intro</a>
-  <div class="text-xl font-semibold pb-2">Guides</div>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/html_css_basics.md" %>" href="<%= docs_path("html_css_basics") %>">HTML & CSS Basics</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/tailwind_layouts.md" %>" href="<%= docs_path("tailwind_layouts") %>">Building common layouts with Tailwind</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/erb.md" %>" href="<%= docs_path("erb") %>">Working with embedded ruby/a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/philosophy.md" %>" href="<%= docs_path("philosophy") %>">Philosophy</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/technical_notes.md" %>" href="<%= docs_path("technical_notes") %>">Technical Notes</a>
+  <div class="text-lg font-semibold py-2">Guides</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/erb.md" %>" href="<%= docs_path("erb") %>">Working with embedded Ruby</a>
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Adding a new screen to your app</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Building templates</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/templates.md" %>" href="<%= docs_path("templates") %>">Building templates</a>
+  <div class="text-lg font-semibold py-2">Utilities</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/styling.md" %>" href="<%= docs_path("styling") %>">Styling</a>
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/icons.md" %>" href="<%= docs_path("icons") %>">Icons</a>
   <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>">Examples</a>
+    <a class="ml-2 px-3 py-1 text-sm rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>#tooltips">Tooltips</a>
+    <a class="ml-2 px-3 py-1 text-sm rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>#tooltips">Toasts</a>
+    <a class="ml-2 px-3 py-1 text-sm rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>#tooltips">Modals</a>
+    <a class="ml-2 px-3 py-1 text-sm rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>#tooltips">HTMX</a>
+    <a class="ml-2 px-3 py-1 text-sm rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?("examples") %>" href="<%= examples_path %>#tooltips">Forms</a>
 </div>

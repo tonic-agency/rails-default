@@ -1,8 +1,31 @@
+:root {
+  /* --bg-primary: 1,90,226;
+  --bg-primary-text: #fff;
+
+  --form-input-border-color: #e5e7eb;
+  --form-input-border-color-focus: #191919;
+  --form-input-border-color-invalid: rgba(239, 68, 68);
+
+  --form-input-border-width: 2px;
+  --form-input-border-width-small-screens: 0 0 1px 0 ;
+
+  --form-input-border-radius: 0.25rem;
+  --form-input-border-radius-small-screens: 0;
+
+  --form-input-padding-small-screens: 0.5rem 0rem;
+  --form-input-padding: 0.75rem;
+
+  --form-input-height: 50px;
+  --form-input-width: 100%;
+
+  --form-label-font-size: 1.25rem;
+  --form-bold-font-weight: 600; */
+}
+
 form:not(.no-style) label:not(.no-style) {
-  font-weight:  600;
+  font-size:    var(--form-label-font-size, 1.25rem);
+  font-weight:  var(--form-bold-font-weight, 600);
   cursor:       pointer;
-  display:      block ;
-  font-size:    1.25rem;
 }
 
 form:not(.no-style) [type='text']:not(.no-style),
@@ -22,7 +45,7 @@ form:not(.no-style) textarea:not(.no-style),
 form:not(.no-style) select:not(.no-style) {
   border-width:   var(--form-input-border-width-small-screens, 0 0 1px 0 );
   border-radius:  var(--form-input-border-radius-small-screens, 0);
-  padding:        var(--form-input-border-padding-small-screens, 0.5rem 0rem);
+  padding:        var(--form-input-padding-small-screens, 0.5rem 0rem);
   width:          var(--form-input-width, 100%);
   transition :    border 500ms ease-out;
 }
@@ -53,13 +76,11 @@ form:not(.no-style) [type='submit']:not(.no-style) {
 	letter-spacing:     0.04em; 
   border:             0;
   box-sizing:         border-box;
-  color:            #fff;
+  color:              var(--bg-primary-text, #fff);
   cursor:             pointer;
   display:            inherit;
-  font-weight:        600;
-  line-height:        24px;
+  font-weight:        var(--form-bold-font-weight, 600);
   margin:             0;
-  padding:            16px 20px;
   position:           relative;
   text-align:         center;
   user-select:        none;
@@ -94,7 +115,7 @@ form:not(.no-style) [type='submit']:hover:not(.no-style) {
     border-color:   var(--form-input-border-color, #e5e7eb);
     border-width:   var(--form-input-border-width, 2px);
     border-radius:  var(--form-input-border-radius, 0.25rem);
-    padding:        var(--form-input-border-padding, 0.75rem);
+    padding:        var(--form-input-padding, 0.75rem);
   }
   form:not(.no-style) [type='text']:not(.no-style).invalid,
   form:not(.no-style) [type='email']:not(.no-style).invalid,
@@ -113,12 +134,13 @@ form:not(.no-style) [type='submit']:hover:not(.no-style) {
   form:not(.no-style) select:not(.no-style).invalid {
     border-color: var(--form-input-border-color-invalid, rgba(239, 68, 68));
   }
-  form:not(.no-style) [type='submit']:not(.no-style) {
-    padding: 16px 44px;
-    min-width: 150px;
-  }
 }
 
 form:not(.no-style) select:focus:not(.no-style).invalid {
   border-color: var(--form-input-border-color-invalid, rgba(239, 68, 68));
+}
+
+form:not(.no-style) input:not(.no-style), 
+form:not(.no-style) select:not(.no-style) {
+  height: var(--form-input-height, 50px);
 }
