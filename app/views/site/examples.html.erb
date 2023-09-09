@@ -1,25 +1,46 @@
 
 <div class="flex flex-col py-4 gap-y-4">
-  <div class="font-semibold text-xl">
-    General Patterns 
+  <div class="font-semibold text-4xl">
+    Cheat Sheet
+  </div>
+  
+  <p>
+    Look at the source of this page to get a sense for how each of the components shown below are implemented.
+  </p>
+
+  <div class="font-semibold text-2xl flex justify-between">
+    Tooltips
+    <div>
+      <span class="rounded-full bg-blue-600 text-white text-xs px-2 py-1">
+        tippy.js
+      </span>
+    </div>
   </div>
 
+  <p>
+    Tooltips are powered by tippy.js. Styling can be customised in tonic.css.
+  </p>
+
   <div class="rounded shadow p-5" >
-    <a class="inline cursor-pointer" data-tippy-content="This is a tooltip">
-      Basic Tooltip 
+    <a class="inline cursor-pointer" data-tippy-content="<%= "Nice one"%>">
+      Basic Tooltip
       <span class="font-xs">(Hover to show)</span>
     </a>
   </div>
+
+
+  <div class="font-semibold text-2xl">
+    Toasts
+  </div>
+
+  <p>
+    These toasts use htmx to fetch content, tonic.css for default styling, and hyperscript for their animation behaviour. The .toasts-container can be found in the shared/partial_containers.html.erb partial.
+  </p>
 
   <div class="rounded shadow p-5">
     <a class="cursor-pointer underline" hx-get="<%= toast_content_path %>" hx-target=".toasts-container" hx-swap="afterbegin" >Basic Toast (Click To Trigger) </a>
   </div>
 
-  <div class="rounded shadow p-5" >
-    <a class="cursor-pointer underline" onclick="showModal()" hx-get="<%= modal_content_path %>" hx-target="#main-modal-content">Basic Async Modal (Click to Show)</a>
-  </div>
-
-</div>
 
 <div class="flex flex-col py-4 gap-y-4">
 
@@ -68,52 +89,33 @@
     We have a pretty atypical approach to forms with rails, which is that we <span class="font-semibold">generally <span class="underline">don't</span> use rails form helpers</span> - gasp! 🙀. This leads to frontend code which is a bit more verbose, but is also much easier to reason about and understand, (read: much more novice friendly).
   </p>
 
+  
+
   <div class="rounded shadow p-5 flex flex-col gap-y-4" >
     <div class="font-semibold text-xl"> 
-      Form Styling
+      Date Time Picker
     </div>
     <p>
-      Default browser form elements are not very pretty. So we added a (very small) amount of styles that are applied to most form elements by default. They're designed to look good out of the box on both desktop and mobile. To enable these styles, just nest your inputs, selects, textareas, and buttons inside a form element. To disable them on a case-by-case basis, you can add the `.no-style` class to either the element or the form. To disable them entirely, you can remove the line that loads in the forms.css stylesheet.
+      Our go-to date time picker implementation just uses the browser's default datetime picker with an onfocus event to show it. 
     </p>
     <form>
-      <div class="grid grid-cols-7 md:space-x-4 space-y-3 md:space-y-0">
-        <div class="md:col-span-2 col-span-7">
-          <label for="text-field">Text Field</label>
-          <input id="text-field" type="text" placeholder="Your first name" />
-        </div>
-        <div class="md:col-span-2 col-span-7">
-          <label for="invalid-text-field">Field With Errors</label>
-          <input class="invalid" id="invalid-text-field" type="text" placeholder="Your first name" />
-        </div>
-        <div class="md:col-span-2 col-span-7">
-          <label for="select-field">Dropdown Field</label>
-          <select id="select-field">
-            <option>Ford</option>
-            <option>Toyota</option>
-            <option>Nissan</option>
-          </select>
-        </div>
-
-        <div class="md:col-span-1 col-span-7 pt-6">
-          <input type="submit" value="Submit">
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
-    <form>
-      <label for="datetime-picker">
-        Date Time Picker 
+      <label for="datetime-picker" class="no-style font-semibold text-base">
+        Pickup Time 
       </label>
       <input id="datetime-picker" type="datetime-local" onfocus="this.showPicker()" />
     </form>
   </div>
 
   <div class="rounded shadow p-5 flex flex-col gap-y-4" >
+    <div class="font-semibold text-xl"> 
+      Multi Select
+    </div>
+    <p>
+      We're currently using choices.js for this but will be moving to a simpler implementation that uses minijs soon.
+    </p>
     <form>
-      <label for="multi-select">
-        Multi Selects 
+      <label for="multi-select"  class="no-style font-semibold text-base">
+        Select Options
       </label>
       <select multiple class="js-choice" type="text" >
         <option value="One">One</option>
@@ -147,66 +149,6 @@
     </div>
   </div>
 
-  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
-    <div class="font-semibold text-xl"> 
-      Form With custom elements
-    </div>
-    <form>
-      <input id="image_id" type="text" name="app[image_id]" />
-      <span _="on click set the value of #image_id to 1">Use image 1</span>
-      <select _="on change set the value of #image_id to @value">
-        <option value="1">Image 1</option>
-        <option value="2">Image 2</option>
-      </select>
-      <span :class="imageId == 1,'bg-black','bg-red' ">
-    </form>
-  </div>
-
-  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
-    <div class="font-semibold text-xl"> 
-      toast_content_path
-    </div>
-    <div>
-      <form>
-        <input :bind="first_name" onchange="state.first_name = this.value" type="text" />
-        <input type="text" value="{mini.first_name}" class="{mini.first_name == 'tony' ? 'bg-green', 'bg-red'}">
-      </form>
-    </div>
-  </div>
-
-
-  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
-    <div class="font-semibold text-xl"> 
-      Test Section
-    </div>
-    <div>
-      <form>
-
-
-        <input onchange="state.first_name = this.value" type="text" />
-
-
-
-        
-        <input type="text" :value="state.first_name" :class="state.first_name == 'tony' ? 'bg-green', 'bg-red'">
-      </form>
-    </div>
-  </div>
-
-
-
-
-  <div class="rounded shadow p-5 flex flex-col gap-y-4" >
-    <div class="font-semibold text-xl">   
-      Test Section
-    </div>
-    <div>
-      <form>
-        <input onchange="live.first_name = this.value" type="text" />        
-        <input type="text" live-value="live.first_name" live-class="live.first_name == 'tony' ? 'bg-green', 'bg-red'">
-      </form>
-    </div>
-  </div>
 
 
 </div>

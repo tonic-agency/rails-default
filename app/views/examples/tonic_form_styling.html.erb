@@ -1,0 +1,37 @@
+<%#
+---
+title: Tonic Form Styling
+description: Default browser form elements are not very pretty. So tonic.css adds a very small amount of styles that are applied to most form elements by default. They're designed to look good out of the box on both desktop and mobile. To enable these styles, just nest your inputs, selects, textareas, and buttons inside a form element. To disable them on a case-by-case basis, you can add the `.no-style` class to either the element or the form. To disable them entirely, comment out the forms section in tonic.css
+depends on: tonic.css,tailwind
+---
+%>
+
+
+<div class="rounded shadow p-5 flex flex-col gap-y-4" >
+  
+  <form>
+    <div class="grid grid-cols-7 md:space-x-4 space-y-3 md:space-y-0">
+      <div class="md:col-span-2 col-span-7">
+        <label for="text-field">Text Field</label>
+        <input id="text-field" type="text" placeholder="Your first name" />
+      </div>
+      <div class="md:col-span-2 col-span-7">
+        <label for="invalid-text-field">Field With Errors</label>
+        <input class="invalid" id="invalid-text-field" type="text" placeholder="Your first name" />
+      </div>
+      <div class="md:col-span-2 col-span-7">
+        <label for="select-field">Dropdown Field</label>
+        <select id="select-field">
+          <option>Ford</option>
+          <option>Toyota</option>
+          <option>Nissan</option>
+        </select>
+      </div>
+
+      <div class="md:col-span-1 col-span-7">
+        <label>&nbsp;</label>
+        <input type="submit" value="Submit">
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,60 @@
+<%#
+---
+title: Hyperscript Tailwind Modal
+description: This snippet uses tailwind and hyperscript to create a beautiful modal effect. All it does is add several classes to show the modal and remove them again to hide it. Because there are so many classes being swapped, we've extracted the openModal and closeModal functions out into a separate script tag. This modal supports clicking outside of the modal to close it.
+depends on: hyperscript,tailwind,htmx
+---
+%>
+
+<script type="text/hyperscript">
+  def openModal()
+
+    make <div.shimmer.h-32.w-full /> then put it into #modal-container-content
+
+    remove .opacity-0 from #modal-outer 
+    add .opacity-100 to #modal-outer 
+
+    remove .opacity-0 .translate-y-4 .sm:translate-y-0 .sm:scale-95 from #modal-inner 
+    add .opacity-100 .translate-y-0 .sm:scale-100 to #modal-inner
+
+    remove .pointer-events-none from #modal-outer 
+    add .pointer-events-auto to #modal-outer 
+  end
+  def closeModal()
+    remove .pointer-events-auto from #modal-outer 
+    add .pointer-events-none to #modal-outer 
+
+    add .opacity-0 to #modal-outer 
+    remove .opacity-100 from #modal-outer 
+
+    add .opacity-0 .translate-y-4 .sm:translate-y-0 .sm:scale-95 to #modal-inner 
+    remove .opacity-100 .translate-y-0 .sm:scale-100 from #modal-inner
+  end
+</script>
+
+<div _="on click if event.target.id =='modal-container-outer' closeModal() " id="modal-outer" class="relative z-10 opacity-0 duration-300 transition-all pointer-events-none" aria-labelledby="modal-title" x-ref="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div id="modal-inner" class="transition-all fixed inset-0 z-10 overflow-y-auto opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+    <div id="modal-container-outer" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">  
+      <div class="relative">
+        <div style="left:-30px; top:2rem" class="hidden md:block cursor-pointer absolute" _= "on click closeModal()">
+          <%= inline_svg_tag("heroicons/x-mark.svg",class:"w-6 h-6 text-white") %>
+        </div>
+        <div id="modal-container-content" class="overflow-y-scroll rounded-lg bg-white max-h-96 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:w-96 sm:p-6">
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex gap-x-2">
+  
+  <a _="on click openModal()" hx-get="<%= remote_content_path(message:"This is remote content with no delay") %>" hx-target="#modal-container-content" class="bg-indigo-600 hover:bg-indigo-800 transition-all text-white rounded px-3 py-2 cursor-pointer" >
+    Async Modal with instant content
+  </a>
+
+  <a _="on click openModal()" hx-get="<%= remote_content_path(delay:1,message:"This is remote content with a 1 second delay") %>" hx-target="#modal-container-content" class="bg-indigo-600 hover:bg-indigo-800 transition-all text-white rounded px-3 py-2 cursor-pointer" >
+    Async Modal with slow  content
+  </a>
+</div>

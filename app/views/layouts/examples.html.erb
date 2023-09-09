@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+  <head>
+    <%= render :partial=> "shared/head" %>     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/tomorrow-night-blue.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+  
+  </head>
+
+  <body class="relative h-full">
+
+
+    <% if disable_left_menu %>
+      <div id="main-content" class="h-full"> 
+        <%= yield %>
+      </div>
+    <% else %>
+      <div class="m-auto rounded shadow w-full p-6" style="max-width:1200px">
+        <div class="grid grid-cols-1 md:grid-cols-4 md:space-x-5">
+          <div class="col-span-1 order-2 md:order-1">
+            <%= render :partial => "shared/docs_menu" %>
+          </div>
+          <div class="col-span-3 order-1 md:order-2">
+            <div id="main-content" class="h-full"> 
+
+              <div class="font-bold text-2xl mb-2 flex justify-between">
+                <span> 
+                  <%= @page_title %>
+                </span>
+                <% if @parsed_content.front_matter['depends on'] %>
+                  <div class="text-sm flex gap-x-1">
+                    <%- @parsed_content.front_matter['depends on'].split(",").each do |tag| %>
+                      <div>
+                        <div class="<%= Utilities.tag_metadata(tag)["tag_css_classes"] %> font-normal rounded-full px-2 py-1 text-xs">
+                          <%= tag %>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+
+              <% if @parsed_content.front_matter['description'] %>
+                <div class="mb-3">
+                  <%= @parsed_content.front_matter['description'] %>
+                </div>
+              <% end %>
+
+              <div class="flex mb-2 gap-x-2" id="tab-links">
+                <a class="hover:bg-gray-100 cursor-pointer px-2 py-1 rounded bg-gray-200" _="on click add .hidden to < #tabs-content > div /> then remove .hidden from #example then remove .bg-gray-200 from < #tab-links > a /> then add .bg-gray-200 to me">
+                  Demo
+                </a>
+                <a class="hover:bg-gray-100 cursor-pointer px-2 py-1 rounded" _="on click add .hidden to < #tabs-content > div /> then remove .hidden from #code then remove .bg-gray-200 from < #tab-links > a /> then add .bg-gray-200 to me">
+                  Code
+                </a>
+              </div>
+
+              <div id="tabs-content">
+                <div id="example" class="pt-4">
+                  <%= yield %>
+                </div>
+                <div id="code" class="hidden html">
+                  <pre style="background-color:#002451" class="overflow-x-scroll border-2 border-gray-200 rounded-md">
+                    <code class="language-html">
+                      <%= h(@parsed_content.content) %>
+                    </code>
+                  </pre>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <%= render :partial => "shared/inline_js" %>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+      });
+    </script>
+      
+  </body>
+
+</html>

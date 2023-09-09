@@ -1,0 +1,34 @@
+<%#
+---
+title: Simple HTMX Examples
+description: When fetching parts of a page (what htmx is used for), we don't need the server to return the full page html (including the head). So in our controller, we check if the incoming request was triggered by htmx, and if it was, we render it without the layout. We've abstracted this pattern out into a simple method (support_partial_response) which is included in the ApplicationController and can be used as the last line of any controller actions to enable this behaviour.
+depends on: tailwind,htmx
+---
+%>
+
+ 
+
+<div class="rounded shadow p-5" >
+  <a class="cursor-pointer underline" hx-get="<%= remote_content_path %>" hx-target="#remote-example-1">Remote Content (Click to load)</a>
+  <div id="remote-example-1"></div>
+</div>
+
+<div class="rounded shadow p-5" >
+  <div class="font-semibold"> 
+    Deferred Content 
+  </div>
+  <div hx-get="<%= deferred_content_path %>" hx-trigger="load"></div>
+</div>
+
+<div class="rounded shadow p-5 gap-y-3 flex-col flex" >
+  <div class="font-semibold"> 
+    Fetch dynamic content when a dropdown changes
+  </div>
+  <select class="border-2 border-gray-100 font-sm p-3 rounded" name="list" hx-get="<%= dropdown_content_path %>" hx-target="#dropdown-example-1" hx-trigger="change" >
+    <option value="">Select Option</option>
+    <option value="fruits">Fruits</option>
+    <option value="veg">Veg</option>
+  </select>
+
+  <div id="dropdown-example-1"></div>
+</div>

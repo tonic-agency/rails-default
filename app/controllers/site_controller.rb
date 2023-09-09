@@ -8,20 +8,17 @@ class SiteController < ApplicationController
     @content = Utilities.markdown_to_html("#{@filename}")
   end
 
-  def remote_content
-    support_partial_response
-  end
+  def show_example 
+    
+    if params[:file].present?
+      @filename = "examples/#{params[:file]}" 
+    end
+    full_path = Rails.root.join('app', 'views', 'examples', "#{params[:file]}.html.erb")
 
-  def deferred_content
-    support_partial_response
-  end
+    @parsed_content = FrontMatterParser::Parser.parse_file(full_path)
+    @page_title = @parsed_content.front_matter.try(:[],"title") || params[:file].titleize
 
-  def dropdown_content
-    support_partial_response
-  end
-
-  def toast_content
-    support_partial_response
+    render :template => @filename, :layout => "examples"
   end
 
   def plain_remote_form 

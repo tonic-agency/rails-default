@@ -312,6 +312,7 @@
   border-radius: 0;
   max-width: 100%;
   padding: 0px !important;
+  height: auto !important;
 }
 .choices__input:focus {
   outline: 0;

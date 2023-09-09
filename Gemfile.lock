@@ -105,6 +105,7 @@ GEM
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
     formtastic_i18n (0.7.0)
+    front_matter_parser (1.0.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
     hamlit (3.0.1)
@@ -265,6 +266,7 @@ DEPENDENCIES
   bootsnap
   devise
   figaro
+  front_matter_parser
   hamlit
   httparty
   inline_svg
@@ -279,7 +281,7 @@ DEPENDENCIES
   tzinfo-data
 
 RUBY VERSION
-   ruby 3.0.0p0
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.2.7

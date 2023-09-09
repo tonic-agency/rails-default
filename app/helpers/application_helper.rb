@@ -17,7 +17,7 @@ module ApplicationHelper
   end
 
   def disable_left_menu 
-    false
+    @disable_left_menu ||= false
   end
 
 end

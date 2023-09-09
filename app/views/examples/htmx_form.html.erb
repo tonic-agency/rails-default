@@ -1,0 +1,14 @@
+
+<%#
+---
+title: HTMX Rails Forms
+description: The example below does a few things 1. It sets the default values of field inputs so they remain present after a form submit, 2. It uses the shared form errors partial to show errors, 3. It adds the invalid class to inputs with errors, and 4. It adds a success message on successful submission. We do most of this in plain old html (no form helpers).
+depends on: tonic.css,tailwind,htmx
+---
+%>
+
+<div class="rounded shadow p-5 flex flex-col gap-y-4" >
+  <div id="remote-form">
+    <%= render partial: "partials/remote_form" %>
+  </div>
+</div>

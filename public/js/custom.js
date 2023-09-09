@@ -1,26 +1,18 @@
+function initializeChoices() {
+  let choices_elems = document.querySelectorAll('.js-choice');
 
-function showModal() {
-  var mainModal = document.querySelector('#main-modal'); 
-  mainModal.classList.remove('hidden');
-} 
-
-function closeModal() {
-  var mainModal = document.querySelector('#main-modal'); 
-  mainModal.classList.add('hidden');
+  if (choices_elems.length > 0) {
+    const choices = new Choices('.js-choice');
+  }
 }
 
-const choices = new Choices('.js-choice');
-
-function initializeTooltips() {
+function initializeTippy() {
   tippy('[data-tippy-content]');
 }
 
-function getData() {
-
-}
-
 function reinitializeJs() { 
-  initializeTooltips();
+  initializeTippy();
+  initializeChoices();
 }
 
 document.addEventListener("DOMContentLoaded", function(event){

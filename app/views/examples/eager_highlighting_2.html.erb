@@ -1,0 +1,23 @@
+
+<%#
+---
+title: Eager highlighting method 2
+description: This is an improvement on method 1. Eager highlighting is designed to make navigation feel instantaneous when using server side rendering. This approach uses the .shimmer class included in tonic.css to create a simple shimmer load effect and uses htmx/hyperscript to modify the active classes & aria properties when a link is clicked. In this example I'm using simple nav classes (font-semibold underline), but we can use whatever classes we want. 
+depends on: tailwind,hyperscript,tonic.css,htmx
+---
+%>
+
+<div id="tabs" class="flex gap-x-2" hx-target="#tab-content" role="tablist" _="on htmx:beforeRequest
+    remove .underline .font-semibold from <#tabs > button /> then add .underline .font-semibold to the target
+    make <div.shimmer.h-32/> then put it into #tab-content
+    set @aria-selected of <#tabs [aria-selected=true]/> to false
+    set @aria-selected to true" >
+  <button role="tab" aria-controls="tab-content" aria-selected="true" class="cursor-pointer font-semibold underline" hx-get="<%= remote_content_path(delay:"2",message:"This is Menu Item 1") %>" >Menu Item 1</button>
+  <button role="tab" aria-controls="tab-content" aria-selected="false" class="cursor-pointer" hx-get="<%= remote_content_path(delay:"2",message:"This is Menu Item 2") %>">Menu Item 2</button>
+  <button role="tab" aria-controls="tab-content" aria-selected="false" class="cursor-pointer" hx-get="<%= remote_content_path(delay:"2",message:"This is Menu Item 3") %>">Menu Item 3</button>
+</div>
+
+<div id="tab-content" class="mt-4">
+  
+</div>
+  

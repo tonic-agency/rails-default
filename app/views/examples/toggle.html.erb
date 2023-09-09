@@ -1,0 +1,60 @@
+<%#
+---
+title: Toggle
+description: Uses htmx to toggle a boolean value on the server, and hyperscript to animate the toggle button. 
+depends on: hyperscript,tailwind,htmx,htmx disable-element extension
+---
+%>
+
+<% # values that should be set in the controller:
+   @value = true
+   update_link_path = "/test" # should be a rails route
+%>
+
+<div class="px-4 py-4 flex gap-12 sm:px-6">
+  <dt id="require-otp-label" class="flex-1 pr-6 font-bold text-base text-gray-900 sm:w-64">
+    Require OTP for payments
+    <span class="my-2 block text-gray-500 text-sm font-normal">
+      We can require you and other team members to input an OTP every time you make or approve a payment over a Peso amount that you set.
+    </span>
+  </dt>
+  <dd class="flex-auto items-center justify-end">
+    <form
+      hx-boost="true"
+      <%# Optional: If you want to disable a toast after update %>
+      hx-target=".toasts-container" hx-swap="afterbegin"
+      action="<%= update_link_path %>"
+      method="post"
+      hx-ext="disable-element" hx-disable-element="#require-otp-btn"
+    >
+      <input type="hidden" name="_method" value="put" />
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="require_otp_threshold" value="<%= !@value %>">
+
+      <button
+        id="require-otp-btn"
+        class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 <%= @value ? "bg-indigo-600 " : "bg-gray-200" %>"
+        role="switch"
+        aria-checked="<%= @value %>"
+        aria-labelledby="require-otp-label"
+        _="on click
+            toggle between .bg-indigo-600 and .bg-gray-200 on me
+            set handle to my.children[0]
+
+            if @aria-checked is 'true'
+              set @aria-checked to false
+              set handle.style.transform to 'translateX(0)'
+            else
+              set @aria-checked to true
+              set handle.style.transform to 'translateX(1.25rem)'
+            end"
+      >
+        <span
+          aria-hidden="true"
+          class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+          style="transform: <%= @value ? "translateX(1.25rem)" : "translateX(0)" %>"
+        ></span>
+      </button>
+    </form>
+  </dd>
+</div>

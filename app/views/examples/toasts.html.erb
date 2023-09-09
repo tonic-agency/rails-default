@@ -1,0 +1,39 @@
+<%#
+---
+title: Simple Toasts
+description: These toasts use htmx to fetch content, tonic.css for default styling, and hyperscript for their animation behaviour. 
+depends on: hyperscript,tailwind,htmx
+---
+%>
+
+<style type="text/css">
+  .toasts-container {
+    max-width: 300px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+  }
+
+  .toasts-container .toast {
+    transform: translateY(-120%);
+    position: fixed;
+  }
+
+  .toasts-container .toast-animate-in { 
+    position: relative;
+    transition: 0.5s;
+    transform: translateY(0%);
+  }
+
+  .toasts-container .toast-animate-out {
+    transform: translateX(120%);
+    transition: 0.5s;
+  }
+</style>
+
+<div class="toasts-container p-5 fixed top-0 z-20">
+</div>
+
+<div class="rounded shadow p-5">
+  <a class="cursor-pointer underline" hx-get="<%= toast_content_path %>" hx-target=".toasts-container" hx-swap="afterbegin" >Basic Toast (Click To Trigger) </a>
+</div>

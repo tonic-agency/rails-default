@@ -1,6 +1,6 @@
 <div _="init wait 0.3 seconds then remove .opacity-0 from me then add .toast-animate-in to me then wait 3 seconds <%=  'then add .toast-animate-out to me' unless local_assigns[:persistent] %>" class="opacity-0 toast p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-200 dark:text-blue-800" role="alert">
   <div class="cursor-pointer absolute top-0 right-0" _="on click add .toast-animate-out to the closest .toast then wait 0.5 seconds then remove the closest .toast">
-    <%= inline_svg_tag("heroicons/icon-x.svg",class:"w-5 h-5") %>
+    <%= inline_svg_tag("heroicons/x-mark.svg",class:"w-5 h-5 mt-2 mr-2") %>
   </div>
   <% if defined?(title) && title %>
     <span class="block font-bold mb-2">

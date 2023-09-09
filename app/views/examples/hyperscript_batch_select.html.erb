@@ -1,0 +1,50 @@
+<%#
+---
+title: Hyperscript Batch Select
+description: WIP. This is used to let the user batch select rows.
+depends on: hyperscript,tailwind
+hide: true
+---
+%>
+
+<script type="text/hyperscript">
+  on click from .selectRow 
+    updateSelectedCount()
+    updateSelectedIds()
+  end
+
+  def updateSelectedCount()
+    set #selectedCount.innerHTML to `${countSelectedRows()} rows selected`
+  end
+
+  def countSelectedRows()
+    return queryAll('.selectRow:checked').length
+  end
+
+  def updateSelectedIds()
+    set ids to queryAll('.selectRow:checked').map(e => e.dataset.id).join(',')
+    set #selectedRowIds.value to ids
+  end
+</script>
+
+<div>
+    <p id="selectedCount">0 rows selected</p>
+    <form id="batchSelectForm" action="your_server_endpoint" method="POST">
+        <!-- Hidden input to store the selected row IDs -->
+        <input type="hidden" id="selectedRowIds" name="selectedRowIds" value="">
+        <table>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="selectRow" data-id="1"></td>
+                    <td>Data 1</td>
+                </tr> 
+                <tr>
+                    <td><input type="checkbox" class="selectRow" data-id="2"></td>
+                    <td>Data 2</td>
+                </tr>
+                <!-- Repeat for all rows -->
+            </tbody>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</div>
