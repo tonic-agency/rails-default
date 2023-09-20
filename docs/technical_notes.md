@@ -1,14 +1,18 @@
-# Technical Readme
+# Technical Notes
 
 
 ### **Setup**
 
 - `bundle install`
-- `rake db:create`
+- `rails db:create`
+- `rails db:migrate`
 - `rails s`
 
+---
 
-### Tailwind Support
+<br/>
+
+#### Tailwind Support
 
 "Eradicate Build Steps" is one of the principles of HTML First, so by default we use dumb-tailwind for our tailwind styling, which has 90% of the most used tailwind classes but doesn't require a compile step. This file is 750kb in size which may affect performance in some cases. If you would prefer to ship less CSS to production, you can use the steps below.
 
