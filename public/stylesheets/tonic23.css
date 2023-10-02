@@ -157,7 +157,8 @@ shimmer,
 .format-text table {
   border-radius: var(--border-radius-1);
 }
-.format-text table, tr {
+.format-text table, 
+.format-text tr {
   border-width: var(--border-width-default);
   border-color: var(--border-color-default);
 }
