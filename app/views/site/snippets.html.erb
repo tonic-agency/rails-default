@@ -1,0 +1,131 @@
+
+<div class="font-bold text-3xl">
+  Snippets
+</div>
+
+<p class="mb-4">
+  HTML First code is copy-paste-able, so you can easily create snippets of code that you can use in your own projects.
+</p>
+
+
+<div class="mb-2 font-bold text-2xl">
+  Filter By Library
+</div>
+
+<div class="flex">
+  <a class="inline-flex items-center text-sm justify-center font-bold px-3 py-1 rounded-full mr-2 <%= 'bg-gray-100 font-semibold' if params[:filter].blank? %>" href="<%= snippets_path  %>">
+    All
+    <% if params[:filter].blank? %>
+      <%= inline_svg_tag("heroicons/icon-check.svg",class:"ml-1") %>
+    <% end %>
+  </a>
+  <%- Utilities.library_list.each do |library,hash| %>
+    <% next if library == "undefined" %>
+    <% metadata = Utilities.tag_metadata(library) %>
+
+    <a class="inline-flex items-center text-sm justify-center font-bold px-3 py-1 rounded-full mr-2 <%= metadata["tag_css_classes"] %> <%= 'bg-gray-100 font-semibold' if params[:filter] == library %>" href="<%= snippets_path(filter:library)  %>">
+      <%= library %>
+      <% if params[:filter] && params[:filter] == library %>
+        <%= inline_svg_tag("heroicons/icon-check.svg",class:"ml-1") %>
+      <% end %>
+    </a>
+  <% end %>
+</div>
+
+<div class="my-5 font-bold text-2xl">
+  All Snippets
+</div>
+<div class="grid grid-cols-2 gap-4">
+  <%- Dir.entries(Rails.root.join('app', 'views', 'examples')).sort.each do |filename| %>
+    <% full_path = Rails.root.join('app', 'views', 'examples', filename) %>
+    
+    <% if File.file?(full_path) %>
+
+      <% name_without_extension = File.basename(filename, '.html.erb') %>
+      <% parsed_content = FrontMatterParser::Parser.parse_file(full_path) %>
+      <% title = parsed_content.front_matter.try(:[],"title") || name_without_extension.titleize %> 
+      <% description = parsed_content.front_matter.try(:[],"description") %> 
+      <% tags = parsed_content.front_matter['depends on'].split(",") %>   
+
+      <% next if params[:filter] && !tags.include?(params[:filter]) %>
+      <% next if parsed_content.front_matter.try(:[],"hide") %> 
+
+      <a class="font-bold border-2 border-gray-200 px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if params[:snippet] == name_without_extension %>" href="<%= snippets_path(snippet:name_without_extension,filter:params[:filter])  %>">
+        <%= title %>
+        <div class="font-normal text-sm truncate">
+          <%= description %>
+        </div>
+        <div class="flex gap-x-1 mt-2">
+          <% tags.each do |tag| %>
+            <div>
+              <div class="bg-gray-100 font-normal rounded-full px-2 py-1 text-xs">
+                <%= tag %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </a>
+    <% end %>
+  <% end %>
+</div>
+
+<% if params[:snippet] %>
+
+
+  <div id="snippet-content">
+
+    <div class="font-bold text-2xl mb-2 mt-6 border-t-2 pt-6 border-gray-100 flex justify-between">
+      <span> 
+        <%= @page_title %>
+      </span>
+      <% if @parsed_content.front_matter['depends on'] %>
+        <div class="text-sm flex gap-x-1">
+          <%- @parsed_content.front_matter['depends on'].split(",").each do |tag| %>
+            <div>
+              <div class="<%= Utilities.tag_metadata(tag)["tag_css_classes"] %> font-normal rounded-full px-2 py-1 text-xs">
+                <%= tag %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @parsed_content.front_matter['description'] %>
+      <div class="mb-3">
+        <%= @parsed_content.front_matter['description'] %>
+      </div>
+    <% end %>
+
+
+    <div id="tabs-content">
+
+      <div class="mt-4 font-bold text-2xl">
+        Content
+      </div>
+
+      <div id="example" class="pt-4">
+        <%= render :template => @filename  %>
+      </div>
+
+      <div class="my-4 font-bold text-2xl">
+        Code
+      </div>
+      <div id="code" class="html">
+        <pre style="background-color:#002451" class="overflow-x-scroll border-2 border-gray-200 rounded-md">
+          <code class="language-html">
+            <%= h(@parsed_content.content) %>
+          </code>
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    //auto scroll to #snippet-content, animated 
+
+    var elmnt = document.getElementById("snippet-content"); 
+    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
+  </script>
+<% end %>

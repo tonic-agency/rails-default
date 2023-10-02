@@ -8,7 +8,7 @@ class SiteController < ApplicationController
     @content = Utilities.markdown_to_html("#{@filename}")
   end
 
-  def show_example 
+  def show_snippet
     
     if params[:file].present?
       @filename = "examples/#{params[:file]}" 
@@ -19,6 +19,19 @@ class SiteController < ApplicationController
     @page_title = @parsed_content.front_matter.try(:[],"title") || params[:file].titleize
 
     render :template => @filename, :layout => "examples"
+  end
+
+  def snippets
+
+    if params[:snippet].present?
+      @filename = "examples/#{params[:snippet]}" 
+
+      full_path = Rails.root.join('app', 'views', 'examples', "#{params[:snippet]}.html.erb")
+
+      @parsed_content = FrontMatterParser::Parser.parse_file(full_path)
+      @page_title = @parsed_content.front_matter.try(:[],"title") || params[:file].titleize
+    end
+
   end
 
   def plain_remote_form 

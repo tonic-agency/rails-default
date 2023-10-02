@@ -29,7 +29,23 @@
       </div>
     <% end %>
 
-    <%= render :partial => "shared/inline_js" %>
+    <script>
+      document.addEventListener('DOMContentLoaded', (event) => {
+        document.querySelectorAll('pre code').forEach((block) => {
+          hljs.highlightBlock(block);
+        });
+        // Whenever someone clicks on a .anchor-link link, get the href and scroll them to that div id
+        document.querySelectorAll('.anchor-link').forEach((link) => {
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            const href = link.getAttribute('href');
+            const id = href.replace('#', '');
+            const element = document.getElementById(id);
+            element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+          });
+        });
+      });
+    </script>
       
   </body>
 

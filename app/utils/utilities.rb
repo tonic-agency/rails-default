@@ -17,7 +17,16 @@ module Utilities
   end
 
   def self.tag_metadata(tag="")
-    hash = {
+    hash = Utilities.library_list
+    if hash[tag].nil?
+      return hash["undefined"]
+    else
+      return hash[tag]
+    end
+  end
+
+  def self.library_list 
+    {
       "undefined" => {
         "tag_css_classes" => "bg-gray-100 text-gray-800",
         "tag_description" => "",
@@ -43,11 +52,6 @@ module Utilities
         "tag_description" => "Mini Js is a new library from tonic designed to be extremely easy to understand and use."
       }
     } 
-    if hash[tag].nil?
-      return hash["undefined"]
-    else
-      return hash[tag]
-    end
   end
 
 end

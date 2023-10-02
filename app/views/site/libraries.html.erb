@@ -1,0 +1,27 @@
+
+<div class="font-bold text-2xl">
+  Libraries
+</div>
+
+<p class="mb-4">
+  The following libraries are aligned with the principles of HTML first.
+</p>
+
+<%- Dir.entries(Rails.root.join('app', 'views', 'site', 'libraries')).sort.each do |filename| %>
+  
+  <% full_path = Rails.root.join('app', 'views', 'site', 'libaries', filename) %>
+  
+  <% if File.file?(full_path) %>
+
+    <% name_without_extension = File.basename(filename, '.md') %>
+
+    <% parsed_content = FrontMatterParser::Parser.parse_file(full_path) %>
+    <% title = parsed_content.front_matter.try(:[],"title") || name_without_extension.titleize %>   
+
+    <% next if parsed_content.front_matter.try(:[],"hide") %> 
+
+    <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if params[:file] == name_without_extension %>" href="<%= example_path(name_without_extension)  %>">
+      <%= title %>
+    </a>
+  <% end %>
+<% end %>

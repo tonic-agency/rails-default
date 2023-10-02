@@ -1,42 +1,13 @@
 
 <div class="flex flex-col gap-y-1 border-t border-gray-400 md:border-0">
-  <div class="text-lg font-semibold py-2">Welcome</div>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "readme.md" %>" href="<%= root_path %>">Intro</a>
+  <div class="text-lg font-semibold py-2">Articles</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "readme.md" %>" href="<%= root_path %>">What is HTML First?</a>
 
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/technical_notes.md" %>" href="<%= docs_path("technical_notes") %>">Technical Notes</a>
+  <div class="text-lg font-semibold py-2">Resources</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?(libraries_path) %>" href="<%= libraries_path %>">Libraries</a>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?(snippets_path) %>" href="<%= snippets_path %>">Code Snippets</a>
+
+  <div class="text-lg font-semibold py-2">Other</div>
+  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/technical_notes.md" %>" href="<%= docs_path("technical_notes") %>">About This Codebase</a>
   
-  <div class="text-lg font-semibold py-2">Frontend</div>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/css_setup.md" %>" href="<%= docs_path("css_setup") %>">CSS Setup</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/minijs.md" %>" href="<%= docs_path("minijs") %>">Mini.js</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/htmx.md" %>" href="<%= docs_path("htmx") %>">HTMX</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/tailwind.md" %>" href="<%= docs_path("tailwind") %>">Tailwind</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/tonic.md" %>" href="<%= docs_path("tonic") %>">Tonic.css</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/icons.md" %>" href="<%= docs_path("icons") %>">Icons</a>
-  <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if current_page?(examples_path) %>" href="<%= examples_path %>">Cheat Sheet</a>
-
-  <div class="text-lg font-semibold py-2">Frontend Patterns</div>
-  <%- Dir.entries(Rails.root.join('app', 'views', 'examples')).sort.each do |filename| %>
-    <% full_path = Rails.root.join('app', 'views', 'examples', filename) %>
-    <% if File.file?(full_path) %>
-
-      <% name_without_extension = File.basename(filename, '.html.erb') %>
-
-      <% parsed_content = FrontMatterParser::Parser.parse_file(full_path) %>
-      <% title = parsed_content.front_matter.try(:[],"title") || name_without_extension.titleize %>   
-
-      <% next if parsed_content.front_matter.try(:[],"hide") %> 
-
-      <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if params[:file] == name_without_extension %>" href="<%= example_path(name_without_extension)  %>">
-        <%= title %>
-      </a>
-    <% end %>
-  <% end %>
-
-  <div class="hidden">
-    <div class="text-lg font-semibold py-2">Guides</div>
-    <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/erb.md" %>" href="<%= docs_path("erb") %>">Working with embedded Ruby</a>
-    <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/basic_rails.md" %>" href="<%= docs_path("basic_rails") %>">Adding a new screen to your app</a>
-    <a class="px-4 py-2 rounded hover:bg-gray-100 <%= 'bg-gray-100 font-semibold' if @filename == "docs/templates.md" %>" href="<%= docs_path("templates") %>">Building templates</a>
-  </div>
-
 </div>

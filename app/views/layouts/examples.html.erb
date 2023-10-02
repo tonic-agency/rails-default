@@ -46,7 +46,7 @@
                 </div>
               <% end %>
 
-              <div class="flex mb-2 gap-x-2" id="tab-links">
+              <div class="hidden flex mb-2 gap-x-2" id="tab-links">
                 <a class="hover:bg-gray-100 cursor-pointer px-2 py-1 rounded bg-gray-200" _="on click add .hidden to < #tabs-content > div /> then remove .hidden from #example then remove .bg-gray-200 from < #tab-links > a /> then add .bg-gray-200 to me">
                   Demo
                 </a>
@@ -56,10 +56,19 @@
               </div>
 
               <div id="tabs-content">
+
+                <div class="mt-4 font-bold text-2xl">
+                  Content
+                </div>
+
                 <div id="example" class="pt-4">
                   <%= yield %>
                 </div>
-                <div id="code" class="hidden html">
+
+                <div class="my-4 font-bold text-2xl">
+                  Code
+                </div>
+                <div id="code" class="html">
                   <pre style="background-color:#002451" class="overflow-x-scroll border-2 border-gray-200 rounded-md">
                     <code class="language-html">
                       <%= h(@parsed_content.content) %>
@@ -74,7 +83,6 @@
       </div>
     <% end %>
 
-    <%= render :partial => "shared/inline_js" %>
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelectorAll('pre code').forEach((block) => {

@@ -1,11 +1,11 @@
 module ApplicationHelper
 
   def page_title
-    "My App"
+    "HTML First"
   end
 
   def page_description
-    "My App Description"
+    "An approach for building web software"
   end
 
   def cache_buster 

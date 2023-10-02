@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   get "/examples" => "site#examples", as: "examples"
+  get "/libraries" => "site#libraries", as: "libraries"
+  get "/snippets" => "site#snippets", as: "snippets"
 
   get "modal-content"     => "htmx_demo#modal_content"      , as: "modal_content"
   get "remote-content"    => "htmx_demo#remote_content"     , as: "remote_content"
@@ -18,6 +20,6 @@ Rails.application.routes.draw do
   match "/taylher_demo" => "site#taylher_demo", via: [:get]
 
   get "/docs/:file" => "site#show_docs_page", as: "docs"
-  get "/examples/:file" => "site#show_example", as: "example"
+  get "/snippets/:file" => "site#show_snippet", as: "snippet"
 
 end
