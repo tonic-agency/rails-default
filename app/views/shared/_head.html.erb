@@ -23,6 +23,8 @@
 <script src="/js/tippy-6.3.7.js" defer></script>
 <script src="/js/choices.js" defer></script>
 <script src="/js/custom.js<%= cache_buster %>" defer></script>
+<script src="https://www.unpkg.com/tonic-minijs@1.0.1-canary.2387020.0/dist/minijs.umd.js"></script>
+
   
 <% unless ENV["OFFLINE_DEV"].present? %>
 
@@ -36,5 +38,16 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/tomorrow-night-blue.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/erb.min.js"></script>
   
 <% end %>
+
+<style type="text/css">
+
+  h2 code {
+    font-size: 2rem !important;
+    font-family: "Outfit", sans-serif !important;
+    background-color: yellow;
+  }
+
+</style>

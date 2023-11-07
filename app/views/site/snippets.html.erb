@@ -1,5 +1,5 @@
 
-<div class="font-bold text-3xl">
+<div class="font-semibold text-3xl">
   Snippets
 </div>
 
@@ -8,12 +8,12 @@
 </p>
 
 
-<div class="mb-2 font-bold text-2xl">
+<div class="mb-2 font-semibold text-2xl">
   Filter By Library
 </div>
 
 <div class="flex">
-  <a class="inline-flex items-center text-sm justify-center font-bold px-3 py-1 rounded-full mr-2 <%= 'bg-gray-100 font-semibold' if params[:filter].blank? %>" href="<%= snippets_path  %>">
+  <a class="inline-flex items-center text-sm justify-center font-semibold px-3 py-1 rounded-full mr-2 <%= 'bg-gray-100 font-semibold' if params[:filter].blank? %>" href="<%= snippets_path  %>">
     All
     <% if params[:filter].blank? %>
       <%= inline_svg_tag("heroicons/icon-check.svg",class:"ml-1") %>
@@ -23,7 +23,7 @@
     <% next if library == "undefined" %>
     <% metadata = Utilities.tag_metadata(library) %>
 
-    <a class="inline-flex items-center text-sm justify-center font-bold px-3 py-1 rounded-full mr-2 <%= metadata["tag_css_classes"] %> <%= 'bg-gray-100 font-semibold' if params[:filter] == library %>" href="<%= snippets_path(filter:library)  %>">
+    <a class="inline-flex items-center text-sm justify-center font-semibold px-3 py-1 rounded-full mr-2 <%= metadata["tag_css_classes"] %> <%= 'bg-gray-100 font-semibold' if params[:filter] == library %>" href="<%= snippets_path(filter:library)  %>">
       <%= library %>
       <% if params[:filter] && params[:filter] == library %>
         <%= inline_svg_tag("heroicons/icon-check.svg",class:"ml-1") %>
@@ -32,7 +32,7 @@
   <% end %>
 </div>
 
-<div class="my-5 font-bold text-2xl">
+<div class="my-5 font-semibold text-2xl">
   All Snippets
 </div>
 <div class="grid grid-cols-2 gap-4">

@@ -2,51 +2,40 @@
 <html class="h-full" lang="en">
   <head>
     <%= render :partial=> "shared/head" %>
-
-    <script src="/js/mini.js"></script>
   </head>
-
   <body class="relative h-full">
-
     <%= render :partial => "shared/partial_containers" %>
-
     <% if disable_left_menu %>
-      <div id="main-content" class="h-full"> 
+      <div id="main-content" class="h-full">
         <%= yield %>
       </div>
     <% else %>
-      <div class="m-auto rounded shadow w-full p-6" style="max-width:1200px">
-        <div class="grid grid-cols-1 md:grid-cols-4 md:space-x-5">
-          <div class="col-span-1 order-2 md:order-1">
-            <%= render :partial => "shared/docs_menu" %>
-          </div>
+      <div class="m-auto rounded shadow w-full p-10" style="max-width:800px">
+        <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
           <div class="col-span-3 order-1 md:order-2">
-            <div id="main-content" class="h-full"> 
+            <div id="main-content" class="h-full">
               <%= yield %>
             </div>
           </div>
         </div>
       </div>
     <% end %>
-
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelectorAll('pre code').forEach((block) => {
           hljs.highlightBlock(block);
-        });
-        // Whenever someone clicks on a .anchor-link link, get the href and scroll them to that div id
-        document.querySelectorAll('.anchor-link').forEach((link) => {
+          });
+          // Whenever someone clicks on a .anchor-link link, get the href and scroll them to that div id
+          document.querySelectorAll('.anchor-link').forEach((link) => {
           link.addEventListener('click', (event) => {
-            event.preventDefault();
-            const href = link.getAttribute('href');
-            const id = href.replace('#', '');
-            const element = document.getElementById(id);
-            element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+          event.preventDefault();
+          const href = link.getAttribute('href');
+          const id = href.replace('#', '');
+          const element = document.getElementById(id);
+          element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
           });
         });
       });
     </script>
-      
   </body>
-
 </html>

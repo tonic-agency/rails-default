@@ -53,5 +53,9 @@ class SiteController < ApplicationController
   def user_params
     params.require(:user).permit(:email,:first_name,:last_name)
   end
+
+  def taylher_demo
+    # redirect_to "https://taylher.toniclabs.ltd/demo"
+  end
   
 end

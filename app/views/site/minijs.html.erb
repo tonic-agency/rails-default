@@ -11,16 +11,13 @@
       <script type="text/javascript">
         first_name = "Tony"
         last_name = "Ennis"
-        full_name = () => first_name + " " + last_name
       </script>
 
-
       <form> 
-        <input type="text" oninput="first_name = this.value" />
+        <input type="text" :value="first_name" oninput="first_name = this.value" />
       </form>
 
-      <%# <span :text="first_name"></span> %>
-      <span :text="full_name()"></span>
+      <span :text="first_name"></span>
     </div>
   </div>
 
