@@ -2,24 +2,26 @@
 <html class="h-full" lang="en">
   <head>
     <%= render :partial=> "shared/head" %>
+    <meta name="image" property="og:image" content="https://image.thum.io/get/width/1200/crop/630/https://html-first.com/og-image?t=1" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@tonyennis">
+    <meta name="twitter:title" content="HTML First">
+    <meta name="twitter:image" content="https://image.thum.io/get/width/1200/crop/630/https://html-first.com/og-image?t=1">
+
+
   </head>
-  <body class="relative h-full">
+  <body class="relative h-full" style="background:linear-gradient(180deg,#d5e7f7 0%,#ffffff 20%);background-repeat: repeat-x; background-position:top; background-attachment:fixed">
     <%= render :partial => "shared/partial_containers" %>
-    <% if disable_left_menu %>
-      <div id="main-content" class="h-full">
-        <%= yield %>
-      </div>
-    <% else %>
-      <div class="m-auto rounded shadow w-full p-10" style="max-width:1000px">
-        <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
-          <div class="col-span-3 order-1 md:order-2">
-            <div id="main-content" class="h-full">
-              <%= yield %>
-            </div>
+   
+    <div class="m-auto rounded w-full p-10" style="max-width:800px">
+      <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
+        <div class="col-span-1 md:col-span-3 order-1 md:order-2">
+          <div id="main-content" class="h-full">
+            <%= yield %>
           </div>
         </div>
       </div>
-    <% end %>
+    </div>
     <script>
       document.addEventListener('DOMContentLoaded', (event) => {
         document.querySelectorAll('pre code').forEach((block) => {

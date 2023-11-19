@@ -1,0 +1,20 @@
+
+
+<div class="format-text">
+  <%= @content.html_safe %>
+</div>
+
+<script>
+  // Define the oninit method as a no-op function to avoid conflicts
+  HTMLInputElement.prototype.oninit = function() {};
+
+  // Call oninit method for each input element directly using the onload event
+  document.addEventListener("DOMContentLoaded", function() {
+    var inputElements = document.getElementsByTagName("input");
+    for (var i = 0; i < inputElements.length; i++) {
+      if (inputElements[i].hasAttribute("oninit")) {
+        eval(inputElements[i].getAttribute("oninit"));
+      }
+    }
+  });
+</script>

@@ -1,9 +1,11 @@
-
 <%#
 ---
 title: Eager highlighting method 2
 description: This is an improvement on method 1. Eager highlighting is designed to make navigation feel instantaneous when using server side rendering. This approach uses the .shimmer class included in tonic.css to create a simple shimmer load effect and uses htmx/hyperscript to modify the active classes & aria properties when a link is clicked. In this example I'm using simple nav classes (font-semibold underline), but we can use whatever classes we want. 
 depends on: tailwind,hyperscript,tonic.css,htmx
+core_js: hyperscript
+type: eager_highlighting
+canonical: true
 ---
 %>
 

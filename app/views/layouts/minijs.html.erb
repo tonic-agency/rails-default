@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+  <head>
+    <%= render :partial=> "shared/head" %>
+  </head>
+  <body class="relative h-full" style="background:linear-gradient(180deg,#d5e7f7 0%,#ffffff 20%);background-repeat: repeat-x; background-position:top; background-attachment:fixed">
+   
+    <div class="m-auto rounded w-full p-10" style="max-width:800px">
+      <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
+        <div class="col-span-1 md:col-span-3 order-1 md:order-2">
+          <div id="main-content" class="h-full">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

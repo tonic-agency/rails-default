@@ -1,0 +1,98 @@
+
+<div class="font-semibold text-3xl">
+  Snippets
+</div>
+
+<p class="mb-4">
+  HTML First code is copy-paste-able, so you can easily create snippets of code that you can use in your own projects.
+</p>
+
+<div class="flex">
+  <%- Utilities.js_library_list.each do |library,hash| %>
+    <% next if library == "undefined" %>
+    <% metadata = Utilities.tag_metadata(library) %>
+
+    <a class="inline-flex items-center text-sm justify-center font-semibold px-3 py-1 rounded-full mr-2 <%= metadata["tag_css_classes"] %> <%= 'bg-gray-100 font-semibold' if params[:library] == library %>" href="<%= components_path(library:library)  %>">
+      <%= library %>
+      <% if params[:library] && params[:library] == library %>
+        <%= inline_svg_tag("heroicons/icon-check.svg",class:"ml-1") %>
+      <% end %>
+    </a>
+  <% end %>
+</div>
+
+
+<div class="grid grid-cols-5">
+
+  <div class="col-span-1">
+    <%- Utilities.code_snippet_types.each do |identifier,data| %>
+      <a class="block" href="<%= components_path(library:params[:library],type:identifier.to_s) %>">
+        <%= data[:name] %>
+      </a>
+    <% end %>
+  </div>
+
+  <div class="col-span-4">
+    Content
+  </div>
+
+</div>
+
+<% if params[:snippet] %>
+
+  <div id="snippet-content">
+
+    <div class="font-bold text-2xl mb-2 mt-6 border-t-2 pt-6 border-gray-100 flex justify-between">
+      <span> 
+        <%= @page_title %>
+      </span>
+      <% if @parsed_content.front_matter['depends on'] %>
+        <div class="text-sm flex gap-x-1">
+          <%- @parsed_content.front_matter['depends on'].split(",").each do |tag| %>
+            <div>
+              <div class="<%= Utilities.tag_metadata(tag)["tag_css_classes"] %> font-normal rounded-full px-2 py-1 text-xs">
+                <%= tag %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @parsed_content.front_matter['description'] %>
+      <div class="mb-3">
+        <%= @parsed_content.front_matter['description'] %>
+      </div>
+    <% end %>
+
+    <div id="tabs-content">
+
+      <div class="mt-4 font-bold text-2xl">
+        Content
+      </div>
+
+      <div id="example" class="pt-4">
+        <%= render :template => @filename  %>
+      </div>
+
+      <div class="my-4 font-bold text-2xl">
+        Code
+      </div>
+      <div id="code" class="html">
+        <pre style="background-color:#002451" class="overflow-x-scroll border-2 border-gray-200 rounded-md">
+          <code class="language-html">
+            <%= h(@parsed_content.content) %>
+          </code>
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    //auto scroll to #snippet-content, animated 
+
+    var elmnt = document.getElementById("snippet-content"); 
+    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+
+  </script>
+<% end %>

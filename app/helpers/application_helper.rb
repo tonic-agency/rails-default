@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def page_description
-    "An approach for building web software"
+    "Principles to make building web software easier, faster and more inclusive."
   end
 
   def cache_buster 

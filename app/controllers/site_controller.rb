@@ -8,6 +8,18 @@ class SiteController < ApplicationController
     @content = Utilities.markdown_to_html("#{@filename}")
   end
 
+  def html_first_home
+    @filename = "readme.md"
+    @content = Utilities.markdown_to_html("#{@filename}")
+    render layout: "html_first"
+  end
+
+  def open_graph_image  
+    @title = "HTML First"
+    @url = "html-first.com"
+    render layout: false 
+  end
+
   def show_snippet
     
     if params[:file].present?
@@ -32,6 +44,9 @@ class SiteController < ApplicationController
       @page_title = @parsed_content.front_matter.try(:[],"title") || params[:file].titleize
     end
 
+  end
+
+  def components
   end
 
   def plain_remote_form 
