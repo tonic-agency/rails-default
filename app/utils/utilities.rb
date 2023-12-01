@@ -1,4 +1,23 @@
 module Utilities
+
+  def self.generate_identifier(record,kind="short")
+    # This method is used to generate a unique identifier for a record.
+    # Use it in your model like this:
+    # before_validation :generate_identifier
+    # def generate_identifier
+    #   Utilities.generate_identifier(self)
+    # end
+    if record.identifier.blank?
+      loop do
+        case kind 
+        when "short"
+          string = SecureRandom.alphanumeric(5).downcase
+        end
+        record.identifier = string
+        break string unless record.class.where(identifier: string).first
+      end
+    end
+  end
    
   def self.markdown_to_html(filename)
     content = File.read(filename)

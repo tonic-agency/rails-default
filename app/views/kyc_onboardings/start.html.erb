@@ -1,0 +1,28 @@
+<section class="flex flex-col items-center justify-center lg:justify-start w-screen min-h-screen sm:bg-gray-50 ">
+	<div class="flex flex-col items-center justify-between h-full mx-6 get-started w-md sm:h-auto py-9 lg:pt-14 sm:w-2/3 sm:max-w-xl">
+		<div class="relative flex items-center justify-center w-full">
+			<a href="<%= root_path%>" class="block absolute left-0">
+				<%=inline_svg_tag('heroicons/icon-chevron-left.svg', class: 'font-farmbank-teal')%>
+			</a>
+
+			<h1 class="text-2xl font-semibold text-gray-700">Before you go further</h1>
+		</div>
+		<div class="flex flex-col items-center justify-between py-8 my-8 w-full text-center rounded-md sm:shadow-md sm:bg-white">
+			<img src="./images/sammy-teamwork 1.png" alt="Teamwork">
+			<h1 class="text-2xl font-semibold text-gray-900 my-9" >Opening an account is easy.<br>
+				Here’s what you’ll need:</h1>
+			<ul class="relative w-10/12 leading-8 text-left text-gray-600 list-disc left-3" >
+				<li>1 valid government ID, which includes your full name and address</li>
+				<%# Temporarily hide SSIS number - not needed as per call Tony <> Megan <> Patrick Nov 15 %>
+				<li>Tax Identification Number</li>
+				<li class="hidden">SSIS/GSIS Number</li>
+			</ul>
+		</div>
+	</div>
+	<hr class=" w-full h-1 bg-slate-400 bottom-28 sm:hidden" >
+	<div class="p-6 sm:p-0 w-full flex items-center justify-center">
+		<a href="<%=new_kyc_onboarding_path%>" class="w-full block py-4 font-bold text-center text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full sm:py-3 sm:w-80">
+			Get Started
+		</a>
+	</div>
+</section>

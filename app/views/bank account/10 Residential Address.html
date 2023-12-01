@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/tonyennis145/dumb-tailwind@69b2513/dist/tailwind.css" />
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/lota-grotesque-alt-1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lota Grotesque', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="flex  justify-center items-center w-screen min-h-screen sm:bg-gray-100 ">
+        <div class="flex flex-col justify-between items-center min-h-screen w-full sm:w-2/3 sm:max-w-xl sm:justify-start ">
+            <div class="flex items-center justify-center relative w-full  pt-14 pb-8">
+                <svg class="absolute left-8 sm:left-0 cursor-pointer  " width="12" height="22" viewBox="0 0 12 22"
+                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M9.26963 20.6933L0.686817 11.7355C0.477332 11.5187 0.373316 11.2377 0.373316 10.9578C0.373316 10.678 0.477332 10.3967 0.686817 10.1802L9.26963 1.22234C9.69863 0.772625 10.4106 0.758001 10.8587 1.18866C11.3099 1.61639 11.3245 2.33147 10.8924 2.77819L3.01738 11.0001L10.891 19.1375C11.3232 19.5828 11.3085 20.2991 10.8573 20.727C10.4092 21.1578 9.69619 21.1428 9.26963 20.6933Z"
+                        fill="#409384" />
+                </svg>
+
+                <h1 class="text-2xl font-semibold text-gray-700">Residential Address</h1>
+            </div>
+            <div class="w-full h-2 bg-gray-300 mb-6 ">
+                <div class="w-8 h-full bg-green-600"></div>
+            </div>
+            <form
+                class="flex flex-col justify-start items-start h-full w-full py-4 pb-7 sm:py-7 mb-auto sm:mb-0  px-8 sm:bg-white sm:h-auto sm:rounded-md sm:shadow-md space-y-8">
+                <div class="flex flex-col justify-center items-start w-full ">
+                    <label class="mb-2  text-base font-normal text-gray-500" for="unit-house-no">Unit / House
+                        No.</label>
+                    <input class="w-full border-2 outline-none p-4   focus:border-blue-100 focus:border" type="text"
+                        id="unit-house-no" placeholder="Unit / House No.">
+                </div>
+                <div class="flex flex-col justify-center items-start w-full ">
+                    <label class="mb-2  text-base font-normal text-gray-500" for="building-treet-name">Building / Street
+                        Name</label>
+                    <input class="w-full border-2 outline-none p-4 focus:border-blue-100 focus:border" type="text"
+                        id="building-treet-name" placeholder="Building / Street Name">
+                </div>
+                <div class="flex flex-col justify-center items-start w-full relative">
+                    <label class="mb-2  text-base font-normal text-gray-500" for="province">Province</label>
+                    <svg class="w-5 absolute left-4 top-3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                        width="100" height="100" viewBox="0 0 50 50">
+                        <path
+                            d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z">
+                        </path>
+                    </svg>
+                    <select class="w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name=""
+                        id="nationality">
+                        <option value="" disabled>Select a Nationality</option>
+                        <option value="Afgan">Afgan</option>
+                        <option value="Andorran">Andorran</option>
+                        <option value="Argentine">Argentine</option>
+                        <option value="Azerbaijani">Azerbaijani</option>
+                        <option value="Albanian">Albanian</option>
+                    </select>
+                </div>
+                <div class="flex flex-col justify-center items-start w-full relative">
+                    <label class="mb-2  text-base font-normal text-gray-500" for="province">Barangay</label>
+                    <svg class="w-5 absolute left-4 top-3" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                        width="100" height="100" viewBox="0 0 50 50">
+                        <path
+                            d="M 21 3 C 11.622998 3 4 10.623005 4 20 C 4 29.376995 11.622998 37 21 37 C 24.712383 37 28.139151 35.791079 30.9375 33.765625 L 44.085938 46.914062 L 46.914062 44.085938 L 33.886719 31.058594 C 36.443536 28.083 38 24.223631 38 20 C 38 10.623005 30.377002 3 21 3 z M 21 5 C 29.296122 5 36 11.703883 36 20 C 36 28.296117 29.296122 35 21 35 C 12.703878 35 6 28.296117 6 20 C 6 11.703883 12.703878 5 21 5 z">
+                        </path>
+                    </svg>
+                    <select class="w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name=""
+                        id="nationality">
+                        <option value="" disabled>Select a Nationality</option>
+                        <option value="Afgan">Afgan</option>
+                        <option value="Andorran">Andorran</option>
+                        <option value="Argentine">Argentine</option>
+                        <option value="Azerbaijani">Azerbaijani</option>
+                        <option value="Albanian">Albanian</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col justify-center items-start w-full ">
+                    <label class="mb-2  text-base font-normal text-gray-500" for="country">Country</label>
+                    <input class="w-full border-2 outline-none p-4   focus:border-blue-100 focus:border" type="text"
+                        id="country" placeholder="Country">
+                </div>
+
+            </form>
+            <div class="w-full border-t sm:py-8 pb-4 pt-6 flex px-8 justify-center items-center">
+                <!-- <a href="#" class="block bg-gray-300 py-3 font-bold w-full  text-center rounded-full text-white sm:py-3 sm:w-80">Next</a> -->
+                <a href="./11 work information.html.html"
+                    class="block bg-yellow-400 py-3 font-bold w-full  text-center rounded-full text-white sm:py-3 sm:w-80 hover:bg-yellow-500 transition-all ">Next</a>
+
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

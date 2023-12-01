@@ -1,0 +1,119 @@
+<section class="flex items-center justify-center w-screen min-h-screen  bg-white sm:bg-gray-50 ">
+  <div class="relative flex flex-col items-center sm:justify-start my-0 sm:my-10 pb-10 min-h-screen sm:min-h-0 w-screen sm:max-w-2xl bg-farmbank-teal sm:rounded-md">
+    <div class="w-full">
+      <img class="w-full mb-4 rounded-md" src="/images/success-banner.png" />
+    </div>
+    <div class="w-full px-6 sm:px-8">
+      <div class="self-stretch text-center mt-3">
+        <h1 class="text-white text-2xl font-semibold sm:leading-relaxed">
+          Congratulations, you’ve just started 
+          <br class="hidden sm:block"/>
+          a new time deposit!
+        </h1>
+        <div class="text-center text-white text-base font-normal leading-normal">
+          You may track it in the home page.
+        </div>
+      </div>
+
+      <div class="mt-6 w-full">
+        <div class="rounded-2xl bg-white w-full p-4 sm:p-6">
+          <div class="w-full flex flex-col justify-center text-center items-center">
+            <img class="w-1/2" src="/images/piggy.png" />
+
+            <div class="text-center text-gray-600 text-lg font-semibold leading-normal">
+              Increase your rate through referrals
+            </div>
+
+            <div class="mt-2">
+              <p class="text-gray-600 text-sm font-normal whitespace-wrap leading-normal">
+                Every time you refer someone, you can boost your rate by <%=TimeDepositAccount.bonus_interest%>%! Just ask <br class="hidden sm:block"/>your referrals to use this code when opening their Farmbank account:
+              </p>
+            </div>
+
+            <div class="mt-4 w-full h-14 justify-center items-stretch gap-2 inline-flex">
+              <div class="py-4 bg-gray-100 rounded-lg justify-center items-center gap-2 flex">
+                <input id="referral-code-input" readonly class="text-center font-farmbank-dark-teal text-lg font-semibold leading-normal bg-gray-100" value="<%=current_user&.referral_code&.code %>"/>
+              </div>
+              <button
+                id="copy-referral-code-button"
+                _="on click call copyToClipboard()"
+                type="button" 
+                class="bg-farmbank-teal text-white font-semibold text-lg rounded-xl px-6">
+                Copy
+              </button>
+            </div>
+
+            <div class="w-full text-center my-4">
+              <span class="text-gray-600 text-sm font-normal leading-normal">
+                Limited time offer. 
+              </span>
+              <%# TODO: Plug in link to Terms and Conditions %>
+              <span class="text-gray-600 text-sm font-normal underline leading-normal">T&Cs apply.</span>
+            </div>
+
+            <%# TODO: Implement Social links %>
+            <% if false %>
+              <div class="space-x-6 justify-center items-start inline-flex my-2">
+                <div class="flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-12 h-12 bg-primary-purple-500 inline-flex items-center justify-center rounded-full">
+                    <img class="w-6 h-6" src="https://via.placeholder.com/24x24" />
+                  </div>
+                  <div class="text-center text-gray-600 text-xs font-normal leading-none">Viber</div>
+                </div>
+                <div class="flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-12 h-12 bg-blue-600 inline-flex items-center justify-center rounded-full">
+                    <img class="w-6 h-6" src="https://via.placeholder.com/24x24" />
+                  </div>
+                  <div class="text-center text-gray-600 text-xs font-normal leading-none">Messenger</div>
+                </div>
+                <div class="flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-12 h-12 bg-green-400 inline-flex items-center justify-center rounded-full">
+                    <img class="w-6 h-6" src="https://via.placeholder.com/24x24" />
+                  </div>
+                  <div class="text-center text-gray-600 text-xs font-normal leading-none">WhatsApp</div>
+                </div>
+                <div class="flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-12 h-12 bg-farmbank-light-teal inline-flex items-center justify-center rounded-full">
+                    <img class="w-6 h-6" src="https://via.placeholder.com/24x24" />
+                  </div>
+                  <div class="text-center text-gray-600 text-xs font-normal leading-none">Copy link</div>
+                </div>
+                <div class="flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-12 h-12 bg-gray-400 inline-flex items-center justify-center rounded-full">
+                    <img class="w-6 h-6" src="https://via.placeholder.com/24x24" />
+                  </div>
+                  <div class="text-center text-gray-600 text-xs font-normal leading-none">Share</div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center w-full p-6 sm:p-8 border-t-0 sm:border-t-0">
+          <a href="<%=app_home_path %>" class="cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 ">
+            Got it
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/hyperscript">
+  def copyToClipboard()
+    set $target to #referral-code-input
+    $target.select()
+    $target.setSelectionRange(0, 99999)
+
+    navigator.clipboard.writeText($target.value)
+
+    add .bg-farmbank-dark-teal to #copy-referral-code-button
+    set #copy-referral-code-button.innerText to "Copied!"
+    add @disabled to #copy-referral-code-button
+    wait 2s
+    remove .bg-farmbank-dark-teal from #copy-referral-code-button
+    set #copy-referral-code-button.innerText to "Copy"
+    remove @disabled from #copy-referral-code-button
+
+  end
+</script>

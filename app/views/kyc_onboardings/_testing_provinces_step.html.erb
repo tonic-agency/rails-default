@@ -1,0 +1,15 @@
+<div hx-trigger="load" hx-get="<%=provinces_for_select_path(kyc_onboarding_identifier: @kyc_onboarding.identifier)%>">
+
+</div>
+
+<div id="cities_for_select">
+</div>
+
+<div id="barangays-for-select">
+</div>
+
+
+<div class="flex flex-col justify-center items-start w-full my-3">
+	<label class="mb-2 text-base font-normal text-gray-500" for="country">Country</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_country].present? %> w-full border-2 outline-none p-4  focus:border-blue-100 focus:border" name="kyc_onboarding[address_country]" type="text" id="country" placeholder="Country" value="Philippines" readonly>
+</div>

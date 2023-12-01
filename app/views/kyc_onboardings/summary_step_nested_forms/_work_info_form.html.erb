@@ -1,0 +1,95 @@
+<form class="flex flex-col items-center justify-center w-full my-3">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="work_info" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+
+	<div class="flex items-center justify-between w-full">
+	  <p class="mb-2 text-base font-normal text-gray-500">Work Information</p>
+		<button
+      type="button" 
+			_="on click toggle .hidden on #static-work-info-display then toggle .hidden on #edit-work-info-form then toggle .hidden on .inner-text in me"
+      class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+    </button>
+	</div>
+
+
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+		<div id="static-work-info-display" class="<%= 'hidden' if @kyc_onboarding.errors.messages.any?%> w-full" >
+      <div class="w-full space-y-1 mb-3">
+        <p class="text-gray-500 ">Occupation</p>
+        <h5 class="font-semibold tracking-wide text-gray-700 ">
+          <%= @kyc_onboarding.work_occupation %>
+        </h5>
+      </div>
+      <div class="w-full space-y-1 mb-3">
+        <p class="text-gray-500 ">Employer's Name</p>
+        <h5 class="font-semibold tracking-wide text-gray-700 ">
+          <%= @kyc_onboarding.work_employer_name %>
+        </h5>
+      </div>
+      <div class="w-full space-y-1 mb-3">
+        <p class="text-gray-500 ">Employer's Address</p>
+        <h5 class="font-semibold tracking-wide text-gray-700 ">
+          <%= @kyc_onboarding.work_employer_address %>
+        </h5>
+      </div>
+      <div class="w-full space-y-1">
+        <p class="text-gray-500 ">Employer's Contact Information</p>
+        <h5 class="font-semibold tracking-wide text-gray-700 ">
+          <%= @kyc_onboarding.work_employer_contact_number %>
+        </h5>
+      </div>
+    </div>
+
+    <div id="edit-work-info-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%> w-full">
+      <div class="mb-3">
+        <label class="mb-1 text-gray-700" for="occupation">Occupation</label>
+	      <input class="<%= 'invalid' if @kyc_onboarding.errors[:work_occupation].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_occupation]" value="<%=@kyc_onboarding.work_occupation%>" id="occupation" placeholder="Occupation">
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:work_occupation].present? %>
+            <%= @kyc_onboarding.errors[:work_occupation].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+      <div class="mb-3">
+        <label class="mb-1 text-gray-700" for="employers-name">Employer's Name</label>
+	      <input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_name].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_name]" value="<%=@kyc_onboarding.work_employer_name%>" id="employers-name" placeholder="Employer's Name">
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:work_employer_name].present? %>
+            <%= @kyc_onboarding.errors[:work_employer_name].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+      <div class="mb-3">
+        <label class="mb-1 text-gray-700" for="employers-address">Employer's Address</label>
+	      <input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_address].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_address]" value="<%=@kyc_onboarding.work_employer_address%>" id="employers-address" placeholder="Employer's Address">
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:work_employer_address].present? %>
+            <%= @kyc_onboarding.errors[:work_employer_address].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+      <div class="mb-3">
+        <label class="mb-1 text-gray-700" for="employers-contact-number">Employer's Contact Number</label>
+	      <input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_contact_number].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_contact_number]" value="<%=@kyc_onboarding.work_employer_contact_number%>" id="employers-contact-number" placeholder="Employer's Contact Number">
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:work_employer_contact_number].present? %>
+            <%= @kyc_onboarding.errors[:work_employer_contact_number].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'work_info')%>"
+          hx-trigger="click"
+          hx-target="#summary-work-info-form"
+          type="button">
+          Save
+        </button>
+      </div>
+    </div>
+	</div>
+</form>

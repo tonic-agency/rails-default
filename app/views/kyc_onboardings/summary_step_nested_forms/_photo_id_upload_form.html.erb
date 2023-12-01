@@ -1,0 +1,86 @@
+<form class="flex flex-col items-center justify-center w-full my-3" method="put" enctype="multipart/form-data">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="id_upload" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+
+	<div class="flex items-center justify-between w-full">
+	  <p class="mb-2 text-base font-normal text-gray-500">Upload Id</p>
+		<button
+      type="button" 
+			_="on click toggle .hidden on #static-photo-id-upload-display then toggle .hidden on #edit-photo-id-upload-form then toggle .hidden on .inner-text in me"
+      class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+    </button>
+	</div>
+
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+    <div id="static-photo-id-upload-display" class="flex flex-col items-center justify-center w-full">
+			<div class="w-80"> Front</div>
+      <% if @kyc_onboarding.id_file_front.attached? %>
+				<img class="w-80" src="<%=@kyc_onboarding.id_file_front.url%>" alt="Id Photo"/>
+			<% else %>
+				<p class="text-gray-500 w-full text-left"> No Photo Uploaded</p>
+			<% end %>
+
+      <div class="w-80 mt-6"> Back</div>
+      <% if @kyc_onboarding.id_file_back.attached? %>
+				<img class="w-80" src="<%=@kyc_onboarding.id_file_back.url%>" alt="Id Photo"/>
+			<% else %>
+				<p class="text-gray-500 w-full text-left"> No Photo Uploaded</p>
+			<% end %>
+		</div> 
+
+    <div id="edit-photo-id-upload-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%> w-full">
+      <div class="mb-3">
+        <label class="no-style relative text-base text-gray-500" for="id-upload-front">
+          <span class="block mb-4"> You may upload either your Philippine Passport, UMID, Postal ID, Voter’s ID, or Driver’s License.</span>
+          
+          <div>Front</div>
+          <div class="<%= 'invalid' if @kyc_onboarding.errors[:id_file_front].present?%> bg-white cursor-pointer input-container relative w-full pb-2 mt-1 border-2 outline-none focus:border-blue-100 focus:border">
+            <input name="kyc_onboarding[id_file_front]" class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" type="file" id="id-upload-front">
+            <div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+              Choose files	
+            </div>
+          </div>
+        </label>
+        <p class="mt-2 text-xs font-light tracking-wide">PNG, JPG or PDF</p>
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:id_file_front].present? %>
+            <%= @kyc_onboarding.errors[:id_file_front].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label class="no-style relative text-base text-gray-500" for="id-upload-back">
+          <span class="block mb-4">Back</span>
+          
+          <div class="<%= 'invalid' if @kyc_onboarding.errors[:id_file_back].present?%> bg-white cursor-pointer input-container relative w-full pb-2 mt-1 border-2 outline-none focus:border-blue-100 focus:border">
+            <input name="kyc_onboarding[id_file_back]" class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" type="file" id="id-upload-back">
+            <div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+              Choose files	
+            </div>
+          </div>
+        </label>
+        <p class="mt-2 text-xs font-light tracking-wide">PNG, JPG or PDF</p>
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:id_file_back].present? %>
+            <%= @kyc_onboarding.errors[:id_file_back].first.humanize %>
+          <% end %>
+        </p>
+      </div>
+
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'photo_id_upload')%>"
+          hx-encoding='multipart/form-data'
+          hx-trigger="click"
+          hx-target="#summary-photo-id-upload-form"
+          type="button">
+          Save
+        </button>
+      </div>
+    </div>
+	</div>
+</form>

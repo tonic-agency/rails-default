@@ -18,7 +18,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'activeadmin'
 gem 'arctic_admin'
+gem 'sassc-rails', '~> 2.1', '>= 2.1.1' # Needed by arctic admin
 gem 'httparty'
+gem 'active_model_otp'
 gem 'hamlit'
 gem 'figaro'
 gem 'devise'
@@ -26,3 +28,5 @@ gem 'inline_svg'
 gem 'passenger'
 gem 'redcarpet'
 gem 'front_matter_parser'
+gem "aws-sdk-s3", require: false
+gem 'postmark-rails'

@@ -1,0 +1,105 @@
+<form class="flex flex-col items-center justify-center w-full my-3">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="residential_info" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+
+	<div class="flex items-center justify-between w-full">
+		<p class="mb-2 text-base font-normal text-gray-500">Residential Address</p>
+		<button
+			_="on click toggle .hidden on #static-address-display then toggle .hidden on #edit-address-form then toggle .hidden on .inner-text in me"
+			type="button" 
+			class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+			  <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+		</button>
+	</div>
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+		
+		<div id="static-address-display" class="<%= 'hidden' if @kyc_onboarding.errors.messages.any?%> w-full space-y-1">
+			<p class="text-gray-500 ">Complete Address</p>
+			<h5 class="font-semibold tracking-wide text-gray-700 "><%=@kyc_onboarding.full_address%></h5>
+		</div>
+
+		<div id="edit-address-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%> w-full">
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="address-house-number">Unit / House No.</label>
+				<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_house_number].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[address_house_number]" type="text" value="<%= @kyc_onboarding.address_house_number %>" id="address-house-number" placeholder="Unit / House No.">
+				<p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:address_house_number].present? %>
+            <%= @kyc_onboarding.errors[:address_house_number].first.humanize %>
+          <% end %>
+        </p>
+			</div>
+
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="address-street-name">Building / Street Name</label>
+				<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_street_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[address_street_name]" type="text" value="<%= @kyc_onboarding.address_street_name %>" id="address-street-name" placeholder="Building / Street Name">
+				<p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:address_street_name].present? %>
+            <%= @kyc_onboarding.errors[:address_street_name].first.humanize %>
+          <% end %>
+        </p>
+			</div>
+
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="province">Province</label>
+				<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_province].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_province]" id="province">
+					<option disabled value="" <%='selected' if @kyc_onboarding.address_province.blank?%> >Select a Province</option>
+					<% provinces_for_select.each do |province| %>
+						<option value='<%=province%>' <%='selected' if @kyc_onboarding.address_province == province %>><%=province%></option>
+					<% end %>
+				</select>
+				<p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:address_province].present? %>
+            <%= @kyc_onboarding.errors[:address_province].first.humanize %>
+          <% end %>
+        </p>
+			</div>
+
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="city">City</label>
+				<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_city].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_city]" id="city">
+					<option disabled value="" <%='selected' if @kyc_onboarding.address_city.blank?%> >Select a City</option>
+					<% cities_for_select.each do |city| %>
+						<option value='<%=city%>' <%='selected' if @kyc_onboarding.address_city == city%>><%=city%></option>
+					<% end %>
+				</select>
+				<p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:address_city].present? %>
+            <%= @kyc_onboarding.errors[:address_city].first.humanize %>
+          <% end %>
+        </p>
+			</div>
+
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="barangay">Barangay</label>
+				<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_barangay].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_barangay]" id="barangay">
+					<option value="" disabled <%='selected' if @kyc_onboarding.address_barangay.blank?%> >Select a Barangay</option>
+					<% manila_barangays_for_select.each do |barangay| %>
+						<option value='<%=barangay%>' <%='selected' if @kyc_onboarding.address_barangay == barangay%>><%=barangay%></option>
+					<% end %>
+				</select>
+				<p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:address_barangay].present? %>
+            <%= @kyc_onboarding.errors[:address_barangay].first.humanize %>
+          <% end %>
+        </p>
+			</div>
+
+			<div class="mb-3">
+				<label class="mb-1 text-gray-700" for="country">Country</label>
+				<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_country].present? %> cursor-not-allowed w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[address_country]" type="text" value="<%= @kyc_onboarding.address_country %>" id="address-country" placeholder="Country" readonly>
+			</div>
+
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'residential_info')%>"
+          hx-trigger="click"
+          hx-target="#summary-residential-info-form"
+          type="button">
+          Save
+        </button>
+      </div>
+		</div>
+	</div>
+</form>

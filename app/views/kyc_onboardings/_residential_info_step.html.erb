@@ -1,0 +1,58 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="residential_info" >
+
+<div class="flex flex-col justify-center items-start w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="unit-house-no">Unit / House No.</label>
+	<input  autofocus="true" class="<%= 'invalid' if @kyc_onboarding.errors[:address_house_number].present? %> w-full border-2 outline-none p-4  focus:border-blue-100 focus:border" name="kyc_onboarding[address_house_number]" value="<%=@kyc_onboarding.address_house_number%>" type="text" id="unit-house-no" placeholder="Unit / House No.">
+</div>
+
+<div class="flex flex-col justify-center items-start w-full my-3">
+	<label class="mb-2  no-style text-base font-normal text-gray-500" for="building-street-name"> Building / Street Name </label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_street_name].present? %> w-full border-2 outline-none p-4 focus:border-blue-100 focus:border" name="kyc_onboarding[address_street_name]" value="<%=@kyc_onboarding.address_street_name%>" type="text" id="building-street-name" placeholder="Building / Street Name">
+</div>
+
+<div class="flex flex-col justify-center items-start w-full relative my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="province">Province</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_province].present? %> w-full border-2 outline-none p-4 focus:border-blue-100 focus:border" name="kyc_onboarding[address_province]" value="<%=@kyc_onboarding.address_province%>" type="text" id="province" placeholder="Province">
+
+	<% if false %>
+		<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_province].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_province]" id="province">
+			<option disabled value="" <%='selected' if @kyc_onboarding.address_province.blank?%> >Select a Province</option>
+			<% provinces_for_select.each do |province| %>
+				<option value='<%=province%>' <%='selected' if @kyc_onboarding.address_province == province %>><%=province%></option>
+			<% end %>
+		</select>
+	<% end %>
+</div>
+
+<div class="flex flex-col justify-center items-start w-full relative my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="city">City</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_city].present? %> w-full border-2 outline-none p-4 focus:border-blue-100 focus:border" name="kyc_onboarding[address_city]" value="<%=@kyc_onboarding.address_city%>" type="text" id="city" placeholder="City">
+
+	<% if false %>
+		<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_city].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_city]" id="city">
+			<option disabled value="" <%='selected' if @kyc_onboarding.address_city.blank?%> >Select a City</option>
+			<% cities_for_select.each do |city| %>
+				<option value='<%=city%>' <%='selected' if @kyc_onboarding.address_city == city%>><%=city%></option>
+			<% end %>
+		</select>
+	<% end %>
+</div>
+
+<div class="flex flex-col justify-center items-start w-full relative my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="barangay">Barangay</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_barangay].present? %> w-full border-2 outline-none p-4 focus:border-blue-100 focus:border" name="kyc_onboarding[address_barangay]" value="<%=@kyc_onboarding.address_barangay%>" type="text" id="barangay" placeholder="Barangay">
+
+	<% if false %>
+		<select class="<%= 'invalid' if @kyc_onboarding.errors[:address_barangay].present? %> w-full border-2 outline-none p-4 pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[address_barangay]" id="barangay">
+			<option value="" disabled <%='selected' if @kyc_onboarding.address_barangay.blank?%> >Select a Barangay</option>
+			<% manila_barangays_for_select.each do |barangay| %>
+				<option value='<%=barangay%>' <%='selected' if @kyc_onboarding.address_barangay == barangay%>><%=barangay%></option>
+			<% end %>
+		</select>
+	<% end %>
+</div>
+
+<div class="flex flex-col justify-center items-start w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="country">Country</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:address_country].present? %> w-full no-style border-2 cursor-not-allowed border-gray-200 outline-none p-4" name="kyc_onboarding[address_country]" type="text" id="country" placeholder="Country" value="Philippines" readonly>
+</div>

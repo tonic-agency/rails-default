@@ -1,0 +1,213 @@
+<div class="overflow-x-hidden">
+    <section class="flex  justify-center items-center w-screen min-h-screen ">
+        <% if params['welcome'].present? %>
+            <%=render partial: 'app/welcome_modal'%>
+        <% end %>
+        <div class="flex flex-col justify-start items-stretch min-h-screen w-full  sm:justify-start ">
+            <div class="bg-farmbank-teal px-10 relative w-full pt-14 pb-8">
+                <div class="sm:w-2/3  flex items-center justify-between sm:max-w-xl mx-auto">
+                    <div>
+                        <%= link_to root_path do %>
+                            <%=inline_svg_tag('farmbank-logo.svg')%>
+                        <% end %>
+                    </div>
+                    <div> 
+                        <a href="<%= destroy_user_session_path %>" class="px-3 text-sm block py-2 hover:shadow-lg relative right-0 text-white bg-transparent border border-white rounded-full">
+                            Sign Out
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-farmbank-light-teal py-6 px-10 text-white w-full">
+                <div class="sm:w-2/3 sm:max-w-xl mx-auto">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center">
+                            <svg class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 0C5.37097 0 0 5.37097 0 12C0 18.629 5.37097 24 12 24C18.629 24 24 18.629 24 12C24 5.37097 18.629 0 12 0ZM12 4.64516C14.3226 4.64516 16.2581 6.58064 16.2581 8.90323C16.2581 11.2742 14.3226 13.1613 12 13.1613C9.62903 13.1613 7.74194 11.2742 7.74194 8.90323C7.74194 6.58064 9.62903 4.64516 12 4.64516ZM12 21.2903C9.14516 21.2903 6.58064 20.0323 4.8871 18C5.80645 16.3065 7.59677 15.0968 9.67742 15.0968C9.77419 15.0968 9.87097 15.1452 10.0161 15.1935C10.6452 15.3871 11.2742 15.4839 12 15.4839C12.6774 15.4839 13.3548 15.3871 13.9355 15.1935C14.0806 15.1452 14.1774 15.0968 14.3226 15.0968C16.3548 15.0968 18.1452 16.3065 19.0645 18C17.371 20.0323 14.8065 21.2903 12 21.2903Z" fill="white" />
+                            </svg>
+                            <span>Hi, <%=current_user.first_name %>!</span>
+                        </div>
+                        
+                        <%# Temporarily hide question mark icon - doesn't link anywhere %>
+                        <svg class="hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path  d="M6.228 7C6.777 5.835 8.258 5 10 5C12.21 5 14 6.343 14 8C14 9.4 12.722 10.575 10.994 10.907C10.452 11.011 10 11.447 10 12M10 15H10.01M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <p class="tracking-wide">Available Balance</p>
+                    <% if current_user&.settlement_account&.account_number&.present? %>
+                        <p class="font-light text-sm"><span class="font-semibold">Account No:</span> <%=current_user&.settlement_account&.account_number%></p>
+                    <% end %>
+                    <h4 class="text-4xl font-light tracking-wide my-3"><%=format_amount(current_user&.settlement_account&.current_available_balance)%></h4>
+                    <div class="flex items-center justify-between space-x-6">
+                       <a href="<%= current_user.authorized_to_create_transactions? ?  add_funds_path : nil %>" class="bg-farmbank-yellow hover:bg-yellow-500 flex items-center justify-center w-full rounded-full py-2.5 text-white space-x-2 <%='cursor-not-allowed' unless current_user.authorized_to_create_transactions? %>">
+                            <%=inline_svg_tag('heroicons/icon-download.svg', class: "text-white #{'opacity-60' unless current_user.authorized_to_create_transactions?}")%>
+                            <span class="relative top-0.5 <%='opacity-60' unless current_user.authorized_to_create_transactions?%>">
+                                Add Funds
+                            </span>
+                        </a>
+                        
+                        <a href="<%= current_user.authorized_to_create_transactions? ?  add_funds_path : nil %>" class="bg-green-50 hidden flex items-center justify-center w-full rounded-full py-2.5 font-farmbank-teal space-x-2 <%='cursor-not-allowed' unless current_user.authorized_to_create_transactions? %>">
+                            <%=inline_svg_tag('heroicons/icon-download.svg', class: "font-farmbank-teal #{'opacity-60' unless current_user.authorized_to_create_transactions?}")%>
+                            <span class="relative top-0.5 <%='opacity-60' unless current_user.authorized_to_create_transactions?%>">
+                                Add Funds
+                            </span>
+                        </a>
+                        <a href="<%= withdraw_path %>" class="bg-green-50 flex items-center justify-center hidden rounded-full py-2.5 font-farmbank-teal space-x-2 w-1/2">
+
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.41663 9.66675V10.3334C1.41663 10.8638 1.62734 11.3726 2.00241 11.7476C2.37749 12.1227 2.88619 12.3334 3.41663 12.3334H10.0833C10.6137 12.3334 11.1224 12.1227 11.4975 11.7476C11.8726 11.3726 12.0833 10.8638 12.0833 10.3334V9.66675M9.41663 4.33341L6.74996 1.66675M6.74996 1.66675L4.08329 4.33341M6.74996 1.66675V9.66675" stroke="var(--farmbank-teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+
+                            <span class="relative top-0.5">
+                                Withdraw Funds
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="bg-farmbank-green-100 p-6 space-y-3">
+                <% if !current_user.kyc_onboarding.verified? %>
+                    <div class="bg-white shadow-md flex items-stretch p-6 rounded  sm:max-w-xl mx-auto">
+                        <div class="  mr-5">
+                            <img class="w-24" src="./images/flower.png" alt="">
+                        </div>
+                        <div class=" flex flex-col justify-between items-start">
+                            <p class="font-lighttext-gray-600 leading-loosetracking-wide">Your documents are being reviewed</p>
+                            <button
+                                _="on click remove .hidden from #default-modal"
+                                type="button" 
+                                class="font-farmbank-dark-teal font-bold"
+                                hx-target="#default-modal-content"
+                                hx-swap="innerHTML"
+                                hx-get="<%= modals_path(action: 'homepage_document_verification')%>">
+                                More Info
+                            </button>
+                        </div>
+                    </div>
+                <% end %>
+
+                <% if current_user.kyc_onboarding.incomplete? %>
+                    <div class="bg-white shadow-md flex items-stretch p-6 rounded  sm:max-w-xl mx-auto">
+                        <a class="flex" href="<%= new_kyc_onboarding_path(code:current_user.kyc_onboarding.identifier) %>">
+                            <div class=" mr-5">
+                                <img class="w-24" src="./images/flower.png" alt="">
+                            </div>
+                            <div class=" flex flex-col justify-between items-start">
+                                <p class="font-light text-gray-600 leading-loosetracking-wide">Complete your application</p>
+                            </div>
+                        </a>
+                    </div>
+                <% end %>
+                
+                <%# Referral %>
+                <% if current_user.referral_code.present? %>
+                    <div class="bg-white shadow-md flex justify-between items-stretch p-6 rounded  sm:max-w-xl mx-auto">
+                        <div class="  mr-5">
+                            <img class="w-24" src="./images/flower.png" alt="">
+                        </div>
+                        <div class=" flex flex-col justify-between items-start">
+                            <p class="font-light text-gray-600 leading-loosetracking-wide">
+                                Get a <%=TimeDepositAccount.bonus_interest%>% interest rate increase for EVERY referral on ALL time deposits!
+                            </p>
+                            <button
+                                _="on click remove .hidden from #default-modal"
+                                type="button" 
+                                class="font-farmbank-dark-teal font-bold"
+                                hx-target="#default-modal-content"
+                                hx-swap="innerHTML"
+                                hx-get="<%= modals_path(action: 'homepage_referral_code_info')%>">
+                                Refer someone now
+                            </button>
+                        </div>
+                    </div>
+                <% end %> 
+            </div>
+
+            
+            <div  class="bg-farmbank-light-teal py-6 px-10 text-white w-full">   
+                <div class="space-y-3  sm:max-w-xl mx-auto">
+                    <div class="flex justify-start items-center space-x-3">
+                        <span>My Time Deposits</span>
+                        <%# Temporarily hide question mark icon - doesn't link anywhere %>
+                        <svg class="hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.228 7C6.777 5.835 8.258 5 10 5C12.21 5 14 6.343 14 8C14 9.4 12.722 10.575 10.994 10.907C10.452 11.011 10 11.447 10 12M10 15H10.01M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h4 class="text-4xl font-light tracking-wide"><%=format_amount(current_user.time_deposit_balance)%></h4>
+                    <div class="flex justify-between font-light flex-col">
+                        <p><span class="font-semibold">Total Interest Rate: </span> <%=current_user.total_interest_rate%>% p.a.</p>
+                        <div class="flex items-end mt-1">
+                            <p class="border-r leading-none border-white pr-2 mr-2 ">Base: <%=TimeDepositAccount.base_interest.floor%>%</p>
+                            
+                            <p class="leading-none">Bonus Rate: <%=current_user.bonus_rate%>%</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+           
+
+            <div class="mx-auto w-full flex justify-center sm:max-w-xl">
+                <% if !@open_time_deposits.any? && !@mature_time_deposits.any? %>
+                   <p class="text-gray-600 mt-8"> You have no time deposits yet </p>
+                <% else %>
+                    <div class="flex justify-center w-full items-center sm:max-w-xl mx-auto">
+                        <div class="cursor-pointer w-full text-center py-3 border-b-4 border-farmbank-yellow font-farmbank-yellow text-lg">Open</div>
+                        <div class="cursor-pointer hidden w-1/2 text-center py-3 border-none text-lg">Matured</div>
+                    </div>
+                <% end %>
+            </div>
+
+            <div class="w-full flex flex-col px-6 sm:px-0 py-8 sm:max-w-xl mx-auto justify-center items-center">
+                <!-- <a href="#" class="block bg-gray-300 py-3 font-bold w-full  text-center rounded-full text-white sm:py-3 sm:w-80">Next</a> -->
+                <a href="<%= current_user.authorized_to_create_transactions? ?  new_time_deposit_path : nil %>" class="<%=current_user.authorized_to_create_transactions? ? 'hover:bg-yellow-500' : 'opacity-60 cursor-not-allowed'%> bg-farmbank-yellow  py-3 font-semibold w-full text-center rounded-full text-white sm:py-3 sm:w-80 transition-all flex justify-center items-center space-x-2">
+                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.5 4V8M8.5 8V12M8.5 8H12.5M8.5 8H4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>
+                        Start new time deposit
+                    </span>
+                </a>
+                <div class="w-full  py-8 flex flex-col justify-center items-center">
+                    <% if @open_time_deposits.any? %>
+                        <%@open_time_deposits.each.with_index(1) do |time_deposit, index| %>
+                            <div class="w-full space-x-3 my-5 flex items-start justify-between">
+                                <div class="pie no-round animate" style="--p: <%=time_deposit.maturity_as_percentage%>; --b:15px">
+                                    <div class="text-sm text-center font-normal text-gray-600">
+                                        <p>Maturing</p>
+                                        <p class="font-semibold"><%=time_deposit.maturity_date.strftime('%b %Y')%></p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 bg-farmbank-green-100 flex-grow rounded-3xl flex-col justify-start items-start gap-2 inline-flex">
+									<div class="self-stretch font-farmbank-dark-teal justify-between items-center inline-flex">
+										<div class="text-base font-semibold leading-normal">Time Deposit <%=index%></div>
+										<%= inline_svg_tag("heroicons/icon-arrow-right.svg",class:"sm:w-6 sm:h-6 w-4 h-4 fill-current font-farmbank-teal-dark") %>
+									</div>
+									<div class="text-gray-600 text-base leading-normal">
+										<h5 class="font-normal">Initial Deposit  <br/></h5>
+										<p class="font-semibold"><%=format_amount(time_deposit.amount)%><br/><br/></p>
+										<h5 class="font-normal">Expected Interest <br/></h5>
+										<p class="font-semibold"><%=format_amount(time_deposit.expected_base_interest)%><br/></p>
+										<h5 class="font-normal"><br/>Interest Earned To Date<br/></h5>
+										<p class="font-semibold"><%=format_amount(time_deposit.interest_earned_to_date)%></p>
+									</div>
+                                </div>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
+
+            </div>
+            <div>
+                <div class="flex justify-between items-start">
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+</div>
+

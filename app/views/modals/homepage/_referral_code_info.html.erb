@@ -1,0 +1,44 @@
+<div class="w-full h-full flex flex-col items-center text-center justify-center">
+  <img class="w-24" src="images/flower.png" alt="">
+
+  <div class="my-5">
+    <h5 class="lg:text-2xl font-semibold text-xl text-gray-600"> Increase your time deposit interest rate by referring friends and family! </h5>
+  </div>
+
+  <div class="space-y-5 font-normal lg:px-10">
+    <p> Boost your rate by 0.5% with every successful referral. <br/> Refer as many times as you want! </p>
+    <p> Just ask your referrals to use this code when opening their Farmbank account: </p>
+    <div class="flex justify-center items-stretch space-x-2">
+      <input id="referral-code-input" readonly class="no-style text-center rounded-xl font-farmbank-dark-teal py-3 bg-gray-100 text-3xl font-semibold " value="<%=current_user&.referral_code&.code %>"/>
+      <button
+        id="copy-referral-code-button"
+        _="on click call copyToClipboard()"
+        class="bg-farmbank-teal text-white font-semibold text-lg rounded-xl px-6">
+        Copy
+      </button>
+    </div>
+    <%# TODO: add t&cs %>
+    <div class="text-gray-500">
+      Limited time offer. <a href="" class="underline"> T&Cs apply.</a>
+    </div>
+  </div>
+</div>
+
+<script type="text/hyperscript">
+  def copyToClipboard()
+    set $target to #referral-code-input
+    $target.select()
+    $target.setSelectionRange(0, 99999)
+
+    navigator.clipboard.writeText($target.value)
+
+    add .bg-farmbank-dark-teal to #copy-referral-code-button
+    set #copy-referral-code-button.innerText to "Copied!"
+    add @disabled to #copy-referral-code-button
+    wait 2s
+    remove .bg-farmbank-dark-teal from #copy-referral-code-button
+    set #copy-referral-code-button.innerText to "Copy"
+    remove @disabled from #copy-referral-code-button
+
+  end
+</script>

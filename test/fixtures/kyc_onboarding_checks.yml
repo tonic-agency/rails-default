@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  admin_user_id: 1
+  kyc_onboarding_id: 1
+  information_correct: false
+  id_correct: false
+  signature_validated: false
+  result: MyString
+
+two:
+  admin_user_id: 1
+  kyc_onboarding_id: 1
+  information_correct: false
+  id_correct: false
+  signature_validated: false
+  result: MyString

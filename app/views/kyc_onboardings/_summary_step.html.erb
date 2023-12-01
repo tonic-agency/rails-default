@@ -1,0 +1,71 @@
+
+<% @kyc_onboarding ||= resource.kyc_onboarding %>
+
+<h4 class="self-start sm:px-0  text-2xl font-semibold text-gray-600">Are these details correct?</h4>
+
+<%# Name Fields %>
+<div id="summary-name-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/name_form"%>
+</div>
+
+<%# Mobile Number %>
+<div id="summary-phone-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/phone_form"%>
+</div>
+
+<%# Email %>
+<div id="summary-email-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/email_form"%>
+</div>
+
+<%# Residential Address %>
+<div id="summary-residential-info-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/residential_info_form"%>
+</div>
+
+<%# Work Information %>
+<% work_info_hidden = (@kyc_onboarding.work_occupation.blank? && @kyc_onboarding.work_employer_name.blank? && @kyc_onboarding.work_employer_address.blank? && @kyc_onboarding.work_employer_contact_number.blank?)   %>
+<% unless work_info_hidden %>
+	<div id="summary-work-info-form" class="my-5">
+		<%=render partial: "kyc_onboardings/summary_step_nested_forms/work_info_form"%>
+	</div>
+<% end %>
+
+<%# Financial Information %>
+<div id="summary-financial-info-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/financial_info_form"%>
+</div>
+
+<%# Tax Identification Info %>
+<div id="summary-tax-id-info-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/tax_id_info_form"%>
+</div>
+
+<%# Photo ID Upload %>
+<div id="summary-photo-id-upload-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/photo_id_upload_form"%>
+</div>
+
+<%# Signature ID Upload %>
+<div id="summary-signature-id-upload-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/signature_specimen_upload_form" %>
+</div>
+
+<%# Security Questions %>
+<div id="summary-security-questions-form" class="my-5">
+	<%=render partial: "kyc_onboardings/summary_step_nested_forms/security_questions_form" %>
+</div>
+
+<%# TODO: Replace with dynamic data %>
+<% if @kyc_onboarding.was_referred %>
+	<div id="summary-referral-form" class="my-5">
+		<%=render partial: "kyc_onboardings/summary_step_nested_forms/referral_code_form" %>
+	</div>
+
+<% end %>
+
+<%# TODO: Add link to T&Cs once built %>
+<div class="text-gray-600 w-full text-center">
+	By clicking “Submit and Continue” you have read and agreed to Farmbank’s 
+	<span class="cursor-pointer font-farmbank-yellow"> Terms and Conditions </span>
+</div>

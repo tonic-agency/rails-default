@@ -1,0 +1,33 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="id_upload" >
+
+<h4 class="mb-1 text-lg font-semibold text-gray-600 my-3 mb-5">Upload 1 government identification card that includes your full name and address. You may upload either your PhilID, UMID, Postal ID, Voter’s ID, or Driver’s License.</h4>
+                
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="no-style relative text-base text-gray-500 w-full" for="id-upload-front">
+		Upload the front photo of your ID
+	
+		<div class="<%= 'invalid' if @kyc_onboarding.errors[:id_file_front].present?%> input-container relative w-full pb-2 mt-1 border-2 outline-none focus:border-blue-100 focus:border">
+			<input name="kyc_onboarding[id_file_front]" class="dropzone w-full p-4 relative z-10 h-full pl-3" type="file" id="id-upload-front" value="<%=@kyc_onboarding.id_file_front%>">
+			<div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+				Choose files	
+			</div>
+		</div>
+	</label>
+	
+	<p class="mt-1 text-xs font-light tracking-wide">PNG, JPG or PDF</p>
+</div> 
+
+<div class="flex flex-col items-start justify-center w-full mt-5 mb-3">
+	<label class="no-style relative text-base text-gray-500 w-full" for="id-upload-back">
+		Upload the back photo of your ID
+	
+		<div class="<%= 'invalid' if @kyc_onboarding.errors[:id_file_back].present?%>  input-container relative w-full pb-2 mt-1 border-2 outline-none focus:border-blue-100 focus:border">
+			<input name="kyc_onboarding[id_file_back]" class="dropzone w-full p-4 relative z-10 h-full pl-3" type="file" id="id-upload-back" value="<%=@kyc_onboarding.id_file_back%>">
+			<div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+				Choose files	
+			</div>
+		</div>
+	</label>
+	
+	<p class="mt-1 text-xs font-light tracking-wide">PNG, JPG or PDF</p>
+</div> 

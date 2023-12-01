@@ -1,0 +1,47 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyText
+  last_name: MyText
+  middle_name: MyText
+  date_of_birth: 2023-11-11 09:58:24
+  place_of_birth: MyText
+  nationality: MyText
+  marital_status: MyString
+  address_house_number: MyText
+  address_street_name: MyText
+  address_province: MyText
+  address_city: MyText
+  address_barangay: MyText
+  address_country: MyText
+  work_occupation: MyText
+  work_employer_name: MyText
+  work_employer_address: MyText
+  work_employer_contact_number: MyText
+  source_of_funds: MyString
+  gross_monthly_income: MyText
+  tax_identification_number: MyText
+  ssis_gsis_number: MyText
+
+two:
+  first_name: MyText
+  last_name: MyText
+  middle_name: MyText
+  date_of_birth: 2023-11-11 09:58:24
+  place_of_birth: MyText
+  nationality: MyText
+  marital_status: MyString
+  address_house_number: MyText
+  address_street_name: MyText
+  address_province: MyText
+  address_city: MyText
+  address_barangay: MyText
+  address_country: MyText
+  work_occupation: MyText
+  work_employer_name: MyText
+  work_employer_address: MyText
+  work_employer_contact_number: MyText
+  source_of_funds: MyString
+  gross_monthly_income: MyText
+  tax_identification_number: MyText
+  ssis_gsis_number: MyText

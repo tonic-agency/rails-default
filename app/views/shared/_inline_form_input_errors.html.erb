@@ -1,0 +1,7 @@
+<% errors = local_assigns[:errors] || [] %>
+
+<div>
+  <% errors.each do |error| %>
+    <p class="text-red-500"> <%= error.titleize %> </p>
+  <% end %>
+</div>

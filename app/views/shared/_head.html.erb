@@ -12,19 +12,20 @@
     `npx tailwindcss -o ./public/stylesheets/tailwind-trimmed.css` to ensure it's up to date.
 -->
 <!-- link rel="stylesheet" href="/stylesheets/tailwind-trimmed.css<%= cache_buster %>" -->
+<link rel="stylesheet" href="/stylesheets/custom.css<%= cache_buster %>">
 <link rel="stylesheet" href="/stylesheets/variables.css<%= cache_buster %>">
 <link rel="stylesheet" href="/stylesheets/tonic23.css<%= cache_buster %>">
 <link rel="stylesheet" href="/stylesheets/choices.min.css<%= cache_buster %>">
+<link rel="stylesheet" href="/stylesheets/choices.min.css<%= cache_buster %>">
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/lota-grotesque-alt-1" />
+<!-- <link rel="stylesheet" href="/stylesheets/dropzone.css<%= cache_buster %>"> -->
 
-<script src="/js/pusher.min-7.0.js" defer></script>
 <script src="/js/htmx-1.8.0.js" defer></script>
 <script src="/js/hyperscript.min-0.9.7.js" defer></script>
 <script src="/js/popper-2.11.8.js" defer></script>
 <script src="/js/tippy-6.3.7.js" defer></script>
-<script src="/js/choices.js" defer></script>
 <script src="/js/custom.js<%= cache_buster %>" defer></script>
-<script src="https://www.unpkg.com/tonic-minijs@1.0.1-canary.2387020.0/dist/minijs.umd.js"></script>
-
+<script src="/js/unpkg.com_dropzone@5.9.3_dist_min_dropzone.min.js<%= cache_buster %>" defer></script>
   
 <% unless ENV["OFFLINE_DEV"].present? %>
 
@@ -38,12 +39,14 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/tomorrow-night-blue.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/erb.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/erb.min.js"></script>
   
 <% end %>
 
 <style type="text/css">
-
+  * {
+    font-family: "Lota Grotesque", sans-serif;
+  }
   h2 code {
     font-size: 2rem !important;
     font-family: "Outfit", sans-serif !important;

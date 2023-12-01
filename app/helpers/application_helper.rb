@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def page_title
-    "HTML First"
+    "Farm Bank"
   end
 
   def page_description
@@ -20,4 +20,8 @@ module ApplicationHelper
     @disable_left_menu ||= false
   end
 
+  def format_amount(amount, unit = "₱ ")
+    # TODO: Add currency based on locale
+    return ActionController::Base.helpers.number_to_currency(amount, unit: unit, precision: 2)
+  end
 end

@@ -23,3 +23,16 @@
     </div>
   </div>
 </div>
+
+<div id="default-modal" _="on click if event.target is me add .hidden" class="hidden bg-gray-700 bg-opacity-50 fixed top-0 w-screen h-screen bottom-0 right-0 left-0 flex justify-center items-center z-50 pt-12 sm:pt-0">
+  <div id="default-modal-inner" draggable="true" _="on drag if event.y is greater than 200 add .hidden to #default-modal " class="relative mt-auto sm:m-auto text-gray-600 w-full h-full sm:h-auto sm:max-w-3xl bg-white sm:p-10 p-8 rounded-t-xl sm:rounded overflow-y-auto flex-grow">
+    <div class="w-20 mx-auto bg-gray-300 h-1 sm:hidden"></div>
+    
+    <div _="on click add .hidden to #default-modal" class="absolute cursor-pointer top-0 right-0 mt-6 mr-6 z-20">
+      <%=inline_svg_tag('heroicons/x-mark.svg', class: 'font-farmbank-teal w-5 h-5', style: 'stroke-width: 2.5')%>
+    </div>
+
+    <%# Content of modal below - ie. set htmx 'hx-target' attribute to my id %>
+    <div id="default-modal-content" class="w-full h-full p-6 lg:p-10"></div>
+  </div>
+</div>

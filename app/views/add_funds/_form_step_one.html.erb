@@ -1,0 +1,74 @@
+<% errors = local_assigns[:errors] || [] %>
+<% step = local_assigns[:step] || 'amount' %>
+<% step_one_hidden = local_assigns[:step_one_hidden] || false %>
+
+<div class="relative flex flex-col items-start justify-center w-full pb-8">
+  <h4 class="text-lg font-semibold ">How much are you adding?</h4>
+  <label class="mb-5 no-style" for="balance">These funds will be added to your Available Balance.</label>
+  
+  <div class="relative w-full">
+    <input 
+      autofocus 
+      _="on keyup
+        set #deposit-amount.innerText to my.value as Fixed:2 
+      then if my.value > 0
+        remove .text-gray-400 from #dummy-placeholder
+        remove .cursor-not-allowed from #add-funds-next-button
+        add .bg-farmbank-yellow .hover:bg-yellow-500 to #add-funds-next-button
+        remove .bg-gray-300 from #add-funds-next-button
+      else
+        add .text-gray-400 to #dummy-placeholder
+        add .cursor-not-allowed to #add-funds-next-button
+        add .bg-gray-300 .cursor-not-allowed to #add-funds-next-button
+        remove .bg-farmbank-yellow .hover:bg-yellow-500 from #add-funds-next-button
+      end" 
+      style="padding: 2rem 2rem 2rem 2rem; position: relative" 
+      class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
+      name="transaction[amount]" 
+      type="number" 
+      min="1" 
+      step=".01" 
+      id="balance"
+      placeholder="0.00"
+      value="" />
+    <div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
+
+    <div id="add-funds-errors" class="hidden">
+      <p class="text-red-500"> Can't be blank </p>
+    </div>
+  </div> 
+</div> 
+
+<div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0">
+
+  <% if errors.empty? %>
+    <button
+      _="on click 
+      if #balance.value > 0
+        add .hidden to #page-1
+        remove .hidden from #page-2
+        remove .invalid from #balance
+        add .hidden to #add-funds-errors
+        set $page to 2
+      else 
+        add .cursor-not-allowed
+        add .invalid to #balance
+        remove .hidden from #add-funds-errors
+      end"
+      id="add-funds-next-button"
+      type="button"
+      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80">
+      Next
+    </button>
+  <% else %>
+    <button 
+      hx-post="<%= add_funds_amount_validator_path %>"
+      hx-trigger="click"
+      hx-target="#add-funds-errors"
+      hx-swap="outerHTML"
+      hx-swap-oob="true"
+      type="submit"
+      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80"
+    > Next 
+    </button>
+</div>

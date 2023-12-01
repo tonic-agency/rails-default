@@ -1,0 +1,108 @@
+<form class="flex flex-col items-center justify-center w-full">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="security_questions" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+	
+  <div class="flex items-center justify-between w-full">
+		<p class="mb-2 text-base font-normal text-gray-500">Security Questions</p>
+		<button
+			type="button" 
+			_="on click toggle .hidden on #static-security-questions-display then toggle .hidden on #edit-security-questions-form then toggle .hidden on .inner-text in me"
+			class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+			
+		</button>
+	</div>
+	
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+		<div id="static-security-questions-display" class="<%= 'hidden' if @kyc_onboarding.errors.messages.any?%> space-y-3">
+      <% @kyc_onboarding.security_questions.order(:created_at).each do |question_set| %>
+        <div class="w-full space-y-1">
+          <p class="text-gray-500 "><%=question_set.question %></p>
+          <h5 class="font-semibold tracking-wide text-gray-700 "><%=question_set.answer %></h5>
+        </div>
+      <% end %>
+		</div>
+
+		<div id="edit-security-questions-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>">
+      <% @security_question_1 = @kyc_onboarding.security_questions.first%>
+      <% @security_question_2 = @kyc_onboarding.security_questions.second%>
+			<div class="w-full">
+				<%# QUESTION ONE %>
+        <input type="hidden" name="kyc_onboarding[security_questions_attributes][0][id]" value="<%=@security_question_1.id%>"/>
+        
+        <div class="mb-3">
+          <label class="mb-1 text-gray-700" for="security-question-1">Security Question #1</label>
+					
+          <select class="<%= 'invalid' if @kyc_onboarding.errors[:question_1].present? %> w-full p-4 border-2 outline-none pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[security_questions_attributes][0][question]" id="security-question-1" data-placeholder="Select a Question">
+            <option value="" disabled <%='selected' if @security_question_1.question.nil?%>> Select a Question </option>
+            <% SecurityQuestion.questions.values.each do |value| %>
+              <option value="<%= value %>" <%='selected' if @security_question_1.question == value %> >
+                <%= value  %>
+              </option>
+            <% end %>
+          </select>
+          
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:question_1].present? %>
+              Security Question 1 <%= @kyc_onboarding.errors[:question_1].first %>
+            <% end %>
+          </p>
+        </div>
+
+				<div class="mb-3">
+          <label class="mb-1 text-gray-700" for="security-answer-1">Your answer to security question #1</label>
+	        <input class="<%= 'invalid' if @kyc_onboarding.errors[:answer_1].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" id="security-answer-1" name="kyc_onboarding[security_questions_attributes][0][answer]" placeholder="Type your answer here" value="<%=@security_question_1.answer%>">
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:answer_1].present? %>
+              Security Answer 1 <%= @kyc_onboarding.errors[:answer_1].first %>
+            <% end %>
+          </p>
+        </div>
+
+        <%# QUESTION 2 %>
+        <input type="hidden" name="kyc_onboarding[security_questions_attributes][1][id]" value="<%=@security_question_2.id%>"/>
+        <div class="mb-3">
+          <label class="mb-1 text-gray-700" for="security-question-2">Security Question #2</label>
+					
+          <select class="<%= 'invalid' if @kyc_onboarding.errors[:question_2].present? %> w-full p-4 border-2 outline-none pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[security_questions_attributes][1][question]" id="security-question-2" data-placeholder="Select a Question">
+            <option value="" disabled <%='selected' if @security_question_2.question.nil?%>> Select a Question </option>
+            <% SecurityQuestion.questions.values.each do |value| %>
+              <option value="<%= value %>" <%='selected' if @security_question_2.question == value %> >
+                <%= value  %>
+              </option>
+            <% end %>
+          </select>
+          
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:question_2].present? %>
+              Security Question 2 <%= @kyc_onboarding.errors[:question_2].first %>
+            <% end %>
+          </p>
+        </div>
+
+        <div class="mb-3">
+          <label class="mb-1 text-gray-700" for="security-answer-2">Your answer to security question #2</label>
+	        <input class="<%= 'invalid' if @kyc_onboarding.errors[:answer_2].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" id="security-answer-2" name="kyc_onboarding[security_questions_attributes][1][answer]" placeholder="Type your answer here" value="<%=@security_question_2.answer%>">
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:answer_2].present? %>
+              Security Answer 2 <%= @kyc_onboarding.errors[:answer_2].first %>
+            <% end %>
+          </p>
+        </div>
+
+			</div>
+      
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'security_questions')%>"
+          hx-trigger="click"
+          hx-target="#summary-security-questions-form"
+          type="button">
+          Save
+        </button>
+      </div>
+		</div>
+	</div>
+</form>

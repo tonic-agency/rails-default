@@ -1,0 +1,24 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="financial_info" >
+
+<div class="relative flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="source-of-funds">Source of Funds</label>
+	
+	<select class="<%= 'invalid' if @kyc_onboarding.errors[:source_of_funds].present? %> w-full p-4 border-2 outline-none pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[source_of_funds]" id="source-of-funds">
+		<option value="" disabled <%='selected' if @kyc_onboarding.source_of_funds.blank?%> > Select a source of funds </option>
+		<% source_of_funds_for_select.each do |source| %>
+			<option value='<%=source%>' <%='selected' if @kyc_onboarding.source_of_funds == source%>>
+				<%=source%>
+			</option>
+		<% end %>
+	</select>
+</div>
+
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="gross-monthly-income">Gross Monthly Income</label>
+	<div class="relative w-full">
+		<input style="padding-left: 50px; position: relative" class="<%= 'invalid' if @kyc_onboarding.errors[:gross_monthly_income].present? %> w-full relative p-4 border-2 outline-none focus:border-blue-100 focus:border" name="kyc_onboarding[gross_monthly_income]" type="text" id="gross-monthly-income" value="<%= @kyc_onboarding.gross_monthly_income%>" >
+		<div class="absolute font-semibold text-gray-600 left-0 px-3 h-full top-0 transform" style="--tw-translate-y: 23%;">PHP</div>
+	</div>
+
+	
+</div>

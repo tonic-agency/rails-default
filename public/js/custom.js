@@ -17,6 +17,7 @@ function reinitializeJs() {
 
 document.addEventListener("DOMContentLoaded", function(event){
   reinitializeJs();
+  Dropzone.autoDiscover = false;
 });
 
 // add an event listener for the htmx afterRequest event

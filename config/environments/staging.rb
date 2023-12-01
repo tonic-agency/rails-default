@@ -28,6 +28,8 @@ Rails.application.configure do
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true 
 
+  config.active_storage.service = :digitalocean
+
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
@@ -55,7 +57,7 @@ Rails.application.configure do
   config.cache_store = :file_store, "/tmp/cache"
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_adapter = :delayed_job
   # config.active_job.queue_name_prefix = "my-app#{Rails.env}"
 
   config.action_mailer.perform_caching = false
@@ -88,6 +90,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-
 end

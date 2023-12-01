@@ -1,0 +1,205 @@
+
+<section _="init set $page to 1 then set $valid to false" class="flex items-center justify-center w-screen min-h-screen bg-white sm:bg-gray-50 ">
+    <div class="flex flex-col items-center sm:justify-start w-full min-h-screen sm:w-2/3 sm:max-w-xl">
+      <%# Header %>
+      <div class="flex items-center justify-between w-full pt-14 pb-8 px-6 sm:px-0">
+          <a _="on click if $page is 2 remove .hidden from #time-deposit-intial-container then add .hidden to #time-deposit-confirm-container then set $page to 1 else go to url <%=app_home_path %>">
+            <svg class="cursor-pointer" width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.26963 20.6933L0.686817 11.7355C0.477332 11.5187 0.373316 11.2377 0.373316 10.9578C0.373316 10.678 0.477332 10.3967 0.686817 10.1802L9.26963 1.22234C9.69863 0.772625 10.4106 0.758001 10.8587 1.18866C11.3099 1.61639 11.3245 2.33147 10.8924 2.77819L3.01738 11.0001L10.891 19.1375C11.3232 19.5828 11.3085 20.2991 10.8573 20.727C10.4092 21.1578 9.69619 21.1428 9.26963 20.6933Z" fill="#409384" />
+            </svg>
+          </a>
+          <h1 class="text-2xl sm:text-3xl font-semibold text-gray-700">Start new time deposit</h1>
+
+          <svg class="cursor-pointer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.228 7C6.777 5.835 8.258 5 10 5C12.21 5 14 6.343 14 8C14 9.4 12.722 10.575 10.994 10.907C10.452 11.011 10 11.447 10 12M10 15H10.01M19 10C19 11.1819 18.7672 12.3522 18.3149 13.4442C17.8626 14.5361 17.1997 15.5282 16.364 16.364C15.5282 17.1997 14.5361 17.8626 13.4442 18.3149C12.3522 18.7672 11.1819 19 10 19C8.8181 19 7.64778 18.7672 6.55585 18.3149C5.46392 17.8626 4.47177 17.1997 3.63604 16.364C2.80031 15.5282 2.13738 14.5361 1.68508 13.4442C1.23279 12.3522 1 11.1819 1 10C1 7.61305 1.94821 5.32387 3.63604 3.63604C5.32387 1.94821 7.61305 1 10 1C12.3869 1 14.6761 1.94821 16.364 3.63604C18.0518 5.32387 19 7.61305 19 10Z" stroke="#409384" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+      </div>
+
+      <form id="new-time-deposit-form" class="farmbank-input-styling h-full flex flex-col flex-grow sm:flex-grow-0 w-full">
+        <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" />
+        <% if @errors.present?  %>
+          <div id="form-errors" class="form-errors flex flex-col justify-start w-full h-full px-8 space-y-10 sm:py-8 sm:shadow-sm sm:bg-white sm:h-auto sm:rounded-md">
+            <div class="text-red-500 text-base font-semibold leading-normal">
+              <%= @errors.join(", ") %>
+            </div>
+          </div>
+        <% end %>
+
+        <%# INITIAL STATE %>
+        <div id="time-deposit-intial-container" class="h-full min-h-full flex flex-col flex-grow justify-between sm:justify-start">
+          <div class="flex flex-col justify-start w-full h-full px-8 sm:py-8 sm:shadow-sm sm:bg-white sm:h-auto sm:rounded-md">
+            <div class="text-gray-600 text-base font-normal leading-normal">
+              <p> 
+                Interest rate: 
+                <span id="applicable-interest-rate"> 
+                  <%=TimeDepositAccount::DEDUCTED_BASE_INTEREST_RATE * 100 %>
+                </span>
+                % p.a.
+              </p>
+              
+              Term: <%= TimeDepositAccount::BASE_TERM %> months
+            </div>
+            
+            <div class="my-8">
+              <p class="text-gray-600 text-base font-semibold leading-normal">
+                How much would you like to deposit?
+              </p>
+              <p class="text-gray-600 text-base font-normal leading-normal">
+                These funds will be taken from your Available Balance.
+              </p>
+            </div>
+
+            <div class="relative w-full">
+              <input 
+                autofocus 
+                _="on htmx:afterRequest 
+                    if event.detail.xhr.response.length > 0
+                      set $valid to false
+                      set #time-deposit-amount-confirm.innerText to 0.0
+                      add .invalid to me
+                      add .bg-gray-300 .cursor-not-allowed to #time-deposit-next-button
+                      add @disabled to #time-deposit-next-button
+                      add @disabled to #time-deposit-confirm-button
+                      remove .bg-farmbank-yellow .hover:bg-yellow-500 from #time-deposit-next-button
+                      add .text-gray-400 to #dummy-placeholder
+                    else
+                      set $valid to true
+                      set #time-deposit-amount-confirm.innerText to my.value as Fixed:2 
+                      call calculate_interest(my.value)
+                      remove .invalid from me
+                      remove @disabled from #time-deposit-next-button
+                      remove @disabled from #time-deposit-confirm-button
+                      remove .bg-gray-300 .cursor-not-allowed from #time-deposit-next-button
+                      add .bg-farmbank-yellow .hover:bg-yellow-500 to #time-deposit-next-button
+                      remove .text-gray-400 from #dummy-placeholder
+                    end
+                  end
+                "
+                hx-post="<%=validate_time_deposit_path%>"
+                hx-trigger="keyup changed"
+                hx-include="[name='time_deposit[amount]']"
+                hx-target="#time-deposit-errors"
+                hx-swap="innerHtml"
+                style="padding: 2rem 2rem 2rem 2rem; position: relative" 
+                class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
+                name="time_deposit[amount]" 
+                type="number" 
+                min="1" 
+                step=".01" 
+                id="transaction-amount"
+                placeholder="0.00"
+                value="<%=@time_deposit_account.amount %>" />
+              <div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
+
+              <div id="time-deposit-errors" class=".form-errors">
+              </div>
+
+              <div>
+                <span class="text-gray-500 text-sm font-semibold leading-none">
+                  Available Balance:
+                </span>
+               
+                <span class="text-gray-500 text-sm font-normal  leading-normal"> 
+                  <%=format_amount(current_user&.settlement_account&.current_available_balance)%>
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-center w-full px-8 py-8 border-t-0 sm:border-t-0">
+            <button
+              disabled
+              id="time-deposit-next-button"
+              _="on click 
+                if $valid is true
+                  add .hidden to #time-deposit-intial-container
+                  remove .hidden from #time-deposit-confirm-container 
+                  remove .invalid from #transaction-amount
+                  remove @disabled from me
+                  set $page to 2
+                else
+                  add @disabled to me 
+                  add .cursor-not-allowed
+                  add .invalid to #transaction-amount
+                end"
+              type="button" 
+              class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <%# CONFIRM PAGE %>
+        <div id="time-deposit-confirm-container" class="hidden h-full min-h-full flex flex-col flex-grow justify-between sm:justify-start">
+          <div class="flex flex-col justify-start w-full h-full px-8 space-y-10 sm:py-8 sm:shadow-sm sm:bg-white sm:h-auto sm:rounded-md">
+            <p class=" text-gray-600 text-base font-normal leading-normal">You are starting a new time deposit with the following details:</p>
+
+            <div style="background: #DEF7EC;" class="w-full p-4 rounded-3xl flex-col justify-start items-start space-y-4 inline-flex">
+              <div class="gap-2">
+                <p class="text-gray-600 text-base font-normal leading-normal">Time Deposit Amount</p>
+                <p class="text-gray-600 text-base font-semibold leading-normal">
+                  <span>₱</span>
+                  <span id="time-deposit-amount-confirm"></span>
+                </p>
+              </div>
+              
+              <div class="gap-2">
+                <p class="text-gray-600 text-base font-normal leading-normal">Maturity Date</p>
+                <p class="text-gray-600 text-base font-semibold leading-normal"><%=@time_deposit_account.maturity_date_as_string%></p>
+              </div>
+
+              <div class="gap-2">
+                <p class="text-gray-600 text-base font-normal leading-normal">Your Time Deposit Interest (excl. referrals)</p>
+                <p class="text-gray-600 text-base font-semibold leading-normal">₱
+                  <span id="time-deposit-interest-confirm"></span>
+                </p>
+              </div>
+            </div>
+          
+          </div>
+
+          <div class="w-4/5 mx-auto text-center mt-6">
+            <span class="text-gray-600 text-base font-normal  leading-normal">By clicking “Confirm” you have read and agreed to Farmbank’s<br/></span>
+            <span class="font-farmbank-yellow text-base font-normal underline leading-normal">Terms and Conditions</span>
+          </div>
+
+
+          <div class="flex items-center justify-center w-full p-6 sm:p-8 border-t-0 sm:border-t-0">
+            <button
+              disabled
+              _="on click add @disabled"
+              id="time-deposit-confirm-button"
+              hx-post="<%=new_time_deposit_path%>"
+              hx-trigger="click"
+              hx-include="[name='time_deposit[amount]']"
+              hx-target="body"
+              hx-swap="innerHTML"
+              type="submit" 
+              class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 ">
+              Confirm 
+            </button>
+          </div>
+        </div>
+      
+      </form> 
+    </div>
+</section>
+
+
+<script type="text/hyperscript">
+  def calculate_interest(value)
+    if value is greater than 0
+      set $val to value as Fixed:2
+      if value is greater than or equal to 500000
+        set $interest_rate to <%=TimeDepositAccount::BASE_INTEREST_RATE%>
+      else
+        set $interest_rate to <%=TimeDepositAccount::DEDUCTED_BASE_INTEREST_RATE%>
+      end
+      set #applicable-interest-rate.innerText to $interest_rate * 100
+      set $interest to $val * $interest_rate * (<%= TimeDepositAccount::BASE_TERM %> / 12)
+      set #time-deposit-interest-confirm.innerText to $interest as Fixed:2
+    else 
+      set #time-deposit-interest-confirm.innerText to 0.00
+    end
+  end
+</script>

@@ -1,0 +1,79 @@
+ <section class="flex items-center justify-center w-screen min-h-screen sm:bg-gray-50 ">
+    <div class="flex flex-col items-center sm:justify-start w-full min-h-screen  sm:w-2/3 sm:max-w-xl ">
+        <div class="w-full">
+            <div class="relative flex items-center justify-center w-full pb-8 pt-14">
+                <a class="absolute cursor-pointer left-8 sm:left-0" 
+                    href="<%= @current_step == "name" ? root_path : new_kyc_onboarding_path(code: @kyc_onboarding&.identifier, current_step: @kyc_onboarding.previous_step(params[:current_step]))%>" >
+                    <%=inline_svg_tag('heroicons/icon-chevron-left.svg', class: 'font-farmbank-teal')%>
+                </a>
+
+                <h1 class="text-2xl font-semibold text-gray-700">
+                    <% if @current_step == "name" %>
+                        Legal name
+                    <% elsif ["phone", "email"].include? @current_step %>
+                        Contact information
+                    <% elsif @current_step == "password" %>
+                        Create password
+                    <% elsif @current_step == "personal_info" %>
+                        Personal information
+                    <% elsif @current_step == "residential_info" %>
+                        Residential address
+                    <% elsif @current_step == "financial_info" %>
+                        Financial information
+                    <% elsif @current_step == "work_info" %>
+                        Work information
+                    <% elsif @current_step == "tax_id" %>
+                        Identification number
+                    <% elsif @current_step == "id_upload" %>
+                        Upload ID
+                    <% elsif @current_step == "signature_specimen" %>
+                        Signature specimen
+                    <% elsif @current_step == "security_questions" %>
+                        Security questions
+                    <% elsif @current_step == "summary" %>
+                        Summary screen
+                    <% end %>
+                </h1>
+            </div>
+            
+            <div class="w-full h-2 mb-6 bg-gray-200">
+                <div class="h-full bg-farmbank-teal" style="width: <%=((@kyc_onboarding.step_index(@current_step) + 1).to_f / KycOnboarding::STEPS.count.to_f) * 100%>%"></div>
+            </div>
+        </div>
+            
+        <form id="kyc-onboarding-form" method="post" action="<%= @kyc_onboarding.persisted? ? new_kyc_onboarding_path(code: @kyc_onboarding.identifier, current_step: params[:current_step]) : new_kyc_onboarding_path(current_step: params[:current_step]) %>" class="farmbank-input-styling flex flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start w-full h-full pb-6 mb-auto sm:mb-10 pt-6 sm:pt-8 sm:bg-white sm:h-auto sm:rounded-md sm:shadow-md" enctype="multipart/form-data">
+            <div class="px-6 sm:px-8 w-full" >
+                <div class="h-full w-full overflow-hidden overflow-y-auto">
+                
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+                    <%= render partial: "shared/form_errors", locals: { record: @kyc_onboarding } %>
+
+                    <%= render partial: "kyc_onboardings/#{@current_step}_step"%>
+                </div>
+            </div>
+            
+            <% if @current_step == "summary" %>
+                <a class="mb-4 block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 " href="<%= submit_kyc_onboarding_path(@kyc_onboarding.identifier) %>">
+                    Submit
+                </a>
+            <% elsif ["referral_program_start"].include? @current_step %>
+                
+                <div class="flex flex-col space-y-3 items-center relative justify-center w-full px-8 py-8 border-t-0 sm:border-t-0">
+                    <hr class="w-screen right-0 h-1 bg-slate-400 left-0 top-0 absolute sm:hidden" >
+                    <button type="submit" value="true" name="kyc_onboarding[was_referred]" class="no-style cursor-pointer block w-full py-3 font-semibold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 ">
+                        Yes, I was referred
+                    </button>
+                    <button type="submit" value="false" name="kyc_onboarding[was_referred]" class="no-style cursor-pointer block w-full py-3 font-semibold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 ">
+                        No, I was not referred
+                    </button>
+                </div>
+            <% else %>
+                <div class="flex items-center relative justify-center w-full px-8 py-8 border-t-0 sm:border-t-0">
+                    <hr class="w-screen right-0 h-1 bg-slate-400 left-0 top-0 absolute sm:hidden" >
+                    <input id="kyc-onboarding-submit-btn" type="submit" class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 " value="Next">
+                </div>
+            <% end %>
+        </form>
+    </div>
+</section>

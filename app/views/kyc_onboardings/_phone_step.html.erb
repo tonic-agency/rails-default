@@ -1,0 +1,7 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="phone" >
+
+<h4 class="mb-1 text-base font-normal text-gray-500">Mobile Number</h4>
+<div class="flex flex-col items-start justify-center w-full ">
+	<label class="mb-2 text-base no-style text-gray-500" for="number">We will send a 6-digit code to this number</label>
+	<input autofocus="true" class="<%= 'invalid' if @kyc_onboarding.errors[:phone].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" type="text" name="kyc_onboarding[phone]" value="<%= @kyc_onboarding.phone %>" id="number" placeholder="(09XX) XXX XXXX">
+</div>

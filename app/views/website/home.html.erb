@@ -1,0 +1,547 @@
+<%=render partial: 'shared/header'%>
+
+<section id="hero" class="bg-farmbank-light-teal flex flex-wrap flex-col md:flex-row items-center justify-center md:py-20">
+  
+  <div class="w-full md:w-1/2 flex flex-col items-stretch justify-center py-10 px-7 md:px-16 space-y-7 md:flex-row md:justify-between">
+    <div class="space-y-6 md:flex md:justify-center md:items-start md:flex-col">
+      <h1 style="line-height: 1.3;" class="text-4xl font-normal md:text-5xl font-bold  tracking-wide text-white">
+          Earn 6% APY and more on your savings
+      </h1>
+      <p class="text-lg leading-relaxed text-white">
+          Grow your savings with our PDIC insured 6-month time deposits. Boost your savings rate by 0.5% for everyone you refer.
+      </p>
+      <a href="<%= start_kyc_onboarding_path %>" class="text-center w-full block mt-4 px-10 py-3 text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full ">
+          Open an account
+      </a>
+    </div>
+  </div>
+  
+  <div class="w-full md:w-1/2 pl-7 sm:pl-16 md:pl-0 pb-10 md:pb-0 flex justify-end">
+    <!-- <img class="relative w-full left-7 md:hidden" src="./images/image 22.png" alt=""> -->
+    <img class="h-96 object-cover rounded-l-2xl" src="images/homepage-hero.png" alt="" />
+  </div>
+
+  <div class="w-full hidden md:flex cursor-pointer mt-8 items-center justify-center">
+    <a href="#benefits" class="w-12 h-12 p-2 flex items-center justify-center bg-white rounded-full shadow-lg hover:shadow-xl">
+      <%=inline_svg_tag('heroicons/icon-chevron-left.svg', class: 'transform w-4 h-4 -rotate-90 font-farmbank-light-teal fill-current')%>
+    </a>
+    
+  </div>
+
+</section>
+
+<section id="benefits" class="bg-farmbank-green-100 flex flex-col items-center justify-center py-10 px-6 md:p-28">
+  <div class="flex flex-col items-start justify-center space-y-6 md:items-center max-w-7xl md:w-7xl md:space-y-14">
+    <h1 class="w-5/6 text-2xl font-bold leading-relaxed tracking-wide text-gray-600 md:text-center md:text-4xl">
+      Grow your wealth with our market-leading savings
+    </h1>
+  
+    <div class="grid md:grid-cols-3 items-start justify-center">
+      <div class="flex items-start md:flex-col md:items-center md:px-8 md:justify-center md:text-center md:space-y-3 mb-5 md:my-5 ">
+        <img class="mr-4 md:mr-0 w-16 h-16 md:mb-6" src="images/homepage-benefit-1.png" alt="" />
+        <div class="space-y-2 text-gray-600">
+          <h4 class="text-lg font-semibold">
+            6% is the highest rate for > ₱ 500k in PH
+          </h4>
+          <p>
+            Earn 6% as your base savings rate with our 6 month time deposit.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex items-start md:flex-col md:items-center md:px-8 md:justify-center md:text-center md:space-y-3 my-5">
+        <img class="mr-4 md:mr-0 w-16 h-16 md:mb-6" src="images/homepage-benefit-2.png" alt="" />
+        <div class="space-y-2 text-gray-600">
+          <h4 class="text-lg font-semibold">
+            Up to ₱ 10m, from ₱ 500k
+          </h4>
+          <p>
+            Earn on balances above ₱ 500k.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex items-start md:flex-col md:items-center md:px-8 md:justify-center md:text-center md:space-y-3 mt-5">
+        <img class="mr-4 md:mr-0 w-16 h-16 md:mb-6" src="images/homepage-benefit-3.png" alt="" />
+        <div class="space-y-2 text-gray-600">
+          <h4 class="text-lg font-semibold">
+            Weekly interest calcuation
+          </h4>
+          <p>
+            Watch your balance grow each week, not waiting for a whole month.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:px-2 items-center">
+      <div class="flex items-start md:flex-col md:items-center md:pl-48 md:mr-20 md:justify-center md:text-center md:space-y-3 my-5">
+        <img class="mr-4 md:mr-0 w-16 h-16 md:mb-6" src="images/homepage-benefit-4.png" alt="" />
+        <div class="space-y-2 text-gray-600">
+          <h4 class="text-lg font-semibold">
+            Bonus interest of 0.5% for each referral 
+          </h4>
+          <p>
+            Increase your interest rate by referring friends and family.
+          </p>
+        </div>
+      </div>
+        
+      <div class="flex items-start md:flex-col md:items-center md:pr-48 md:justify-center md:text-center md:space-y-3 my-5">
+        <img class="mr-4 md:mr-0 w-16 h-16 md:mb-6 " src="images/homepage-benefit-5.png" alt="" />
+        <div class="space-y-2 text-gray-600">
+          <h4 class="text-lg font-semibold">
+            PDIC insurance of ₱ 500k per depositor
+          </h4>
+          <p>
+            Farmbank has been BSP-regulated since it was founded in 1968 and is PDIC-insured. 
+          </p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="terms" class="flex items-center justify-center py-10 px-6 md:p-28">
+  <div class="flex flex-col items-start justify-center w-full space-y-5 max-w-7xl sm:text-center sm:items-center">
+    
+    <h3 class="text-2xl font-bold text-gray-600 sm:text-4xl">Terms</h3>
+    <h3 class="text-lg tracking-wide text-gray-600"> Our 6-month time deposits pay 6% APY enabling you to watch your wealth grow. </h3>
+    
+    <div class="w-full">
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 font-bold tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Feature
+        </div>
+        <div class="w-3/5 py-5 pl-8 font-bold tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          Standard
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Tenor
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          6 Months
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Minimum
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          ₱ 500k
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Maximum
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          ₱ 10m
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Rate
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          <p><span class="font-farmbank-dark-teal"> 6% p.a.</span> base rate for deposits <br class="md:hidden"/> P 500k and above</p> 
+          <p class="mt-1 md:mt-0">5.5% p.a. for amounts <br class="md:hidden"/> < P 500k</p>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Break Fee
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          Forfeit accrued interest
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal border-b sm:w-2/12">
+          Computation
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 border-b border-farmbank-teal sm:w-3/5 sm:w-10/12">
+          Weekly
+        </div>
+      </div>
+      <div class="flex">
+        <div class="w-2/5 py-5 pl-8 tracking-wide text-left text-white bg-farmbank-teal sm:w-2/12">
+          PDIC Insurance
+        </div>
+        <div class="w-3/5 py-5 pl-8 tracking-wide text-left bg-farmbank-green-100 sm:w-3/5 sm:w-10/12">
+          ₱ 500k
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full pt-5 space-y-4">
+      <h3 class="text-lg text-gray-600 tracking-wide">Accredited By</h3>
+      <div class="flex items-center justify-center space-x-10 ">
+        <img src="images/bangko-sentral-logo.png" alt="Bangko Sentral" class="h-28" />
+        <img src="images/pdic-logo.png" alt="PDIC" class="h-28"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="time-deposit-start" class="bg-farmbank-green-100 flex items-center justify-center py-10 px-6 md:p-28">
+  <div class="flex text-gray-600 flex-col items-center justify-center w-full md:space-y-8 max-w-7xl sm:text-center sm:items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-center md:text-4xl mb-8">
+        Apply for your time deposit in less than a day
+      </h1>
+    </div>
+    
+    <div class="flex flex-col items-stretch justify-center w-full space-y-6 md:space-y-0 md:flex-row">
+      
+      <div class="md:w-1/3 flex flex-col-reverse md:flex-col text-center items-center justify-between h-full space-y-6">
+        <img src="images/farmbank-mockup-1-placeholder.png" alt="Application mockup 1" class="w-full mt-3 h-56 md:h-60 object-contain object-center md:mt-0"/>
+        <div>
+          <h4 class="text-xl font-semibold md:text-2xl">Step 1</h4>
+          <p>Open your account within 5 minutes.</p>
+        </div>
+      </div>
+    
+    
+      <div class="md:w-1/3 flex flex-col-reverse md:flex-col text-center items-center justify-between h-full space-y-6">
+        <img src="images/farmbank-mockup-2.png" alt="Application mockup 2" class="w-full mt-3 h-56 md:h-60 object-contain object-center md:mt-0"/>
+        <div>
+          <h4 class="text-xl font-semibold md:text-2xl">Step 2</h4>
+          <p>Add funds via bank transfer and start earning by <br/>creating a time deposit.</p>
+        </div>
+      </div>
+    
+    
+      <div class="md:w-1/3 flex flex-col-reverse md:flex-col text-center items-center justify-between h-full space-y-6">
+        <img src="images/farmbank-mockup-3.png" alt="Application mockup 3" class="w-full mt-3 h-56 md:h-60 object-contain object-center md:mt-0"/>
+        <div>
+          <h4 class="text-xl font-semibold md:text-2xl">Step 3</h4>
+          <p>Boost your savings rate by referring others.</p>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="w-full flex mt-6 md:mt-0 justify-center md:px-16">
+      <a href="<%=start_kyc_onboarding_path%>" class="px-5 w-full md:w-1/3 md:mx-3 text-center py-4 text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full">
+        Open an account
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="referrals" class="bg-farmbank-light-teal flex flex-wrap flex-col md:flex-row text-white items-center justify-center md:py-20">
+  <div class="w-full flex flex-col items-stretch justify-center  md:justify-between md:flex-row-reverse ">
+    <div class="flex flex-col items-start justify-center w-full py-10 px-7 md:px-16 space-y-7 md:w-1/2">
+      <h1 class="text-2xl font-bold leading-relaxed tracking-wide md:leading-relaxed md:text-4xl">Unlimited boosts to your interest rate by referring others</h1>
+      
+      <div class="flex items-start justify-between space-x-4">
+        <div>
+          <%=inline_svg_tag('homepage-tick-circle.svg', class: 'w-8 h-8')%>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="text-lg font-semibold">
+            Earn +0.5% for <span class="underline">every</span> referral
+          </h4>
+          <p class="font-light">
+            Boost your savings effortlessly by referring others to experience time deposit benefits.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex items-start justify-between space-x-4">
+        <div>
+          <%=inline_svg_tag('homepage-tick-circle.svg', class: 'w-8 h-8')%>
+        </div>
+        <div class="space-y-2">
+          <h4 class="text-lg font-semibold">
+            Unlimited savings rate
+          </h4>
+          <p class="font-light">
+            No limits – refer friends, family, or colleagues to open time deposit accounts with us.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex items-start justify-between space-x-4">
+        <div>
+          <%=inline_svg_tag('homepage-tick-circle.svg', class: 'w-8 h-8')%>
+        </div>
+        <div class="space-y-2">
+          <h4 class="text-lg font-semibold">
+            Applied to ALL open time deposits
+          </h4>
+          <p class="font-light">
+            As soon as you refer, the increased savings rate will be applied to all open time deposits – even those started before the referral.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:w-1/2 md:mr-8 pb-10 md:py-12">
+      <img class="relative rounded-r-3xl object-cover w-full h-full right-7 " src="images/homepage-referrals.png" alt="Family">
+    </div>
+  </div>
+</section>
+
+<section id="about-us" class="flex items-center justify-center py-10 px-6 md:p-28">
+  <div class="flex flex-col text-gray-600 items-center justify-center w-full space-y-8 max-w-7xl sm:text-center sm:items-center">
+    <div>
+      <h1 class="text-2xl font-semibold text-center md:text-4xl">
+        About Farmbank
+      </h1>
+    </div>
+    <div class="flex flex-col items-stretch justify-center w-full text-center space-y-8 md:space-y-0 md:flex-row md:justify-between md:space-x-12">
+      
+      <div class="flex flex-col items-center justify-start md:space-y-4 md:w-1/3">
+        <img class="object-cover w-full h-60 rounded-3xl" src="images/homepage-farmbank-1.png" alt="BSP regulated institution" />
+        <h4 class="text-xl font-semibold mt-3 md:mt-0">
+          Founded in 1968
+        </h4>
+        <p>
+          55 years strong as a BSP regulated institution, looking forward to the next 55.
+        </p>
+      </div>
+      
+      <div class="flex flex-col items-center justify-start md:space-y-4 md:w-1/3">
+        <img class="object-cover w-full h-60 rounded-3xl" src="images/homepage-farmbank-2.png" alt=" PDIC insured" />
+        <h4 class="text-xl font-semibold mt-3 md:mt-0">
+          BSP approved, PDIC insured
+        </h4>
+        <p>
+          Passed BSP examination in March 2023. Per depositor insurance of P500k by PDIC.
+        </p>
+      </div>
+      
+      <div class="flex flex-col items-center justify-start md:space-y-4 md:w-1/3">
+        <img class="object-cover w-full h-60 rounded-3xl" src="images/homepage-farmbank-3.png" alt="Atyy. Gabriel" />
+        <h4 class="text-xl font-semibold mt-3 md:mt-0">
+          Ethical leadership and stability
+        </h4>
+        <p>Farmbank is led by Atty. Gabriel L. Villareal, a distinguished figure in law and business with a proven track record in various leadership roles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="history" class="bg-farmbank-green-100 flex items-center justify-center py-10 px-6 md:p-28">
+  <div class="flex flex-col items-center justify-center w-full space-y-18 max-w-7xl pb-10 sm:pb-0 text-gray-600">
+    <div class="space-y-8">
+      <h1 class="mb-3 text-2xl font-semibold text-center md:text-4xl">
+        Our History
+      </h1>
+      
+      <div class="flex items-stretch justify-between h-full space-x-10">
+        <div class="flex flex-col min-h-full items-center justify-center">
+          <h3 class="text-2xl font-bold font-farmbank-dark-teal">1968</h3>
+          <div class="h-full bg-farmbank-light-teal w-0.5"></div>
+        </div>
+        <div class="flex flex-col space-y-2 md:flex-row-reverse md:justify-center md:items-center">
+          <p class="leading-relaxed"><span class="font-semibold">Farmbank is established in 1968</span> by the Villareal family with the mission to uplift communities and industries with excellent financial services. Over time, the institution contributes to Capiz province’s governance and development while adapting to the changing economic landscape.</p>
+          <img class="object-cover max-h-52 md:mr-10 " src="images/homepage-history-1.png" alt="Farmbank History 1968">
+        </div>
+      </div>
+      
+      <div class="flex items-stretch justify-between h-full space-x-10">
+        <div class="flex flex-col min-h-full items-center justify-center">
+          <h3 class="text-2xl font-bold font-farmbank-dark-teal">2018</h3>
+          <div class="h-full bg-farmbank-light-teal w-0.5"></div>
+        </div>
+        <div class="flex flex-col space-y-2 md:flex-row-reverse md:justify-center md:items-center">
+          <p class="leading-relaxed"><span class="font-semibold">Atty. Gabriel L. Villareal assumes the role of President in 2018,</span> bringing a wealth of experience from his former roles as Chairman and CEO of Cocolife and Director of the San Miguel Corporation. Farmbank officially extends its corporate term for another 50 years.</p>
+          <img class="object-cover max-h-52 md:mr-10 " src="images/homepage-history-2.png" alt="Farmbank History 2018">
+        </div>
+      </div>
+      
+      <div class="flex items-stretch justify-between h-full space-x-10">
+        <div class="flex flex-col min-h-full items-center justify-center">
+          <h3 class="text-2xl font-bold font-farmbank-dark-teal">2023</h3>
+          <div class="h-full bg-farmbank-light-teal w-0.5"></div>
+          <div class="p-2 rounded-full bg-farmbank-light-teal"></div>
+        </div>
+        <div class="flex flex-col space-y-2 md:flex-row-reverse md:justify-center md:items-center">
+          <p class="leading-relaxed"><span class="font-semibold">Farmbank digitizes by partnering with technology company First Circle.</span> They head the development of Farmbank’s website, account home, and customer management technology.</p>
+          <img class="object-cover max-h-52 md:mr-10 " src="images/homepage-history-3.png" alt="Farmbank History 2023">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="hidden flex bg-farmbank-light-teal items-center justify-center py-10 sm:py-24">
+    <div class="flex flex-col items-center justify-center w-full space-y-8 max-w-7xl px-7 ">
+        <div class="flex items-center justify-between space-x-5">
+            <svg class="hidden cursor-pointer md:block" width="64" height="64" viewBox="0 0 64 64" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#DEF7EC" />
+                <path
+                    d="M35.1395 21.3816L36.1153 22.3091C36.3105 22.5532 36.3105 22.9438 36.1153 23.1391L27.2839 31.9755L36.1153 40.8607C36.3105 41.0559 36.3105 41.4465 36.1153 41.6906L35.1395 42.6182C34.8955 42.8623 34.554 42.8623 34.31 42.6182L24.0637 32.4148C23.8685 32.1707 23.8685 31.829 24.0637 31.5849L34.31 21.3816C34.554 21.1375 34.8955 21.1375 35.1395 21.3816Z"
+                    fill="#156A60" />
+            </svg>
+            <div class="flex flex-col items-center justify-center p-8 space-y-6 bg-white">
+                <h3 class="text-2xl font-bold text-green-600 md:text-4xl">"Peace of Mind</h3>
+                <p class="px-4 leading-loose tracking-wider text-center text-gray-500">“I've tried other
+                    investments,
+                    but nothing beats the simplicity of time deposits. Farmbank’s terms offer flexibility and peace
+                    of
+                    mind. The stability and guaranteed returns are a blessing.”</p>
+                <div class="flex items-center justify-between space-x-5">
+                    <img class="object-cover w-20 h-20 rounded-full md:w-24 md:h-24"
+                        src="./images/profile image.jpg" alt="">
+                    <div class="">
+                        <h5 class="text-xl font-semibold tracking-wide text-gray-700">Elena Cruz</h5>
+                        <p class="tracking-wide text-gray-700 text lg">CEO of Filipo Talk</p>
+                    </div>
+                </div>
+            </div>
+
+            <svg class="hidden cursor-pointer md:block" width="64" height="64" viewBox="0 0 64 64" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#DEF7EC" />
+                <path
+                    d="M29.6273 21.8368L28.6933 22.7247C28.5065 22.9583 28.5065 23.3321 28.6933 23.519L37.1462 31.9767L28.6933 40.4811C28.5065 40.668 28.5065 41.0419 28.6933 41.2755L29.6273 42.1633C29.8609 42.397 30.1878 42.397 30.4213 42.1633L40.2285 32.3973C40.4153 32.1636 40.4153 31.8365 40.2285 31.6029L30.4213 21.8368C30.1878 21.6032 29.8609 21.6032 29.6273 21.8368Z"
+                    fill="#156A60" />
+            </svg>
+        </div>
+
+        <div class="flex items-center justify-between w-full md:justify-center">
+            <svg class="cursor-pointer md:hidden" width="64" height="64" viewBox="0 0 64 64" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#DEF7EC" />
+                <path
+                    d="M35.1395 21.3816L36.1153 22.3091C36.3105 22.5532 36.3105 22.9438 36.1153 23.1391L27.2839 31.9755L36.1153 40.8607C36.3105 41.0559 36.3105 41.4465 36.1153 41.6906L35.1395 42.6182C34.8955 42.8623 34.554 42.8623 34.31 42.6182L24.0637 32.4148C23.8685 32.1707 23.8685 31.829 24.0637 31.5849L34.31 21.3816C34.554 21.1375 34.8955 21.1375 35.1395 21.3816Z"
+                    fill="#156A60" />
+            </svg>
+            <div class="flex items-center justify-between space-x-5">
+                <div class="w-4 h-4 bg-green-700 rounded-full"> </div>
+                <div class="w-4 h-4 bg-green-100 rounded-full"> </div>
+                <div class="w-4 h-4 bg-green-100 rounded-full"> </div>
+            </div>
+            <svg class="cursor-pointer md:hidden" width="64" height="64" viewBox="0 0 64 64" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#DEF7EC" />
+                <path
+                    d="M29.6273 21.8368L28.6933 22.7247C28.5065 22.9583 28.5065 23.3321 28.6933 23.519L37.1462 31.9767L28.6933 40.4811C28.5065 40.668 28.5065 41.0419 28.6933 41.2755L29.6273 42.1633C29.8609 42.397 30.1878 42.397 30.4213 42.1633L40.2285 32.3973C40.4153 32.1636 40.4153 31.8365 40.2285 31.6029L30.4213 21.8368C30.1878 21.6032 29.8609 21.6032 29.6273 21.8368Z"
+                    fill="#156A60" />
+            </svg>
+
+        </div>
+    </div>
+</section>
+
+<section id="faqs" class="text-gray-600 flex items-center justify-center py-10 md:py-28">
+  <div class="flex flex-col items-center justify-center w-full md:max-w-7xl">
+    <h1 class="mb-8 text-3xl font-semibold md:text-4xl">FAQs</h1>
+    
+    <div class="w-full mx-3">
+      <div _="on click toggle .h-0 on the next .faq-answer then toggle .rotate-90 on .chevron in me" class="flex items-center justify-between py-5 text-lg border-t-2 border-b border-gray-200 cursor-pointer px-7">
+        <p>Why/how are you paying above market rates?</p>
+        <%=inline_svg_tag('heroicons/icon-chevron-right.svg', class: 'chevron transform rotate-90 transition-all w-4 h-4 font-farmbank-light-teal stroke-current')%>
+      </div>
+      <div class="bg-gray-50 h-0 faq-answer overflow-hidden transform transition-all">
+        <p class="tracking-wide p-7">
+          Farmbank is paying more than other banks to grow our customer base and time deposits. <br/><br/>
+          Farmbank savings rates are similar to what the BSP pays banks for deposits held with the BSP (called Overnight Deposit Facility or "ODF") which is available on <a class="font-farmbank-dark-teal font-semibold" href="https://www.bsp.gov.ph/SitePages/Default.aspx" target="_blank"> the BSP's website.</a><br/><br/>
+          Farmbank generates returns above the BSP deposit rate by investing in government bonds and buying corporate loans.
+        </p>
+      </div>
+    </div>
+
+    <div class="w-full mx-3 ">
+      <div _="on click toggle .h-0 on the next .faq-answer then toggle .rotate-90 on .chevron in me" class="flex items-center justify-between py-5 text-lg border-t border-b border-gray-200 cursor-pointer px-7">
+        <p>How does the referral scheme work?</p>
+        <%=inline_svg_tag('heroicons/icon-chevron-right.svg', class: 'chevron transform transition-all w-4 h-4 font-farmbank-light-teal stroke-current')%>
+      </div>
+      <div class="bg-gray-50 h-0 faq-answer overflow-hidden transform transition-all">
+        <div class="tracking-wide p-7">
+          <p>Referrals earn the referrer 0.5% bonus interest rate for every referral, applied to all open time deposits.</p> <br/>
+          <p>For fair usage, the 0.5% is earned when the referral has equal or greater balance in their time deposit account.</p> <br/>
+          <p>If the referral has less funds, the bonus is reduced pro rata as follows:</p>
+          <ul class="list-disc leading-loose pl-6"> 
+            <li>Referral balance is 75-100% of referrer balance: 0.4%</li>
+            <li>Referral balance is 50-75% of referrer balance: 0.3%</li>
+            <li>Referral balance is 25-100% of referrer balance: 0.2%</li>
+            <li>Referral balance is < 25% of referrer balance: 0.1% </li>
+            <li>Referral balance is 0%: 0%</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full mx-3 ">
+      <div _="on click toggle .h-0 on the next .faq-answer then toggle .rotate-90 on .chevron in me" class="flex items-center justify-between py-5 text-lg border-t border-b border-gray-200 cursor-pointer px-7">
+        <p>Are my savings safe?</p>
+        <%=inline_svg_tag('heroicons/icon-chevron-right.svg', class: 'chevron transform transition-all w-4 h-4 font-farmbank-light-teal stroke-current')%>
+      </div>
+      <div class="bg-gray-50 h-0 faq-answer overflow-hidden transform transition-all">
+        <div class="p-7 tracking-wide">
+          <p>Farmbank is a rural bank regulated by the BSP. In the latest BSP examination from March 2023, the BSP rated Farmbank as "Stable", and specifically that its capital levels were acceptable for the BSP audit.<p><br/>
+
+          <p>All BSP regulated banks enjoy depositor protection of ₱ 500k by the Philippine Deposit Insurance Corporation (PDIC).<p><br/>
+          
+          <p>Beyond ₱ 500k, Farmbank invests our growing deposit base in three places:</p>
+          <ol class="list-decimal leading-loose pl-8"> 
+            <li>BSP's Overnight Deposit Facility (ODF)</li>
+            <li>Commercial loans</li>
+            <li>Government bonds</li>
+          </ol>
+          <br/>
+          <p>These collectively generate a profit for Farmbank in excess of the time deposit rate including referral bonuses.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full mx-3 ">
+      <div _="on click toggle .h-0 on the next .faq-answer then toggle .rotate-90 on .chevron in me" class="flex items-center justify-between py-5 text-lg border-t border-b border-gray-200 cursor-pointer px-7">
+        <p>How can I see my balance?</p>
+        <%=inline_svg_tag('heroicons/icon-chevron-right.svg', class: 'chevron transform transition-all w-4 h-4 font-farmbank-light-teal stroke-current')%>
+      </div>
+      <div class="bg-gray-50 faq-answer h-0 overflow-hidden transform transition-all">
+        <div class="tracking-wide p-7">
+          <p>At Farmbank, you have two balances:</p><br/>
+          <ol class="list-decimal leading-loose pl-8"> 
+            <li>Available Balance: can be used to create a time deposit or withdraw to your account at another bank</li>
+            <li>Time Deposit Balance: your funds held in deposit accounts earning 6% plus bonus interest</li>
+          </ol>
+          <br/>
+          <p>Both balances are easily viewed from your Account Home once you login.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full mx-3 ">
+      <div _="on click toggle .h-0 on the next .faq-answer then toggle .rotate-90 on .chevron in me" class="flex items-center justify-between py-5 text-lg border-t border-b-2 border-gray-200 cursor-pointer px-7">
+        <p>Can I withdraw money from a time deposit before the 6 months is up?</p>
+        <%=inline_svg_tag('heroicons/icon-chevron-right.svg', class: 'chevron transform transition-all w-4 h-4 font-farmbank-light-teal stroke-current')%>
+      </div>
+      <div class="bg-gray-50 faq-answer h-0 overflow-hidden transform transition-all">
+        <div class="tracking-wide p-7">
+          <p>Yes, it is possible to withdraw funds early from your time deposit. </p><br/>
+          <p>Early withdrawal forfeits your time deposit and removes any interest earned. </p><br/>
+          <p>It typically takes 2-3 business days to return your time deposit, but it can take more depending on the volume of requests.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex items-center justify-center px-8 md:px-0">
+      <a href="<%=start_kyc_onboarding_path%>" class="md:px-32 w-full text-center md:w-auto px-6 py-3 md:py-4 mt-8 text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full  sm:px-40">
+        Open an account now
+      </a>
+    </div>
+  </div>
+</section>
+
+<%=render partial: 'shared/footer'%>
+
+<style> 
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: "Lota Grotesque", sans-serif;
+    scroll-behavior: smooth;
+  }
+
+</style>

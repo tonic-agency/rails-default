@@ -1,0 +1,11 @@
+<section class="flex items-center justify-center w-screen min-h-screen bg-white sm:bg-gray-50">
+  <div class="relative flex flex-col items-center sm:justify-start my-0 sm:my-10 py-10 lg:py-20 min-h-screen sm:min-h-0 w-screen sm:w-2/3 sm:max-w-xl bg-farmbank-teal sm:rounded-md">
+    
+    <div class="flex flex-col items-center justify-center w-full min-h-screen sm:min-h-0 sm:w-2/3 sm:max-w-xl  text-white text-center space-y-12 font-light px-12">
+      <img src="/images/success.svg" alt="">
+      <p>You've added <%=format_amount(transaction.amount)%> to your account.</p>
+      <p>Pending successful verification, your funds should appear in your Available Balance in 1-2 business days.</p>
+      <a href="<%=app_home_path%>" class="block  py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 w-80 hover:bg-yellow-500 ">Got it</a>
+    </div>
+  </div>
+</section>

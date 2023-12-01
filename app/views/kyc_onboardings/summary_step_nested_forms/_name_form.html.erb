@@ -1,0 +1,68 @@
+<form
+  class="flex flex-col items-center justify-center w-full">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="name" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+	
+  <div class="flex items-center justify-between w-full">
+		<p class="mb-2 text-base font-normal text-gray-500">Legal Name</p>
+		<button
+			type="button" 
+			_="on click toggle .hidden on #static-name-display then toggle .hidden on #edit-name-form then toggle .hidden on .inner-text in me"
+			class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+			
+		</button>
+	</div>
+	
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+		<div id="static-name-display" class="<%= 'hidden' if @kyc_onboarding.errors.messages.any?%> ">
+			<div class="w-full space-y-0.5">
+				<p class="text-gray-500 ">Full Name</p>
+				<h5 class="font-semibold tracking-wide text-gray-700 "><%=@kyc_onboarding.name%></h5>
+			</div>
+		</div>
+
+		<div id="edit-name-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>">
+			<div class="w-full">
+				<div class="mb-3">
+					<label class="mb-1 text-gray-700" for="given-names">Given Names</label>
+					<input class="<%= 'invalid' if @kyc_onboarding.errors[:first_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[first_name]" type="text" value="<%= @kyc_onboarding.first_name %>" id="given-names" placeholder="Given Names">
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:first_name].present? %>
+              <%= @kyc_onboarding.errors[:first_name].first.humanize %>
+            <% end %>
+          </p>
+        </div>
+				<div class="mb-3">
+					<label class="mb-1 text-gray-700" for="middle-names">Middle Name</label>
+    			<input class="<%= 'invalid' if @kyc_onboarding.errors[:middle_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[middle_name]" type="text" value="<%= @kyc_onboarding.middle_name %>" id="middle-names" placeholder="Optional">
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:middle_name].present? %>
+              <%= @kyc_onboarding.errors[:middle_name].first.humanize %>
+            <% end %>
+          </p>
+        </div>
+				<div class="mb-3">
+					<label class="mb-1 text-gray-700" for="last-names">Last Names</label>
+    			<input class="<%= 'invalid' if @kyc_onboarding.errors[:last_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[last_name]" type="text" value="<%= @kyc_onboarding.last_name %>" id="last-names" placeholder="Last Names">
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:last_name].present? %>
+              <%= @kyc_onboarding.errors[:last_name].first.humanize %>
+            <% end %>
+          </p>
+        </div>
+			</div>
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'name')%>"
+          hx-trigger="click"
+          hx-target="#summary-name-form"
+          type="button">
+          Save
+        </button>
+      </div>
+		</div>
+	</div>
+</form>

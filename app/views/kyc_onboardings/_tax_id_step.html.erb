@@ -1,0 +1,52 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="tax_id" >
+
+<%# if @kyc_onboarding.address_country == 'Philippines' %>
+<% if false %>
+	<div class="flex flex-col items-start justify-center w-full my-3">
+		<label class="mb-2 no-style text-base font-normal text-gray-500" for="sss-gsis-number">SSS/GSIS Number</label>
+		<input autofocus="true" class="<%= 'invalid' if @kyc_onboarding.errors[:ssis_gsis_number].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" name="kyc_onboarding[ssis_gsis_number]" value="<%=@kyc_onboarding.ssis_gsis_number%>" type="text" id="sss-gsis-number" placeholder="SSS/GSIS Number">
+	</div>
+<% else %>
+	<div class="flex flex-col items-start justify-center w-full my-3">
+		<label class="mb-2 no-style text-base font-normal text-gray-500" for="tax-identification-number">Tax Identification Number</label>
+		<div class="relative w-full">
+			<input autofocus="true"  class="<%= 'invalid' if @kyc_onboarding.errors[:tax_identification_number].present? %> relative block w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" name="kyc_onboarding[tax_identification_number]" value="<%=@kyc_onboarding.tax_identification_number%>" type="text" id="tax-identification-number" placeholder="Tax Identification Number">
+			<div id="dummy-tin-disabled" class="<%=@kyc_onboarding.tin_known && 'hidden'%> absolute cursor-not-allowed top-0 left-0 text-gray-700 pt-3 pl-3 w-full bg-gray-300 h-full">
+				None 
+			</div>
+		</div>
+	</div>
+<% end %>
+
+<input id="dummy-tin-unknown-toggle" name="kyc_onboarding[tin_known]" type="hidden"  value="<%=@kyc_onboarding.tin_known ? 1 : 0%>">
+<div _="on click call toggleTinKnown()" class="flex cursor-pointer items-center">
+  
+  <button id="tin-unknown-button" type="button" class="<%=@kyc_onboarding.tin_known ? 'bg-gray-200' : 'bg-farmbank-teal'%> relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-offset-2" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+    <span id="toggle-bg" aria-hidden="true" class="<%=@kyc_onboarding.tin_known ? 'translate-x-0' : 'translate-x-5'%> pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+  </button>
+  <span class="ml-3 text-sm">
+    <span class="font-medium text-gray-900">I don’t have a tax identification number</span>
+  </span>
+</div>
+
+<style>
+	.translate-x-5 {
+		--tw-translate-x: 1.25rem;
+	}
+</style>
+
+<script type="text/hyperscript">
+	def toggleTinKnown
+		toggle .bg-farmbank-teal .bg-gray-200 on #tin-unknown-button in me
+		toggle .translate-x-5 on #toggle-bg in me
+		set #tax-identification-number.value to ""
+		toggle .hidden on #dummy-tin-disabled
+		
+		if #dummy-tin-unknown-toggle.value == "0"
+			set #dummy-tin-unknown-toggle.value to "1"
+		else
+			set #dummy-tin-unknown-toggle.value to "0"
+		end
+		
+	end
+</script>

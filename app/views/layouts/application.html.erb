@@ -4,38 +4,26 @@
     <%= render :partial=> "shared/head" %>
   </head>
   <body class="relative h-full">
+    
     <%= render :partial => "shared/partial_containers" %>
-    <% if disable_left_menu %>
-      <div id="main-content" class="h-full">
-        <%= yield %>
+    
+    <% if user_signed_in? %>
+      <div class="fixed z-50 bottom-0 left-0">
+        <div class="shadow rounded bg-white mb-4 ml-4">
+          <a class="rounded hover:bg-white px-3 py-2 block" href="<%= destroy_user_session_path %>"> 
+            Log Out
+          </a>
+        </div>
       </div>
     <% else %>
-      <div class="m-auto rounded shadow w-full p-10" style="max-width:800px">
-        <div class="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
-          <div class="col-span-3 order-1 md:order-2">
-            <div id="main-content" class="h-full">
-              <%= yield %>
-            </div>
-          </div>
+      <div class="fixed z-50 bottom-0 left-0">
+        <div class="shadow rounded bg-white mb-4 ml-4">
+          <a class="rounded hover:bg-white px-3 py-2 block" href="<%= new_user_session_path %>"> 
+            Log In
+          </a>
         </div>
       </div>
     <% end %>
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        document.querySelectorAll('pre code').forEach((block) => {
-          hljs.highlightBlock(block);
-          });
-          // Whenever someone clicks on a .anchor-link link, get the href and scroll them to that div id
-          document.querySelectorAll('.anchor-link').forEach((link) => {
-          link.addEventListener('click', (event) => {
-          event.preventDefault();
-          const href = link.getAttribute('href');
-          const id = href.replace('#', '');
-          const element = document.getElementById(id);
-          element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-          });
-        });
-      });
-    </script>
+    <%= yield %>
   </body>
 </html>

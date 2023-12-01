@@ -1,0 +1,44 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="security_questions" >
+
+<% @security_question_1 = @kyc_onboarding.security_questions.first
+  @security_question_2 = @kyc_onboarding.security_questions.second %>
+
+<h4 class="mb-1 text-lg font-semibold text-gray-600">Adding a security question helps keep your account secure and will only be used to verify your indentity.</h4>
+<input type="hidden" name="kyc_onboarding[security_questions_attributes][0][id]" value="<%=@security_question_1.id%>"/>
+<div class="relative flex flex-col items-start justify-center w-full my-3">
+
+	<label class="no-style mb-2 text-base font-normal text-gray-500" for="security-question-1">Security Question #1</label>
+	
+	<select class="<%= 'invalid' if @kyc_onboarding.errors[:question_1].present? %> w-full p-4 border-2 outline-none pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[security_questions_attributes][0][question]" id="security-question-1" data-placeholder="Select a Question">
+		<option value="" disabled <%='selected' if @security_question_1.question.nil?%>> Select a Question </option>
+		<% security_questions_for_select.each.with_index(1) do |value, index| %>
+			<option id="security_question_1_<%=index%>" value="<%= value %>" <%='selected' if @security_question_1.question == value %> >
+				<%= value  %>
+			</option>
+		<% end %>
+	</select>
+</div>
+
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="no-style mb-2 text-base font-normal text-gray-500" for="security-answer-1">Your answer to security question #1</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:answer_1].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" id="security-answer-1" name="kyc_onboarding[security_questions_attributes][0][answer]" placeholder="Type your answer here" value="<%=@security_question_1.answer%>">
+</div>
+
+<input type="hidden" name="kyc_onboarding[security_questions_attributes][1][id]" value="<%=@security_question_2.id%>"/>
+<div class="relative flex flex-col items-start justify-center w-full"my-3>
+	<label class="no-style mb-2 text-base font-normal text-gray-500" for="security-question-2">Security Question #2</label>
+	<select _="on change log <option value=my.value/> in #security-question-1" class="<%= 'invalid' if @kyc_onboarding.errors[:question_2].present? %> w-full p-4 border-2 outline-none pl-9 focus:border-blue-100 focus:border" name="kyc_onboarding[security_questions_attributes][1][question]" id="security-question-2" data-placeholder="Select a Question">
+		<option value="" disabled <%='selected' if @security_question_2.question.nil?%>> Select a question </option>
+		
+		<% SecurityQuestion.questions.values.each.with_index(2) do |question, index| %>
+			<option id="security_question_2_<%=index%>" value="<%= question %>" <%='selected' if @security_question_2.question == question%> >
+				<%= question %>
+			</option>
+		<% end %>
+	</select>
+</div>
+
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="no-style mb-2 text-base font-normal text-gray-500" for="security-answer-2">Your answer to security question #2</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:answer_2].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" id="security-answer-2" name="kyc_onboarding[security_questions_attributes][1][answer]" placeholder="Type your answer here" value="<%=@security_question_2.answer%>">
+</div>

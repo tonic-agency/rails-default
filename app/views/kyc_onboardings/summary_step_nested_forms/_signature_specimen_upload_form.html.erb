@@ -1,0 +1,86 @@
+<form class="flex flex-col items-center justify-center w-full my-3" method="put" enctype="multipart/form-data">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="signature_specimen" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+
+	<div class="flex items-center justify-between w-full">
+	  <p class="mb-2 text-base font-normal text-gray-500">Signature Specimen</p>
+		<button
+      type="button" 
+			_="on click toggle .hidden on #static-signature-id-upload-display then toggle .hidden on #edit-signature-id-upload-form then toggle .hidden on .inner-text in me"
+      class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+    </button>
+	</div>
+
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+
+    <div id="static-signature-id-upload-display" class="flex flex-col items-center justify-center w-full space-y-1">
+			<% if @kyc_onboarding.signature_id.attached? %>
+				<img class="w-80" src="<%=@kyc_onboarding.signature_id.url%>" alt="Id Photo"/>
+			<% else %>
+				<p class="text-gray-500 w-full text-left"> No Signature Uploaded</p>
+			<% end %>
+		</div> 
+
+    <div id="edit-signature-id-upload-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%> w-full">
+      <div class="mb-3">
+        <input id="dummy-signature-present-toggle" name="kyc_onboarding[signature_present_at_onboarding]" type="hidden"  value="<%=@kyc_onboarding.signature_present_at_onboarding ? 1 : 0%>">
+        
+        
+        <label class="no-style relative text-base text-gray-500" for="signature-id-upload">
+          Please make sure your specimen signature is the same as in the government ID to be submitted to Farmbank.
+        
+          <div class="<%= 'invalid' if @kyc_onboarding.errors[:signature_id].present?%> bg-white cursor-pointer input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
+            <input name="kyc_onboarding[signature_id]" class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" type="file" id="signature-id-upload">
+            <div id="choose-files-button" class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+              Choose files	
+            </div>
+          </div>
+        </label>
+        <p class="mt-2 text-xs font-light tracking-wide">PNG, JPG or PDF</p>
+        <p class="text-red-500 text-sm"> 
+          <% if @kyc_onboarding.errors[:signature_id].present? %>
+            <%= @kyc_onboarding.errors[:signature_id].first.humanize %>
+          <% end %>
+        </p>
+        <div _="on click call toggleSignaturePresent()" class="flex mt-4 cursor-pointer items-center">
+          <button id="signature-present-btn" type="button" class="<%=@kyc_onboarding.signature_present_at_onboarding ? 'bg-gray-200' : 'bg-farmbank-teal'%> relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-offset-2" role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
+            <span id="toggle-bg" aria-hidden="true" class="<%=@kyc_onboarding.signature_present_at_onboarding ? 'translate-x-0' : 'translate-x-5'%> pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+          </button>
+          <span class="ml-3 ">
+            <span class="font-medium text-gray-900">I’ll add this later</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'signature_specimen_upload')%>"
+          hx-encoding='multipart/form-data'
+          hx-trigger="click"
+          hx-target="#summary-signature-id-upload-form"
+          type="button">
+          Save
+        </button>
+      </div>
+    </div>
+	</div>
+</form>
+
+<script type="text/hyperscript">
+	def toggleSignaturePresent
+		toggle .bg-farmbank-teal .bg-gray-200 on #signature-present-btn in me
+		toggle .translate-x-5 on #toggle-bg in me
+		toggle .cursor-not-allowed .pointer-events-none on .dropzone
+		toggle .cursor-not-allowed .pointer-events-none on #choose-files-button
+		
+		if #dummy-signature-present-toggle.value == "0"
+			set #dummy-signature-present-toggle.value to "1"
+		else
+			set #dummy-signature-present-toggle.value to "0"
+		end
+		
+	end
+</script>

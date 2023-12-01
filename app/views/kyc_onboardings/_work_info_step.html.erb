@@ -1,0 +1,22 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="work_info" >
+
+<h5 class="text-gray-500 font-semibold mb-6 mt-3">
+	This information will be used for regulatory purposes. We will not use this information to contact your employer.
+</h5>
+
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="occupation">Occupation</label>
+	<input autofocus="true" class="<%= 'invalid' if @kyc_onboarding.errors[:work_occupation].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_occupation]" value="<%=@kyc_onboarding.work_occupation%>" id="occupation">
+</div>
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="employers-name">Employer's Name</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_name].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_name]" value="<%=@kyc_onboarding.work_employer_name%>" id="employers-name" >
+</div>
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="employers-address">Employer's Address</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_address].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_address]" value="<%=@kyc_onboarding.work_employer_address%>" id="employers-address" >
+</div>
+<div class="flex flex-col items-start justify-center w-full my-3">
+	<label class="mb-2 no-style text-base font-normal text-gray-500" for="employers-contact-number">Employer's Contact Number</label>
+	<input class="<%= 'invalid' if @kyc_onboarding.errors[:work_employer_contact_number].present? %> w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" type="text" name="kyc_onboarding[work_employer_contact_number]" value="<%=@kyc_onboarding.work_employer_contact_number%>" id="employers-contact-number" >
+</div>

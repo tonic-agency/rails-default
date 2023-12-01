@@ -1,0 +1,15 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="name" >
+
+<h4 class="mb-3 text-lg font-semibold text-gray-600">Enter your name as it appears on your ID</h4>
+<div class="flex flex-col items-start justify-center w-full my-4">
+    <label class="mb-2 no-style text-gray-700" for="given-names">Given Names</label>
+    <input autofocus="true" class="<%= 'invalid' if @kyc_onboarding.errors[:first_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[first_name]" type="text" value="<%= @kyc_onboarding.first_name %>" id="given-names" placeholder="">
+</div>
+<div class="flex flex-col items-start justify-center w-full my-4">
+    <label class="mb-2 no-style text-gray-700" for="middle-names">Middle Name</label>
+    <input class="<%= 'invalid' if @kyc_onboarding.errors[:middle_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[middle_name]" type="text" value="<%= @kyc_onboarding.middle_name %>" id="middle-names" placeholder="Optional">
+</div>
+<div class="flex flex-col items-start justify-center w-full my-4">
+    <label class="mb-2 no-style text-gray-700" for="last-names">Last Name</label>
+    <input class="<%= 'invalid' if @kyc_onboarding.errors[:last_name].present? %> w-full py-3 px-4 border-2 outline-none focus:border-teal focus:border-2" name="kyc_onboarding[last_name]" type="text" value="<%= @kyc_onboarding.last_name %>" id="last-names" placeholder="">
+</div>

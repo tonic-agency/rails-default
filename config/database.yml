@@ -84,5 +84,4 @@ production:
   database: central_production
 
 staging:
-  <<: *default
-  database: central_staging
+  url: <%= ENV["DATABASE_URL"] %>

@@ -1,25 +1,33 @@
 Rails.application.routes.draw do
-  root to: "site#show_docs_page"
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  root to:  "website#home"
 
   devise_for :users
+  
+  get "/myaccount", to: "app#home", :as => "app_home"
+  get "/kyc-info", to: "app#kyc_info", :as => "kyc_info"
 
-  get "/examples" => "site#examples", as: "examples"
-  get "/libraries" => "site#libraries", as: "libraries"
-  get "/snippets" => "site#snippets", as: "snippets"
+  get "/start", to: "kyc_onboardings#start", :as => "start_kyc_onboarding"
+  match "/get-started", to: "kyc_onboardings#new", :as => "new_kyc_onboarding", via: [:get,:post]
+  get "/:kyc_onboarding_identifier/submit", to: "kyc_onboardings#submit", :as => "submit_kyc_onboarding"
+  put "/get-started/summary", to: "kyc_onboardings#summary", :as => "kyc_onboarding_summary"
 
-  get "modal-content"     => "htmx_demo#modal_content"      , as: "modal_content"
-  get "remote-content"    => "htmx_demo#remote_content"     , as: "remote_content"
-  get "deferred-content"  => "htmx_demo#deferred_content"   , as: "deferred_content"
-  get "dropdown-content"  => "htmx_demo#dropdown_content"   , as: "dropdown_content"
-  get "toast-content"     => "htmx_demo#toast_content"      , as: "toast_content"
+  get "/activity", to: "app#history"
+  match "/add_funds", to: "add_funds#new", as: "add_funds", via: [:get,:post]
+  post "/add_funds/validate_amount", to: "add_funds#validate_amount", as: "add_funds_validate_amount"
+  post "/add_funds/validate_deposit_slip", to: "add_funds#validate_deposit_slip", as: "add_funds_validate_deposit_slip"
+  get "/withdraw", to: "app#withdraw", as: "withdraw"
+  match "/time_deposits/new", to: "time_deposits#new", as: "new_time_deposit", via: [:get,:post]
+  post "/time_deposits/validate_time_deposit", to: "time_deposits#validate_time_deposit", as: "validate_time_deposit"
+  get "/time_deposits/new/success", to: "time_deposits#success", as: "new_time_deposit_success"
 
-  match "/plain_remote_form" => "site#plain_remote_form", as: "plain_remote_form", via: [:get,:post]
-  match "/remote_form" => "site#remote_form", as: "remote_form", via: [:get,:post]
+  scope :modals do 
+    get '(/:action)' => 'modals#:action', as: "modals"
+  end
 
-  match "/minijs" => "site#minijs", via: [:get,:post]
-  match "/taylher_demo" => "site#taylher_demo", via: [:get]
-
-  get "/docs/:file" => "site#show_docs_page", as: "docs"
-  get "/snippets/:file" => "site#show_snippet", as: "snippet"
+  namespace :mailers do
+    get 'preview(/:action(/:id(.:format)))' => 'preview#:action'
+  end
 
 end

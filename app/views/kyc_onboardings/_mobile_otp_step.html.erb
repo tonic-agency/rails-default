@@ -1,0 +1,25 @@
+<input type="hidden" name="kyc_onboarding[validation_set]" value="mobile_otp" >
+
+<div _="init set $value to null" class="flex flex-col items-start justify-center w-full ">
+	<label class="mb-2 text-base no-style text-gray-500" for="kyc_onboarding_mobile_otp_code">Enter the 6-digit code that was sent to your mobile number <br/><%=@kyc_onboarding.phone%></label>
+	<%=@kyc_onboarding.otp_code%>
+  
+  <div class="flex flex-row items-start justify-start w-full my-4">
+    <input id="otp_value_1" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input id="otp_value_2" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input id="otp_value_3" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input id="otp_value_4" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input id="otp_value_5" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input id="otp_value_6" maxlength="1" _="on keyup call concatenate_inputs()" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+  </div>
+  <input id="kyc_onboarding_mobile_otp_code" name="kyc_onboarding[mobile_otp_code]" value="" type="hidden" readonly/>
+  <p class="mt-8 text-sm tracking-wide text-gray-500">Didn't receive your code? <span class="font-farmbank-teal cursor-pointer ">Resend OTP in 20 seconds</span></p>
+
+</div>
+
+<script type="text/hyperscript">
+  def concatenate_inputs()
+    set $value to #otp_value_1.value + #otp_value_2.value + #otp_value_3.value + #otp_value_4.value + #otp_value_5.value + #otp_value_6.value
+    set #kyc_onboarding_mobile_otp_code.value to $value
+  end
+</script>

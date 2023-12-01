@@ -1,0 +1,25 @@
+<ol>
+  <li class=" input optional" id="transaction_transaction_approval_attributes_id_input">
+    <input id="transaction_transaction_approval_attributes_id" value="<%=f&.object&.transaction_approval&.id%>" autocomplete="off"  name="transaction[transaction_approval_attributes][id]">
+  </li>
+  <li class=" input required" id="transaction_transaction_approval_attributes_admin_user_id_input">
+    <input id="transaction_transaction_approval_attributes_admin_user_id" value="<%=current_admin_user.id%>" autocomplete="off"  name="transaction[transaction_approval_attributes][admin_user_id]">
+  </li>
+  <li class=" input required" id="transaction_transaction_approval_attributes_transaction_id_input">
+    <input id="transaction_transaction_approval_attributes_transaction_id" value="<%=f.object.id%>" autocomplete="off"  name="transaction[transaction_approval_attributes][transaction_id]">
+  </li>
+  <li class="select input required <%='error' if f.object.errors.messages[:'transaction_approval.result'].present?%>" id="transaction_transaction_approval_attributes_result_input">
+    
+    <div class="<%='field_with_errors' if f.object.errors.messages[:'transaction_approval.result'].present?%>">
+      <label for="transaction_transaction_approval_attributes_result" class="label">Result<abbr title="required">*</abbr></label>
+    </div>
+    <div class="<%='field_with_errors' if f.object.errors.messages[:'transaction_approval.result'].present?%>">
+      <select name="transaction[transaction_approval_attributes][result]" id="transaction_transaction_approval_attributes_result">
+        <option value="" <%='selected' if f.object.transaction_approval.try(:result).nil? %>> </option>
+        <% TransactionApproval::RESULTS.each do |symbol,attributes| %>
+          <option value="<%=symbol%>" <%="selected" if f.object&.transaction_approval&.result == symbol.to_s %> ><%=attributes[:id].titleize%></option>
+        <% end %>
+      </select>
+      <p class="inline-errors"><%=f.object.errors.messages[:'transaction_approval.result'].join(', ')%></p>
+  </li>
+</ol>

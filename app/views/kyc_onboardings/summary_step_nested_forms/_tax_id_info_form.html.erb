@@ -1,0 +1,68 @@
+<form class="flex flex-col items-center justify-center w-full my-3">
+  <input type="hidden" name="kyc_onboarding[validation_set]" value="tax_id" >
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" >
+
+	<div class="flex items-center justify-between w-full">
+	  <p class="mb-2 text-base font-normal text-gray-500">Identification Number</p>
+		<button
+      type="button" 
+			_="on click toggle .hidden on #static-tax-id-display then toggle .hidden on #edit-tax-id-form then toggle .hidden on .inner-text in me"
+      class="font-semibold tracking-wide font-farmbank-teal cursor-pointer hover:underline">
+        <span class="inner-text <%= 'hidden' if @kyc_onboarding.errors.messages.any?%>">Edit </span>
+        <span class="inner-text <%= 'hidden' unless @kyc_onboarding.errors.messages.any?%>"> Cancel </span>
+    </button>
+	</div>
+
+
+	<div class="flex flex-col items-stretch justify-center w-full p-6 bg-gray-50 rounded-2xl">
+		<div id="static-tax-id-display" class="<%= 'hidden' if @kyc_onboarding.errors.messages.any?%> w-full" >
+      <div class="w-full space-y-1">
+        <p class="text-gray-500 ">
+          <%# <% if @kyc_onboarding.address_country == 'Philippines' %> 
+          <% if false %>
+            SSS/GSIS Number
+          <% else %>
+            Tax Identification Number
+          <% end %>
+        </p>
+        <h5 class="font-semibold tracking-wide text-gray-700 ">
+          <%=@kyc_onboarding.identification_number %>
+        </h5>
+      </div>
+    </div>
+
+    <div id="edit-tax-id-form" class="<%= 'hidden' unless @kyc_onboarding.errors.messages.any?%> w-full">
+      <div class="mb-3">
+        <%# <% if @kyc_onboarding.address_country == 'Philippines' %> 
+        <% if false %>
+          <label class="mb-2 text-base font-normal text-gray-500" for="ssis-gsis-number">SSS/GSIS Number</label>
+          <input class="<%= 'invalid' if @kyc_onboarding.errors[:ssis_gsis_number].present? %> w-full relative p-4 border-2 outline-none focus:border-blue-100 focus:border" name="kyc_onboarding[ssis_gsis_number]" type="text" id="ssis-gsis-number" value="<%= @kyc_onboarding.ssis_gsis_number%>" >
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:ssis_gsis_number].present? %>
+              <%= @kyc_onboarding.errors[:ssis_gsis_number].first.humanize %>
+            <% end %>
+          </p>
+        <% else %>
+          <label class="mb-2 text-base font-normal text-gray-500" for="tax-identification-number">Tax Identification Number</label>
+          <input class="<%= 'invalid' if @kyc_onboarding.errors[:tax_identification_number].present? %> w-full relative p-4 border-2 outline-none focus:border-blue-100 focus:border" name="kyc_onboarding[tax_identification_number]" type="text" id="tax-identification-number" value="<%= @kyc_onboarding.tax_identification_number%>" >
+          <p class="text-red-500 text-sm"> 
+            <% if @kyc_onboarding.errors[:tax_identification_number].present? %>
+              <%= @kyc_onboarding.errors[:tax_identification_number].first.humanize %>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+
+      <div class="float-right flex items-center space-x-3">
+        <button
+          class="float-right rounded-md px-4 py-2 bg-farmbank-yellow text-white font-semibold tracking-wide hover:bg-yellow-500"
+          hx-put="<%=kyc_onboarding_summary_path(code: @kyc_onboarding.identifier, step: 'tax_id_info')%>"
+          hx-trigger="click"
+          hx-target="#summary-tax-id-info-form"
+          type="button">
+          Save
+        </button>
+      </div>
+    </div>
+	</div>
+</form>
