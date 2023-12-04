@@ -41,7 +41,8 @@ class KycOnboardingCheck < ApplicationRecord
   def generate_settlement_account
     if self.result == "verified"
       return if self.kyc_onboarding.user.settlement_account.present?
-      settlement_account = SettlementAccount.new 
+      settlement_account = SettlementAccount.new
+      settlement_account.institution = Institution.default
       settlement_account.user = self.kyc_onboarding.user
       settlement_account.save
     end

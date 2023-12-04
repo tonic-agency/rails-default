@@ -1,0 +1,67 @@
+<section class="flex items-center justify-center w-screen min-h-screen sm:bg-gray-50 ">
+    <div class="flex flex-col items-center sm:justify-start w-full min-h-screen  sm:w-2/3 sm:max-w-xl ">
+        <div class="w-full">
+            <div class="relative flex items-center justify-center w-full pb-8 pt-14">
+                <a class="absolute cursor-pointer left-8 sm:left-0" 
+                    href="<%=root_path%>" >
+                    <%=inline_svg_tag('heroicons/icon-chevron-left.svg', class: 'font-farmbank-teal')%>
+                </a>
+
+                <h1 class="text-2xl font-semibold text-gray-700">
+                    
+                </h1>
+            </div>
+            
+            <div class="w-full h-2 mb-6 bg-gray-200">
+                <div class="h-full bg-farmbank-teal" style="width: <%=((1).to_f / KycOnboarding::STEPS.count.to_f) * 100%>%"></div>
+            </div>
+        </div>
+            
+        <form id="kyc-onboarding-form" method="post" action="<%= test_otp_path%>" class="farmbank-input-styling flex flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start w-full h-full pb-6 mb-auto sm:mb-10 pt-6 sm:pt-8 sm:bg-white sm:h-auto sm:rounded-md sm:shadow-md">
+            <div class="px-6 sm:px-8 w-full" >
+                <div class="h-full w-full overflow-hidden overflow-y-auto">
+                
+                    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+                    <%= render partial: "shared/form_errors", locals: { record: @kyc_onboarding } %>
+                    <input type="hidden" name="kyc_onboarding[validation_set]" value="mobile_otp" >
+
+                    <div _="init set $value to null" class="flex flex-col items-start justify-center w-full ">
+                      <label class="mb-2 text-base no-style text-gray-500" for="kyc_onboarding_mobile_otp_code">Enter the 6-digit code that was sent to your mobile number <br/><%=@kyc_onboarding.phone%></label>
+                      <%=@kyc_onboarding.mobile_otp.value%>
+                      
+                      <div class="flex flex-row items-start justify-start w-full my-4">
+                        <input name="otp_1" id="otp_value_1" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                        <input name="otp_2" id="otp_value_2" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                        <input name="otp_3" id="otp_value_3" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                        <input name="otp_4" id="otp_value_4" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                        <input name="otp_5" id="otp_value_5" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                        <input name="otp_6" id="otp_value_6" maxlength="1" _="on keyup call concatenate_inputs()" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+                      </div>
+                      <input id="kyc_onboarding_mobile_otp_code" name="kyc_onboarding[mobile_otp_code]" value="" type="hidden" readonly/>
+                      <p class="mt-8 text-sm tracking-wide text-gray-500">Didn't receive your code? <span class="font-farmbank-teal cursor-pointer ">Resend OTP in 20 seconds</span></p>
+
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+            <div class="flex items-center relative justify-center w-full px-8 py-8 border-t-0 sm:border-t-0">
+                <hr class="w-screen right-0 h-1 bg-slate-400 left-0 top-0 absolute sm:hidden" >
+                <input id="kyc-onboarding-submit-btn" type="submit" class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 " value="Next">
+            </div>
+        </form>
+    </div>
+</section>
+
+
+
+
+
+<script type="text/hyperscript">
+  def concatenate_inputs()
+    set $value to #otp_value_1.value + #otp_value_2.value + #otp_value_3.value + #otp_value_4.value + #otp_value_5.value + #otp_value_6.value
+    set #kyc_onboarding_mobile_otp_code.value to $value
+  end
+</script>

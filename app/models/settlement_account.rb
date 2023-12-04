@@ -8,9 +8,17 @@ class SettlementAccount < ApplicationRecord
   delegate :current_available_balance, to: :user
   delegate :name, to: :user, :allow_nil => true
 
+  # validates_uniqueness_of :account_number, :allow_blank => true
+  # validates_presence_of :account_name, if: proc {|account| account.user.nil? }
 
-  validates_uniqueness_of :account_number
+  scope :internal, -> { where(institution_id: 1) }
+  scope :external, -> { where.not(institution_id: 1) }
 
+  def name
+    return self.user.name if self.user.present?
+    return self.account_name if self.account_name.present?
+  end
+  
   def current_available_balance
     self.total_cleared_incomings - self.total_cleared_outgoings
   end

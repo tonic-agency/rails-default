@@ -1,25 +1,50 @@
-<h2>Change your password</h2>
+<div class="items-center justify-center bg-farmbank-teal  h-full flex py-12 overflow-x-scroll">
+  <div class="m-auto w-full px-6 md:w-1/2 sm:max-w-xl">
+    
+    <div class="flex justify-center mb-8">
+      <%=link_to root_path do %>
+        <%=inline_svg_tag('farmbank-logo.svg')%>
+      <% end %>
+    </div>
+    
+    <div class=" shadow p-6 md:px-8 pt-8 rounded-lg bg-white">
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+      <h2 class="text-gray-600 mb-4 text-xl">Change your password</h2>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: 'farmbank-input-styling' }) do |f| %>
+        
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="field text-gray-600 mb-6">
+          <%= f.label :password, "New password" %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "#{'invalid' if resource.errors.any?}" %>
+        </div>
+
+        <div class="field text-gray-600 mb-6">
+          <%= f.label :password_confirmation, "Confirm new password" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "#{'invalid' if resource.errors.any?}" %>
+
+          <% if resource.errors.any? %>
+            <div class="text-red-500 mt-2 text-sm font-semibold">
+              <%= resource.errors.full_messages.first %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit "Change my password", class: 'bg-farmbank-yellow hover:bg-yellow-500 no-style w-full rounded-full py-3 text-white font-semibold cursor-pointer' %>
+        </div>
+      <% end %>
+
+      <div class="my-3">
+        <%=link_to new_user_session_path, class: "text-base text-gray-600 font-semibold inline-flex items-center" do %>
+          <%=inline_svg_tag('heroicons/icon-arrow-right', class: 'transform rotate-180 mr-2')%>
+          Back to Log in
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

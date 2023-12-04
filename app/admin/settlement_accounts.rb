@@ -2,13 +2,23 @@ ActiveAdmin.register SettlementAccount do
   menu parent: 'Financial Data/Accounts', priority: 3
   includes :user, :institution, :outgoing_transactions, :incoming_transactions
 
-  permit_params :user_id, :institution_id, :account_number
+  permit_params :user_id, :institution_id, :account_number, :account_name
+
+  scope :all, default: true
+  # scope :internal
+  # scope :external
+
+  # filter :institution
+  filter :name do |account|
+    account.account_name || account.user&.name
+  end
 
   form do |f|
     f.inputs do
       f.input :user_id, as: :select, collection: User.all.map{|u| ["#{u.id} #{u.first_name} #{u.last_name}", u.id]}
-      f.input :institution_id, as: :select, collection: Institution.all.map{|i| ["#{i.id}: #{i.name}", i.id]}
-      f.input :account_number
+      # f.input :institution_id, as: :select, collection: Institution.all.map{|i| ["#{i.id}: #{i.name}", i.id]}
+      # f.input :account_name, as: :string
+      # f.input :account_number
     end
     f.actions
   end
@@ -17,19 +27,22 @@ ActiveAdmin.register SettlementAccount do
     selectable_column
     id_column
     column :user
+    # column :account_number
+    # column :institution
     column :total_cleared_outgoings
     column :total_cleared_incomings
     column :current_available_balance
-    column :account_number
+    column :created_at
+    column :updated_at
     actions
   end
 
   show do 
     attributes_table do
       row :id
-      row :account_number
-      row :institution
-      row :user
+      # row :name
+      # row :account_number
+      # row :institution
       row :current_available_balance
     end
 

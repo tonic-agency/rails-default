@@ -8,7 +8,7 @@
     <%= render :partial => "shared/partial_containers" %>
     
     <% if user_signed_in? %>
-      <div class="fixed z-50 bottom-0 left-0">
+      <div class="fixed hidden z-50 bottom-0 left-0">
         <div class="shadow rounded bg-white mb-4 ml-4">
           <a class="rounded hover:bg-white px-3 py-2 block" href="<%= destroy_user_session_path %>"> 
             Log Out
@@ -16,7 +16,7 @@
         </div>
       </div>
     <% else %>
-      <div class="fixed z-50 bottom-0 left-0">
+      <div class="fixed hidden z-50 bottom-0 left-0">
         <div class="shadow rounded bg-white mb-4 ml-4">
           <a class="rounded hover:bg-white px-3 py-2 block" href="<%= new_user_session_path %>"> 
             Log In

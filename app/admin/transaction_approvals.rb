@@ -1,22 +1,27 @@
 ActiveAdmin.register TransactionApproval do
   menu parent: "Financial Data/Accounts", priority: 2
-  permit_params :admin_user_id, :result, :from_account_number, :from_account_institution_id, :transaction_id, :settlement_account_id
+  permit_params :admin_user_id, :result, :transaction_id, :settlement_account_id
+  # :from_account_number, :from_account_institution_id,
 
-  before_save do |resource|
-    if permitted_params[:transaction_approval][:from_account_number].present? && permitted_params[:transaction_approval][:from_account_institution_id].present?
-      from_account = SettlementAccount.find_or_initialize_by(account_number: permitted_params[:transaction_approval][:from_account_number])
-      from_account.institution_id = permitted_params[:transaction_approval][:from_account_institution_id]
+  # before_save do |resource|
+  #   if permitted_params[:transaction_approval][:from_account_number].present? && permitted_params[:transaction_approval][:from_account_institution_id].present?
+  #     from_account = SettlementAccount.find_or_initialize_by(account_number: permitted_params[:transaction_approval][:from_account_number])
+  #     from_account.institution_id = permitted_params[:transaction_approval][:from_account_institution_id]
 
-      if from_account.save
-        resource.settlement_account = from_account
-        resource.corresponding_transaction.from_account_id = from_account.id
-        resource.corresponding_transaction.from_account_type = Transaction::ACCOUNT_TYPES[:settlement][:identifier]
-      end
-    end
-  end
+  #     if from_account.save
+  #       resource.settlement_account = from_account
+  #       resource.corresponding_transaction.from_account_id = from_account.id
+  #       resource.corresponding_transaction.from_account_type = Transaction::ACCOUNT_TYPES[:settlement][:identifier]
+  #     end
+  #   end
+  # end
   
   controller do
     def new
+      unless params[:transaction_id].present?
+        return redirect_to admin_transactions_path, alert: "Transaction must be present"
+      end 
+
       super do
         if params[:transaction_id]
           resource.transaction_id = params[:transaction_id]
@@ -38,9 +43,14 @@ ActiveAdmin.register TransactionApproval do
   show do
     attributes_table do
       row :id
-      row :settlement_account do |ta| 
-        if ta.settlement_account.present?
-          link_to ta.settlement_account.account_number, admin_settlement_account_path(ta.settlement_account)
+      row :from_account do |ta| 
+        if ta&.corresponding_transaction&.from_account&.present?
+          link_to ta&.corresponding_transaction&.from_account&.name, admin_settlement_account_path(ta&.corresponding_transaction&.from_account)
+        end
+      end
+      row :settlement_account do |ta|
+        if ta&.settlement_account&.present?
+          link_to ta&.settlement_account&.name, admin_settlement_account_path(ta&.settlement_account)
         end
       end
       row :admin_user
@@ -109,10 +119,21 @@ ActiveAdmin.register TransactionApproval do
 
       div do
         f.inputs do
+          div class: 'warning hidden p-6 my-6 rounded-lg bg-red-100 border text-gray-600 border-red-500' do 
+            div class: 'text-lg font-semibold' do 'Warning:' end
+            div class: '' do "Please note - if you would like to mark this transaction as being 'from' a Settlement Account that already exists in our system, you will need to be sure that the corresponding Settlement Account has a Bank Account Number, and that it matches exactly the number inputted below." end
+            div class: 'mt-2' do "Otherwise, our system will create a new Settlement Account with the number + Institution provided below. This is to allow for marking Transactions as coming from outside Banks." end
+            div class: 'mt-2' do 
+              div do 
+                "To update the account number of an already existing Settlement Account before proceeding, you can do so by navigating to edit it here 👇"
+              end
+              div do link_to 'Settlement Accounts', admin_settlement_accounts_path, class: 'font-semibold underline', target: '_blank' end
+            end
+          end
           f.input :admin_user_id, as: :hidden, input_html: { value: current_admin_user.id }
           f.input :transaction_id, as: :hidden
-          f.input :from_account_number, as: :string, input_html: { value: f.object&.settlement_account&.account_number || f.object.from_account_number  }
-          f.input :from_account_institution_id, as: :select, collection: Institution.all.map{|institution| [institution.name, institution.id]}, selected: f.object&.settlement_account&.institution&.id || f.object.from_account_institution_id 
+          # f.input :from_account_number, as: :string, input_html: { value: f.object&.settlement_account&.account_number || f.object.from_account_number  }
+          # f.input :from_account_institution_id, as: :select, collection: Institution.all.map{|institution| [institution.name, institution.id]}, selected: f.object&.settlement_account&.institution&.id || f.object.from_account_institution_id 
           f.input :result, as: :select, collection: TransactionApproval::RESULTS.map{|symbol,attributes| [attributes[:id].titleize, attributes[:id]]}
         end
         f.actions
