@@ -9,13 +9,14 @@ class KycOnboarding < ApplicationRecord
   has_one_attached :signature_id, dependent: :detach
   has_many :security_questions, dependent: :destroy
   has_one :kyc_onboarding_check
-  has_one :mobile_otp, as: :owner, class_name: "Otp", dependent: :destroy
-  has_one :email_otp, as: :owner, class_name: "Otp", dependent: :destroy
+  has_many :otps, as: :owner, class_name: "Otp", dependent: :destroy
   before_validation :generate_identifier
   before_validation :generate_user
   before_validation :set_defaults
   # before_validation :set_monthly_income, if: proc { |kyc| kyc.validation_set == "financial_info" }
   after_create :generate_security_questions
+  after_save :generate_mobile_otp, if: proc { |kyc| kyc.validation_set == "phone" }
+  after_save :generate_email_otp, if: proc { |kyc| kyc.validation_set == "email" }
   after_save :run_after_submit_callbacks
 
   attr_accessor :current_step
@@ -37,8 +38,10 @@ class KycOnboarding < ApplicationRecord
   attr_accessor :password
   attr_accessor :password_confirmation
   attr_accessor :referral_code
-  attr_accessor :mobile_otp_code
-  attr_accessor :email_otp_code
+  attr_accessor :mobile_otp_1, :mobile_otp_2, :mobile_otp_3, :mobile_otp_4, :mobile_otp_5, :mobile_otp_6
+  attr_accessor :mobile_otp_to_validate
+  attr_accessor :email_otp_1, :email_otp_2, :email_otp_3, :email_otp_4, :email_otp_5, :email_otp_6
+  attr_accessor :email_otp_to_validate
 
   accepts_nested_attributes_for :security_questions
   
@@ -69,10 +72,11 @@ class KycOnboarding < ApplicationRecord
   validate :was_referred_valid, if: proc {|kyc| kyc.validation_set == "referral_program_start"}
   validate :referral_valid, if: proc {|kyc| kyc.validation_set == "referral_code"}
 
-  before_validation :mobile_otp_valid, if: proc {|kyc| kyc.validation_set == "mobile_otp"}
-  before_validation :email_otp_valid, if: proc {|kyc| kyc.validation_set == "email_otp"}
+  validate :mobile_otp_valid, if: proc {|kyc| kyc.validation_set == "mobile_otp"}
+  validate :email_otp_valid, if: proc {|kyc| kyc.validation_set == "email_otp"}
   
   scope :incomplete, -> { where(state: STATES[:incomplete][:id]) }
+  scope :submitted, -> { where(state: STATES[:submitted][:id]) }
 
   STATES = {
     :incomplete => {
@@ -82,12 +86,6 @@ class KycOnboarding < ApplicationRecord
       :id => "submitted",
     }
   }
-
-  def generate_and_send_otp 
-    # generate mobile otp
-    # send to user 
-  end
-  
   
   def generate_identifier
     Utilities.generate_identifier(self)
@@ -193,10 +191,40 @@ class KycOnboarding < ApplicationRecord
     end
   end
 
+  def mobile_otp
+    self.otps.find_by(otp_type: "mobile_validation")
+  end 
+
+  def email_otp
+    self.otps.find_by(otp_type: "email_validation")
+  end
+
+  def generate_mobile_otp 
+    return if self.mobile_otp.present?
+    otp = self.otps.new(otp_type: "mobile_validation")
+    otp.save
+  end
+
+  def generate_email_otp
+    return if self.email_otp.present?
+    
+    otp = self.otps.new(otp_type: "email_validation")
+
+    if otp.save
+      self.trigger_otp_email 
+    end
+  end
+
+  def trigger_otp_email
+    self.email_otp.send_email
+  end
+
   def current_step
     return "name" if self.first_name.blank? || self.last_name.blank?
     return "phone" if self.phone.blank?
+    return "mobile_otp" if !self.mobile_validated
     return "email" if self.email.blank?
+    return "email_otp" if !self.email_validated
     return "password" if self.user_id.blank?
     return "personal_info" if self.date_of_birth.blank? || self.place_of_birth.blank? || self.nationality.blank? || self.marital_status.blank?
     return "residential_info" if self.address_house_number.blank? || self.address_street_name.blank? || self.address_province.blank? || self.address_city.blank? || self.address_barangay.blank? || self.address_country.blank?
@@ -221,8 +249,9 @@ class KycOnboarding < ApplicationRecord
   STEPS =
     ["name",
     "phone",
+    "mobile_otp",
     "email",
-    
+    "email_otp",
     "password",
     "personal_info",
     "residential_info",
@@ -237,7 +266,6 @@ class KycOnboarding < ApplicationRecord
     "summary",
     "complete"]
   
-
   def previous_step(step = nil)
     step ||= self.current_step
     
@@ -315,6 +343,16 @@ class KycOnboarding < ApplicationRecord
   def security_questions_complete?
     self.security_questions.pluck(:question, :answer).flatten.reject { |e| e.to_s.empty? }.length == 4
   end
+  
+  def email_variables 
+    {
+      name: self.name,
+      email: self.email,
+      mobile_otp: self&.mobile_otp,
+      email_otp: self&.email_otp,
+      account_url: Rails.application.routes.url_helpers.app_home_url(:only_path => true)
+    }
+  end 
 
   private
   def validate_tax_id 
@@ -408,23 +446,20 @@ class KycOnboarding < ApplicationRecord
   end
 
   def mobile_otp_valid
-    self.mobile_validated = true
-    # if self.authenticate_otp(self.mobile_otp_code)
-    #   self.mobile_validated = true
-    # else
-    #   self.mobile_validated = false 
-    #   errors.add(:base, "OTP is invalid.")
-    # end
+    if self.mobile_otp.validate_otp(self.mobile_otp_to_validate)
+      self.mobile_validated = true
+    else
+      self.mobile_validated = false 
+      errors.add(:base, "OTP is invalid.")
+    end
   end
 
   def email_otp_valid
-    self.email_validated = true
-    # if self.authenticate_otp(self.email_otp_code)
-    #   self.email_validated = true
-    # else
-    #   self.email_validated = false 
-    #   errors.add(:base, "OTP is invalid.")
-    # end
+    if self.email_otp.validate_otp(self.email_otp_to_validate)
+      self.email_validated = true
+    else
+      self.email_validated = false 
+      errors.add(:base, "OTP is invalid.")
+    end
   end
-
 end

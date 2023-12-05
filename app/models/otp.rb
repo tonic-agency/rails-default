@@ -4,14 +4,7 @@ class Otp < ApplicationRecord
   OTP_TYPES = %w[mobile_validation email_validation].freeze
 
   validates :otp_type, presence: true, inclusion: { in: OTP_TYPES }
-  validates :secret_key, presence: true
-
-  before_validation :generate_secret_key, on: :create
   after_create :generate_otp
-
-  def generate_secret_key
-    self.secret_key = ROTP::Base32.random_base32
-  end
   
   def generate_otp
     return if self.validated_at.present?
@@ -26,7 +19,6 @@ class Otp < ApplicationRecord
 
   def invalid_otp?(otp)
     return true if otp.blank?
-    return true if self.validated_at.present?
     return self.value != otp
   end
 
@@ -39,4 +31,19 @@ class Otp < ApplicationRecord
       return true
     end
   end
+
+  def send_email 
+    OtpMailer.default_email(owner, variables: self.owner.email_variables).deliver
+  end
+
+  def resend_email
+    self.generate_otp!
+    self.send_email
+  end
+
+  def resend_mobile
+    self.generate_otp!
+    # SmsService.new(self.owner.phone, "Your OTP is #{self.value}").send_sms
+  end
+
 end

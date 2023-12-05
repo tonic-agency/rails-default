@@ -20,6 +20,16 @@ class KycOnboardingsController < ApplicationController
     if request.post?
       @kyc_onboarding.assign_attributes(new_kyc_onboarding_params)
       
+      if @kyc_onboarding.current_step == "mobile_otp"
+        mobile_otp_to_validate = new_kyc_onboarding_params.values_at(:mobile_otp_1, :mobile_otp_2, :mobile_otp_3, :mobile_otp_4, :mobile_otp_5, :mobile_otp_6).join
+        @kyc_onboarding.mobile_otp_to_validate = mobile_otp_to_validate
+      end
+
+      if @kyc_onboarding.current_step == "email_otp"
+        email_otp_to_validate = new_kyc_onboarding_params.values_at(:email_otp_1, :email_otp_2, :email_otp_3, :email_otp_4, :email_otp_5, :email_otp_6).join
+        @kyc_onboarding.email_otp_to_validate = email_otp_to_validate
+      end
+
       if @current_step == "signature_specimen" && new_kyc_onboarding_params[:signature_id].blank?
         @kyc_onboarding.signature_id.blob.purge if @kyc_onboarding.signature_id.blob.present?
       end
@@ -60,7 +70,19 @@ class KycOnboardingsController < ApplicationController
       :last_name, 
       :middle_name, 
       :phone,
+      :mobile_otp_1,
+      :mobile_otp_2,
+      :mobile_otp_3,
+      :mobile_otp_4,
+      :mobile_otp_5,
+      :mobile_otp_6,
       :email,
+      :email_otp_1,
+      :email_otp_2,
+      :email_otp_3,
+      :email_otp_4,
+      :email_otp_5,
+      :email_otp_6,
       :date_of_birth,
       :place_of_birth,
       :nationality,

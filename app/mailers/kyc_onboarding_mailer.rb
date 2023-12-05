@@ -1,13 +1,13 @@
 class KycOnboardingMailer < ApplicationMailer
   default from: 'megan@meganennis.dev'
   
-  def account_verification_in_progress_email(kyc_onboarding)
+  def account_verification_in_progress_email(kyc_onboarding, variables = {})
     @kyc_onboarding = kyc_onboarding || params[:kyc_onboarding]
     
-    @user = @kyc_onboarding.user
-    @account_url = Rails.application.routes.url_helpers.app_home_url(:host => Rails.env.staging? ? 'farmbank.toniclabs.ltd' : request.host_with_port)
+    @name = variables.try(:[], :name) || @kyc_onboarding.try(:name)
+    @account_url = variables.try(:[], :account_url) || @kyc_onboarding.try(:account_url)
     
-    mail(to: @user.email, subject: 'Your Farmbank account is currently being verified ✍🏽')
+    mail(to: variables[:email], subject: 'Your Farmbank account is currently being verified ✍🏽')
   end
 
 end

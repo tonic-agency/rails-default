@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   
   get "/myaccount", to: "app#home", :as => "app_home"
   get "terms-and-conditions", to: "app#terms_and_conditions", :as => "terms_and_conditions"
-  match "test_otp", to: "website#test_otp", :as => 'test_otp', :via => [:get,:post]
 
   get "/kyc-info", to: "app#kyc_info", :as => "kyc_info"
 
@@ -15,6 +14,8 @@ Rails.application.routes.draw do
   match "/get-started", to: "kyc_onboardings#new", :as => "new_kyc_onboarding", via: [:get,:post]
   get "/:kyc_onboarding_identifier/submit", to: "kyc_onboardings#submit", :as => "submit_kyc_onboarding"
   put "/get-started/summary", to: "kyc_onboardings#summary", :as => "kyc_onboarding_summary"
+  post "resend_otp_email", to: "otps#resend_email", :as => "resend_otp_email"
+  post "resend_otp_mobile", to: "otps#resend_mobile", :as => "resend_otp_mobile"
 
   get "/activity", to: "app#history"
   match "/add_funds", to: "add_funds#new", as: "add_funds", via: [:get,:post]

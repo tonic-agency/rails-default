@@ -1,25 +1,48 @@
 <input type="hidden" name="kyc_onboarding[validation_set]" value="mobile_otp" >
 
-<div _="init set $value to null" class="flex flex-col items-start justify-center w-full ">
-	<label class="mb-2 text-base no-style text-gray-500" for="kyc_onboarding_mobile_otp_code">Enter the 6-digit code that was sent to your mobile number <br/><%=@kyc_onboarding.phone%></label>
-	<%=@kyc_onboarding.otp_code%>
+<div _="init set $timer to 30 then call countdown()" class="flex flex-col items-start justify-center w-full ">
+	<label class="my-2 text-base no-style text-gray-500" for="kyc_onboarding_mobile_otp_code">Enter the 6-digit code that was sent to your mobile number <br/><%=@kyc_onboarding.phone%></label>
+	<%=@kyc_onboarding.mobile_otp.value%>
   
   <div class="flex flex-row items-start justify-start w-full my-4">
-    <input id="otp_value_1" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input id="otp_value_2" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input id="otp_value_3" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input id="otp_value_4" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input id="otp_value_5" maxlength="1" _="on keyup call concatenate_inputs() then focus() on the next <input/>" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input id="otp_value_6" maxlength="1" _="on keyup call concatenate_inputs()" class="mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_1]" id="otp_value_1" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_2]" id="otp_value_2" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_3]" id="otp_value_3" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_4]" id="otp_value_4" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_5]" id="otp_value_5" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_6]" id="otp_value_6" maxlength="1" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
   </div>
-  <input id="kyc_onboarding_mobile_otp_code" name="kyc_onboarding[mobile_otp_code]" value="" type="hidden" readonly/>
-  <p class="mt-8 text-sm tracking-wide text-gray-500">Didn't receive your code? <span class="font-farmbank-teal cursor-pointer ">Resend OTP in 20 seconds</span></p>
+  <p class="mt-8 text-sm tracking-wide text-gray-500">
+    Didn't receive your code? 
+    <a 
+      id="resend-otp-link" 
+      hx-post="<%=resend_otp_mobile_path(id: @kyc_onboarding.mobile_otp)%>"
+      hx-trigger="click"
+      _="on htmx:afterRequest remove .hidden from #countdown-container then call countdown()"
+      class="font-farmbank-teal pointer-events-none">
+        Resend OTP 
+        <span id="countdown-container"> in <span id="countdown"> 30 </span> seconds </span>
+    </a>
+  </p>
 
 </div>
 
 <script type="text/hyperscript">
-  def concatenate_inputs()
-    set $value to #otp_value_1.value + #otp_value_2.value + #otp_value_3.value + #otp_value_4.value + #otp_value_5.value + #otp_value_6.value
-    set #kyc_onboarding_mobile_otp_code.value to $value
+  def countdown
+    repeat while $timer > 1
+      add .pointer-events-none to #resend-otp-link
+      remove .cursor-pointer from #resend-otp-link
+      remove .hidden from #countdown-container
+      wait 1s
+      set $timer to $timer - 1
+      set #countdown.innerText to $timer
+    end
+    if $timer == 1
+      remove .pointer-events-none from #resend-otp-link
+      add .cursor-pointer to #resend-otp-link
+      add .hidden to #countdown-container
+      set $timer to 30
+      set #countdown.innerText to $timer
+    end
   end
 </script>

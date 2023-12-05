@@ -14,6 +14,8 @@
                         Contact information
                     <% elsif @current_step == "password" %>
                         Create password
+                    <% elsif ["mobile_otp", "email_otp"].include? @current_step %>
+                        Enter OTP
                     <% elsif @current_step == "personal_info" %>
                         Personal information
                     <% elsif @current_step == "residential_info" %>

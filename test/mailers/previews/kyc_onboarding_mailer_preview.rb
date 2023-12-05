@@ -2,6 +2,6 @@
 class KycOnboardingMailerPreview < ActionMailer::Preview
 
   def account_verification_in_progress_email
-    KycOnboardingMailer.with(kyc_onboarding: KycOnboarding.first).account_verification_in_progress_email
+    KycOnboardingMailer.account_verification_in_progress_email(kyc_onboarding: KycOnboarding.submitted.first, variables: KycOnboarding.submitted.first.email_variables)
   end
 end
