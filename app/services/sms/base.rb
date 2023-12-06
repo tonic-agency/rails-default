@@ -6,8 +6,8 @@ module Sms
       return Rails.logger.warn("SMS is disabled, message to #{mobile_number} will not be send.") if disabled?
       
       url = 'https://rest.nexmo.com/sms/json'
-      api_key = '063cd013'
-      api_secret = 'hFS3BREksMbdbKXt'
+      api_key = ENV.fetch("VONAGE_API_KEY")
+      api_secret = ENV.fetch("VONAGE_API_SECRET")
 
       begin
         response = HTTParty.post(url, {
