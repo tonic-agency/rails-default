@@ -351,3 +351,57 @@ form.farmbank-input-styling select:not(.no-style) {
 @keyframes p {
   from{--p: 0}
 }
+
+/* Mobile hamburger menu */
+@media (min-width: 640px) {
+  .hamburger {
+    display: none !important;
+  }
+}
+.hamburger {
+	display: inline-block;
+}
+ .hamburger a.main-nav-toggle {
+	 display: block;
+	 width: 28px;
+	 height: 16px;
+}
+ .hamburger a.main-nav-toggle:after, .hamburger a.main-nav-toggle:before {
+	 content: '';
+	 position: absolute;
+	 top: 0;
+	 height: 0;
+	 border-bottom: 2px solid #fff;
+	 width: 100%;
+	 left: 0;
+	 right: 0;
+	 transition: all ease-out 0.3s;
+}
+ .hamburger a.main-nav-toggle:after {
+	 top: 100%;
+}
+ .hamburger a.main-nav-toggle i {
+	 display: block;
+	 text-indent: 100%;
+	 overflow: hidden;
+	 white-space: nowrap;
+	 height: 2px;
+	 background-color: #fff;
+	 width: 100%;
+	 position: absolute;
+	 top: 50%;
+	 transition: all ease-out 0.1s;
+}
+ .hamburger a.main-nav-toggle.active-menu:after {
+	 transform: rotate(-45deg);
+	 transform-origin: center;
+	 top: 50%;
+}
+ .hamburger a.main-nav-toggle.active-menu:before {
+	 transform: rotate(45deg);
+	 transform-origin: center;
+	 top: 50%;
+}
+ .hamburger a.main-nav-toggle.active-menu i {
+	 opacity: 0;
+}

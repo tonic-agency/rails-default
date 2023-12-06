@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   devise_for :users
   
   get "/myaccount", to: "app#home", :as => "app_home"
+  get "terms-and-conditions", to: "app#terms_and_conditions", :as => "terms_and_conditions"
+  match "test_otp", to: "website#test_otp", :as => 'test_otp', :via => [:get,:post]
+
   get "/kyc-info", to: "app#kyc_info", :as => "kyc_info"
 
   get "/start", to: "kyc_onboardings#start", :as => "start_kyc_onboarding"

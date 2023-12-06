@@ -20,7 +20,6 @@ gem 'activeadmin'
 gem 'arctic_admin'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.1' # Needed by arctic admin
 gem 'httparty'
-gem 'active_model_otp'
 gem 'hamlit'
 gem 'figaro'
 gem 'devise'
@@ -30,3 +29,5 @@ gem 'redcarpet'
 gem 'front_matter_parser'
 gem "aws-sdk-s3", require: false
 gem 'postmark-rails'
+gem 'delayed_job_active_record'
+gem 'rotp'

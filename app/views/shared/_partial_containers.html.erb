@@ -36,3 +36,39 @@
     <div id="default-modal-content" class="w-full h-full p-6 lg:p-10"></div>
   </div>
 </div>
+
+<div id="default-mobile-right-menu" _="on click if event.target is me add .hidden" class="hidden sm:hidden bg-farmbank-teal fixed top-0 w-screen h-screen bottom-0 right-0 left-0 flex justify-center items-center z-50">
+  <div id="default-mobile-right-menu" class="relative mt-auto text-gray-600 w-full h-full flex flex-col items-stretch justify-between overflow-y-auto flex-grow">
+    
+    <%=render partial: 'shared/header'%>
+
+    <%# Content of modal below - ie. set htmx 'hx-target' attribute to my id %>
+    <div id="default-mobile-right-menu-content" class="flex flex-col items-start flex-grow space-y-10 w-full p-6 lg:p-10">
+      <a _="on click remove .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 from .nav-item if it is not me then add .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 to me then add .hidden to #default-mobile-right-menu then toggle .active-menu on .main-nav-toggle" href="<%=root_path%>" class="nav-item w-auto block text-xl font-semibold tracking-wide text-white sm:mr-8 font-farmbank-green-200 border-b-4 border-farmbank-green-200">Home</a>
+      <a _="on click remove .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 from .nav-item if it is not me then add .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 to me then add .hidden to #default-mobile-right-menu then toggle .active-menu on .main-nav-toggle" href="<%=root_path + '#about-us' %>" class="nav-item text-xl font-semibold tracking-wide text-white sm:mr-8">About Us</a>
+      <a _="on click remove .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 from .nav-item if it is not me then add .border-b-4 .border-farmbank-green-200 .font-farmbank-green-200 to me then add .hidden to #default-mobile-right-menu then toggle .active-menu on .main-nav-toggle" href="<%=root_path + '#faqs' %>" class="nav-item text-xl font-semibold tracking-wide text-white sm:mr-8">FAQs</a>
+    </div>
+
+    <div class="flex flex-col items-center justify-center pb-10 px-6 mt-auto space-y-3">
+      <% if user_signed_in? %>
+       
+        <a href="<%= app_home_path %>" class="text-center py-3 w-full text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full">
+          My Account
+        </a>
+        <a href="<%= destroy_user_session_path %>" class="text-center py-3 w-full text-white bg-transparent border border-white rounded-full">
+          Sign Out
+        </a>
+        
+      <% else %>
+       
+        <a href="<%= start_kyc_onboarding_path %>" class="text-center py-3 w-full text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full">
+          Open Account
+        </a>
+        <a href="<%= new_user_session_path %>" class="text-center py-3 w-full text-white bg-transparent border border-white rounded-full">
+          Log in
+        </a>
+       
+      <% end %>
+    </div>
+  </div>
+</div>

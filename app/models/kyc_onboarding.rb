@@ -9,8 +9,8 @@ class KycOnboarding < ApplicationRecord
   has_one_attached :signature_id, dependent: :detach
   has_many :security_questions, dependent: :destroy
   has_one :kyc_onboarding_check
-  has_one_time_password column_name: :otp_secret_key, length: 6, interval: 50, after_column_name: :last_otp_at
-
+  has_one :mobile_otp, as: :owner, class_name: "Otp", dependent: :destroy
+  has_one :email_otp, as: :owner, class_name: "Otp", dependent: :destroy
   before_validation :generate_identifier
   before_validation :generate_user
   before_validation :set_defaults
@@ -82,6 +82,12 @@ class KycOnboarding < ApplicationRecord
       :id => "submitted",
     }
   }
+
+  def generate_and_send_otp 
+    # generate mobile otp
+    # send to user 
+  end
+  
   
   def generate_identifier
     Utilities.generate_identifier(self)
@@ -190,9 +196,7 @@ class KycOnboarding < ApplicationRecord
   def current_step
     return "name" if self.first_name.blank? || self.last_name.blank?
     return "phone" if self.phone.blank?
-    return "mobile_otp" if !self.mobile_validated 
     return "email" if self.email.blank?
-    return "email_otp" if !self.email_validated 
     return "password" if self.user_id.blank?
     return "personal_info" if self.date_of_birth.blank? || self.place_of_birth.blank? || self.nationality.blank? || self.marital_status.blank?
     return "residential_info" if self.address_house_number.blank? || self.address_street_name.blank? || self.address_province.blank? || self.address_city.blank? || self.address_barangay.blank? || self.address_country.blank?
@@ -217,9 +221,8 @@ class KycOnboarding < ApplicationRecord
   STEPS =
     ["name",
     "phone",
-    "mobile_otp",
     "email",
-    "email_otp",
+    
     "password",
     "personal_info",
     "residential_info",

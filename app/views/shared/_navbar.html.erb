@@ -1,0 +1,30 @@
+<div class="flex items-center justify-between pt-12 pb-5 relative">
+  <%=inline_svg_tag('farmbank-logo.svg')%>
+  
+  <div class="flex items-center">
+    <% if user_signed_in? %>
+      <div class="flex items-center">
+        <a href="<%= app_home_path %>" class="sm:px-5 hidden md:block mr-2 px-4 py-2 hover:shadowmd:relative right-12 md:right-0 text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full">
+          My Account
+        </a>
+        <a href="<%= destroy_user_session_path %>" class="sm:px-5 mr-2 md:mr-0 text-sm md:text-base block px-4 py-2 hover:shadow-lg md:relative right-12 md:right-0 text-white bg-transparent border border-white rounded-full">
+          Sign Out
+        </a>
+      </div>
+    <% else %>
+      <div class="flex items-center">
+        <a href="<%= start_kyc_onboarding_path %>" class="sm:px-5 hidden md:block mr-2 hover:shadow px-4 py-2 md:relative right-12 md:right-0 text-white bg-farmbank-yellow hover:bg-yellow-500 rounded-full">
+          Open Account
+        </a>
+        <a href="<%= new_user_session_path %>" class="sm:px-5 px-4 mr-2 md:mr-0 text-sm md:text-base hover:shadow-lg py-2 md:relative right-12 md:right-0 text-white bg-transparent border border-white rounded-full">
+          Log in
+        </a>
+      </div>
+    <% end %>
+    
+    <%# Mobile hamburger menu %>
+    <div id="mobile-hamburger" class="hamburger relative sm:hidden" _="on click toggle .active-menu on .main-nav-toggle then toggle .hidden on #default-mobile-right-menu">
+      <a class="main-nav-toggle" href="#main-nav"><i>Menu</i></a>
+    </div>
+  </div>
+</div>
