@@ -70,7 +70,7 @@
                         No, I was not referred
                     </button>
                 </div>
-            <% else %>
+            <% elsif !["mobile_otp", "email_otp"].include? @current_step %>
                 <div class="flex items-center relative justify-center w-full px-8 py-8 border-t-0 sm:border-t-0">
                     <hr class="w-screen right-0 h-1 bg-slate-400 left-0 top-0 absolute sm:hidden" >
                     <input id="kyc-onboarding-submit-btn" type="submit" class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 sm:w-80 hover:bg-yellow-500 " value="Next">

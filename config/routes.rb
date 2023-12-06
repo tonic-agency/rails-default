@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   match "/get-started", to: "kyc_onboardings#new", :as => "new_kyc_onboarding", via: [:get,:post]
   get "/:kyc_onboarding_identifier/submit", to: "kyc_onboardings#submit", :as => "submit_kyc_onboarding"
   put "/get-started/summary", to: "kyc_onboardings#summary", :as => "kyc_onboarding_summary"
+  
+  match "validate_user_otp", to: "otps#validate_user_otp", :as => "validate_user_otp", via: [:get,:post]
   post "resend_otp_email", to: "otps#resend_email", :as => "resend_otp_email"
   post "resend_otp_mobile", to: "otps#resend_mobile", :as => "resend_otp_mobile"
 
@@ -21,6 +23,8 @@ Rails.application.routes.draw do
   match "/add_funds", to: "add_funds#new", as: "add_funds", via: [:get,:post]
   post "/add_funds/validate_amount", to: "add_funds#validate_amount", as: "add_funds_validate_amount"
   post "/add_funds/validate_deposit_slip", to: "add_funds#validate_deposit_slip", as: "add_funds_validate_deposit_slip"
+  post "/add_funds/validate_invoice_number", to: "add_funds#validate_invoice_number", as: "add_funds_validate_invoice_number"
+  post "/add_funds/validate_transaction", to: "add_funds#validate_transaction", as: "add_funds_validate_transaction"
   get "/withdraw", to: "app#withdraw", as: "withdraw"
   match "/time_deposits/new", to: "time_deposits#new", as: "new_time_deposit", via: [:get,:post]
   post "/time_deposits/validate_time_deposit", to: "time_deposits#validate_time_deposit", as: "validate_time_deposit"

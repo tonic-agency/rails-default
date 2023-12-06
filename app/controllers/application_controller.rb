@@ -8,5 +8,10 @@ class ApplicationController < ActionController::Base
       render 
     end
   end
+
+  protected
+  def after_sign_in_path_for(resource)
+    validate_user_otp_path
+  end
   
 end

@@ -15,6 +15,8 @@ class Otp < ApplicationRecord
   def generate_otp!
     random_passcode = rand(100000..999999)
     self.update(value: random_passcode)
+
+    # self.update(value: random_passcode, validated_at: nil)
   end
 
   def invalid_otp?(otp)
@@ -41,9 +43,15 @@ class Otp < ApplicationRecord
     self.send_email
   end
 
-  def resend_mobile
-    self.generate_otp!
-    # SmsService.new(self.owner.phone, "Your OTP is #{self.value}").send_sms
+  def send_sms(phone = nil, message = nil)
+    message = "Enter the one-time-password (OTP) below to verify your mobile number.\n\n #{self.value} \n\nFor your account safety please do not share this with anyone." if message.nil?
+    return if phone.nil?
+    return if self.value.nil?
+    Sms::Base.new.send_message(phone, message)
   end
 
+  def resend_sms
+    self.generate_otp!
+    self.send_sms(self.owner.phone, nil)
+  end
 end

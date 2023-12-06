@@ -202,7 +202,10 @@ class KycOnboarding < ApplicationRecord
   def generate_mobile_otp 
     return if self.mobile_otp.present?
     otp = self.otps.new(otp_type: "mobile_validation")
-    otp.save
+    
+    if otp.save 
+      self.trigger_otp_sms
+    end 
   end
 
   def generate_email_otp
@@ -217,6 +220,10 @@ class KycOnboarding < ApplicationRecord
 
   def trigger_otp_email
     self.email_otp.send_email
+  end
+
+  def trigger_otp_sms
+    self.mobile_otp.send_sms(self.phone)
   end
 
   def current_step

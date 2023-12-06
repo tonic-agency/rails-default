@@ -75,6 +75,7 @@ class Transaction < ApplicationRecord
   validates_presence_of :amount
   validates :amount, numericality: { greater_than: 0.0 }
   validate :no_duplicate_records_within_timeframe
+  validate :validate_invoice_number 
   # validates_presence_of :from_account_id, :from_account_type, :deposit_slip, on: [:edit, :update]
   # validate :acceptable_deposit_slip, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
 
@@ -85,8 +86,15 @@ class Transaction < ApplicationRecord
 
   before_save :set_balance, if: -> { self.state == Transaction::STATES[:cleared][:identifier] }
 
+  attr_accessor :invoice_number_provided
+
   def label 
     "#{self.id} - #{self.transaction_type.titleize} - #{self.amount}"
+  end
+
+  # TODO: Refactor
+  def invoice_number_provided
+    @invoice_number_provided || false
   end
 
   def set_balance
@@ -190,6 +198,17 @@ class Transaction < ApplicationRecord
   end
   
   private
+
+  def validate_invoice_number
+    return unless self.invoice_number_provided == true
+    return unless self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier]
+    
+    if self.invoice_number.blank?
+      errors.add(:invoice_number, "can't be blank")
+    elsif self.invoice_number.length < 6
+      errors.add(:invoice_number, "must be at least 6 characters")
+    end
+  end
 
   def no_duplicate_records_within_timeframe
     time_frame = 1.minute.ago

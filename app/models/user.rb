@@ -12,6 +12,9 @@ class User < ApplicationRecord
   has_many :referred_users, through: :referrals, source: :referred_user
   has_one :referral, foreign_key: "to_id", dependent: :destroy
   has_many :time_deposit_accounts, dependent: :destroy
+  has_one :mobile_otp, as: :owner, class_name: "Otp"
+
+  after_save :generate_mobile_otp
 
   def name 
     "#{self.first_name} #{self.last_name}"
@@ -25,11 +28,11 @@ class User < ApplicationRecord
   def total_interest_rate 
     return 0 if self.time_deposit_accounts.nil?
     
-    return (TimeDepositAccount::BASE_INTEREST_RATE + self.bonus_rate) * 100
+    return (TimeDepositAccount::BASE_INTEREST_RATE_DEC_6 + self.bonus_rate) * 100
   end
 
   def base_interest_rate
-    return TimeDepositAccount::BASE_INTEREST_RATE * 100
+    return TimeDepositAccount::BASE_INTEREST_RATE_DEC_6 * 100
   end
 
   def bonus_rate 
@@ -47,5 +50,11 @@ class User < ApplicationRecord
   def referred_by_code
     return if self.referral.nil?
     return self.referral.referrer.referral_code.code
+  end
+
+  def generate_mobile_otp 
+    return if self.mobile_otp.present?
+    otp = self.build_mobile_otp(otp_type: "mobile_validation")
+    otp.save
   end
 end

@@ -2,15 +2,14 @@
 
 <div _="init set $timer to 30 then call countdown()" class="flex flex-col items-start justify-center w-full ">
 	<label class="my-2 text-base no-style text-gray-500" for="kyc_onboarding_mobile_otp_code">Enter the 6-digit code that was sent to your mobile number <br/><%=@kyc_onboarding.phone%></label>
-	<%=@kyc_onboarding.mobile_otp.value%>
   
   <div class="flex flex-row items-start justify-start w-full my-4">
-    <input name="kyc_onboarding[mobile_otp_1]" id="otp_value_1" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input name="kyc_onboarding[mobile_otp_2]" id="otp_value_2" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input name="kyc_onboarding[mobile_otp_3]" id="otp_value_3" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input name="kyc_onboarding[mobile_otp_4]" id="otp_value_4" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input name="kyc_onboarding[mobile_otp_5]" id="otp_value_5" maxlength="1" _="on keyup focus() on the next <input/>" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
-    <input name="kyc_onboarding[mobile_otp_6]" id="otp_value_6" maxlength="1" class="<%='invalid' if @kyc_onboarding.errors.present?%> mr-2 text-lg bg-gray-50 md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input autofocus name="kyc_onboarding[mobile_otp_1]" id="otp_value_1" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_2]" id="otp_value_2" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_3]" id="otp_value_3" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_4]" id="otp_value_4" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_5]" id="otp_value_5" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
+    <input name="kyc_onboarding[mobile_otp_6]" id="otp_value_6" maxlength="1" _="on keyup call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
   </div>
   <p class="mt-8 text-sm tracking-wide text-gray-500">
     Didn't receive your code? 
@@ -28,6 +27,18 @@
 </div>
 
 <script type="text/hyperscript">
+  def submitForm
+    set $form_complete to false 
+    
+    if #otp_value_1.value.length > 0 and #otp_value_2.value.length > 0 and #otp_value_3.value.length > 0 and #otp_value_4.value.length > 0 and #otp_value_5.value.length > 0 and #otp_value_6.value.length > 0
+      set $form_complete to true
+    end
+
+    if $form_complete == true 
+      call #kyc-onboarding-form.submit()
+    end
+  end
+
   def countdown
     repeat while $timer > 1
       add .pointer-events-none to #resend-otp-link
