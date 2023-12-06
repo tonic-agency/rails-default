@@ -1,6 +1,7 @@
 class TimeDepositAccount < ApplicationRecord
   DEDUCTED_BASE_INTEREST_RATE = 0.055
   BASE_INTEREST_RATE = 0.06
+  BASE_INTEREST_RATE_DEC_6 = 0.08
   BONUS_INTEREST_RATE = 0.005
   BASE_TERM = 6
   
@@ -32,13 +33,14 @@ class TimeDepositAccount < ApplicationRecord
   def before_create_callbacks
     self.start_date = DateTime.now
     self.maturity_date = self.start_date + BASE_TERM.months
-    self.base_interest_rate = self.amount >= 500000 ? BASE_INTEREST_RATE : DEDUCTED_BASE_INTEREST_RATE
+    # self.base_interest_rate = self.amount >= 500000 ? BASE_INTEREST_RATE : DEDUCTED_BASE_INTEREST_RATE
+    self.base_interest_rate = BASE_INTEREST_RATE_DEC_6
     self.state = 'open'
     set_expected_base_interest
   end
 
   def self.base_interest 
-    (BASE_INTEREST_RATE * 100).round(2)
+    (BASE_INTEREST_RATE_DEC_6 * 100).round(2)
   end
   
   def self.bonus_interest 
@@ -48,7 +50,8 @@ class TimeDepositAccount < ApplicationRecord
   def set_expected_base_interest
     return unless self.amount.present? && self.base_interest_rate.present?
     
-    interest_rate = self.amount >= 500000 ? BASE_INTEREST_RATE : DEDUCTED_BASE_INTEREST_RATE
+    # interest_rate = self.amount >= 500000 ? BASE_INTEREST_RATE : DEDUCTED_BASE_INTEREST_RATE
+    interest_rate = BASE_INTEREST_RATE_DEC_6
 
     self.expected_base_interest = self.amount * interest_rate * (BASE_TERM.to_f / 12.0)
   end
