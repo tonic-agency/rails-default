@@ -1,6 +1,7 @@
 class KycOnboarding < ApplicationRecord
-  PHONE_NUMBER_REGEX = /\A\d(?:\s?\d){10}\z/
-  # EMAIL_REGEX = URI::MailTo::EMAIL_REGEXP
+  # spaces, hyphens and brackets around the first four digits are optional,
+  # but must be exactly 11 digits in the format 09XX XXX XXXX excluding special characters
+  PHONE_NUMBER_REGEX = /\A(?:\(\d{4}\)|\d{4})(?:[\s\-]?\d){7}\z/
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
   belongs_to :user, optional: true
@@ -13,6 +14,8 @@ class KycOnboarding < ApplicationRecord
   before_validation :generate_identifier
   before_validation :generate_user
   before_validation :set_defaults
+  before_save -> { sanitize_mobile_number(:phone) if proc { |kyc| kyc.validation_set == "phone" }  }
+  before_save -> { sanitize_mobile_number(:work_employer_contact_number) if proc { |kyc| kyc.validation_set == "work_info" }  }
   # before_validation :set_monthly_income, if: proc { |kyc| kyc.validation_set == "financial_info" }
   after_create :generate_security_questions
   after_save :generate_mobile_otp, if: proc { |kyc| kyc.validation_set == "phone" }
@@ -27,8 +30,7 @@ class KycOnboarding < ApplicationRecord
   validates_presence_of :first_name, :last_name
 
   validates_presence_of :phone, if: proc { |kyc| kyc.validation_set == "phone"  }
-  # validate :valid_phone_length, if: proc { |kyc| kyc.validation_set == "phone" }
-  validates_format_of :phone, :with =>  PHONE_NUMBER_REGEX, :message => "must be exactly 11 digits in the format 09XX XXX XXXX (spaces are optional)", if: proc { |kyc| kyc.validation_set == "phone"  }
+  validates_format_of :phone, :with =>  PHONE_NUMBER_REGEX, :message => "must be exactly 11 digits in the format (09XX) XXX XXXX (spaces, brackets and hyphens are optional)", if: proc { |kyc| kyc.validation_set == "phone"  }
   
   validates_presence_of :email, if: proc { |kyc| kyc.validation_set == "email" }
   validates_format_of :email, :with => EMAIL_REGEX, if: proc { |kyc| kyc.validation_set == "email" }
@@ -54,8 +56,7 @@ class KycOnboarding < ApplicationRecord
   validates_numericality_of :gross_monthly_income, if: proc { |kyc| kyc.validation_set == "financial_info" }
   
   validates_presence_of :work_occupation, :work_employer_name, :work_employer_address, :work_employer_contact_number, if: proc { |kyc| kyc.validation_set == "work_info" }
-  validate :valid_employer_phone_length, if: proc { |kyc| kyc.validation_set == "work_info" }
-  validates_format_of :work_employer_contact_number, :with =>  PHONE_NUMBER_REGEX, :message => "must be a valid mobile number in the format (09XX) XXX XXXX", if: proc { |kyc| kyc.validation_set == "work_info"  }
+  validates_format_of :work_employer_contact_number, :with =>  PHONE_NUMBER_REGEX, :message => "must be exactly 11 digits in the format (09XX) XXX XXXX (spaces, brackets and hyphens are optional", if: proc { |kyc| kyc.validation_set == "work_info"  }
   
   validates_presence_of :tax_identification_number , if: proc { |kyc| kyc.validation_set == "tax_id" && kyc.tin_known}
   validates_numericality_of :tax_identification_number , if: proc { |kyc| kyc.validation_set == "tax_id" && kyc.tin_known}
@@ -86,7 +87,12 @@ class KycOnboarding < ApplicationRecord
       :id => "submitted",
     }
   }
-  
+
+  def generate_and_send_otp 
+    # generate mobile otp
+    # send to user 
+  end
+
   def generate_identifier
     Utilities.generate_identifier(self)
   end
@@ -368,6 +374,11 @@ class KycOnboarding < ApplicationRecord
     }
   end 
 
+  def sanitize_mobile_number(attribute_name)
+    value = send(attribute_name)
+    send("#{attribute_name}=", value.gsub(/\D/, '')) if value.present?
+  end
+
   private
   def validate_tax_id 
     return if !self.tin_known
@@ -384,26 +395,6 @@ class KycOnboarding < ApplicationRecord
     end
     if self.date_of_birth.future?
       errors.add(:date_of_birth, 'cannot be in the future')
-    end
-  end
-
-  def valid_phone_length 
-    return if self.phone.blank?
-
-    sanitized_phone = self.phone.gsub(/[^a-zA-Z0-9]/, '')
-    
-    if sanitized_phone.length != 11
-      errors.add(:phone, 'must be exactly 11 characters')
-    end
-  end
-
-  def valid_employer_phone_length 
-    return if self.work_employer_contact_number.blank?
-
-    sanitized_employer_phone = self.work_employer_contact_number.gsub(/[^a-zA-Z0-9]/, '')
-    
-    if sanitized_employer_phone.length != 11
-      errors.add(:work_employer_contact_number, 'must be exactly 11 characters')
     end
   end
 
