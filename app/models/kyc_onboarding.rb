@@ -1,5 +1,5 @@
 class KycOnboarding < ApplicationRecord
-  PHONE_NUMBER_REGEX = /\(?(09[0-9]{2})\)?([ ])([0-9]{3})\2([0-9]{4})/
+  PHONE_NUMBER_REGEX = /\A\d(?:\s?\d){10}\z/
   # EMAIL_REGEX = URI::MailTo::EMAIL_REGEXP
   EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -27,8 +27,8 @@ class KycOnboarding < ApplicationRecord
   validates_presence_of :first_name, :last_name
 
   validates_presence_of :phone, if: proc { |kyc| kyc.validation_set == "phone"  }
-  validate :valid_phone_length, if: proc { |kyc| kyc.validation_set == "phone" }
-  validates_format_of :phone, :with =>  PHONE_NUMBER_REGEX, :message => "must be a valid mobile number in the format (09XX) XXX XXXX", if: proc { |kyc| kyc.validation_set == "phone"  }
+  # validate :valid_phone_length, if: proc { |kyc| kyc.validation_set == "phone" }
+  validates_format_of :phone, :with =>  PHONE_NUMBER_REGEX, :message => "must be exactly 11 digits in the format 09XX XXX XXXX (spaces are optional)", if: proc { |kyc| kyc.validation_set == "phone"  }
   
   validates_presence_of :email, if: proc { |kyc| kyc.validation_set == "email" }
   validates_format_of :email, :with => EMAIL_REGEX, if: proc { |kyc| kyc.validation_set == "email" }
@@ -219,11 +219,17 @@ class KycOnboarding < ApplicationRecord
   end
 
   def trigger_otp_email
+    # TODO: Change this to self.email
+    # self.email_otp.email = self.email
+    self.email_otp.email = 'meganennis.dev@gmail.com'
     self.email_otp.send_email
   end
 
   def trigger_otp_sms
-    self.mobile_otp.send_sms(self.phone)
+    # TODO: Change this to self.phone
+    # self.mobile_otp.mobile = self.phone
+    self.mobile_otp.mobile = '645614966'
+    self.mobile_otp.send_sms
   end
 
   def current_step
@@ -357,6 +363,7 @@ class KycOnboarding < ApplicationRecord
       email: self.email,
       mobile_otp: self&.mobile_otp,
       email_otp: self&.email_otp,
+      # TODO: Fix the below logic to handle all envs
       account_url: Rails.application.routes.url_helpers.app_home_url(:only_path => true)
     }
   end 
