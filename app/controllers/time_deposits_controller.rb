@@ -1,5 +1,6 @@
 class TimeDepositsController < ApplicationController
   before_action :redirect_unless_authorized
+  before_action :authenticate_user_otp!
 
   def new  
     @current_step = params[:current_step] || "new_time_deposit"

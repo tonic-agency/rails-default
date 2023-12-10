@@ -4,7 +4,10 @@ class Otp < ApplicationRecord
   OTP_TYPES = %w[mobile_validation email_validation].freeze
 
   validates :otp_type, presence: true, inclusion: { in: OTP_TYPES }
+  
   after_create :generate_otp
+
+  cattr_accessor :email, :mobile
   
   def generate_otp
     return if self.validated_at.present?
@@ -34,24 +37,30 @@ class Otp < ApplicationRecord
     end
   end
 
-  def send_email 
-    OtpMailer.default_email(owner, variables: self.owner.email_variables).deliver
+  def send_email(variables = {})
+    return if self.email.nil?
+    variables = self.owner.email_variables
+    return if variables.nil?
+    
+    OtpMailer.default_email(self.email, variables).deliver
   end
 
-  def resend_email
+  def resend_email(variables = {})
     self.generate_otp!
-    self.send_email
+    self.send_email(variables)
   end
 
-  def send_sms(phone = nil, message = nil)
-    message = "Enter the one-time-password (OTP) below to verify your mobile number.\n\n #{self.value} \n\nFor your account safety please do not share this with anyone." if message.nil?
-    return if phone.nil?
+  def send_sms(message = nil)
+    return if self.mobile.nil?
     return if self.value.nil?
-    Sms::Base.new.send_message(phone, message)
+
+    message = "Enter the one-time-password (OTP) below to verify your mobile number.\n\n #{self.value} \n\nFor your account safety please do not share this with anyone." if message.nil?
+    
+    # Sms::Base.new.send_message(self.mobile, message)
   end
 
-  def resend_sms
+  def resend_sms(message = nil)
     self.generate_otp!
-    self.send_sms(self.owner.phone, nil)
+    self.send_sms(message)
   end
 end

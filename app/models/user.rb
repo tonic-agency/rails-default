@@ -12,9 +12,9 @@ class User < ApplicationRecord
   has_many :referred_users, through: :referrals, source: :referred_user
   has_one :referral, foreign_key: "to_id", dependent: :destroy
   has_many :time_deposit_accounts, dependent: :destroy
-  has_one :mobile_otp, as: :owner, class_name: "Otp"
+  has_one :login_otp, as: :owner, class_name: "Otp"
 
-  after_save :generate_mobile_otp
+  after_save :generate_login_otp
 
   def name 
     "#{self.first_name} #{self.last_name}"
@@ -52,9 +52,10 @@ class User < ApplicationRecord
     return self.referral.referrer.referral_code.code
   end
 
-  def generate_mobile_otp 
-    return if self.mobile_otp.present?
-    otp = self.build_mobile_otp(otp_type: "mobile_validation")
+  def generate_login_otp 
+    return if self.login_otp.present?
+    
+    otp = self.build_login_otp(otp_type: "mobile_validation")
     otp.save
   end
 end

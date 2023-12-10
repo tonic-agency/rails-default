@@ -12,10 +12,12 @@
     <input name="kyc_onboarding[mobile_otp_6]" id="otp_value_6" maxlength="1" _="on keyup call submitForm()" class="<%=@kyc_onboarding.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
   </div>
   <p class="mt-8 text-sm tracking-wide text-gray-500">
-    Didn't receive your code? 
+    Didn't receive your code?
+    <input type="hidden" name="otp[mobile]" value="<%=@kyc_onboarding.phone%>">
     <a 
       id="resend-otp-link" 
-      hx-post="<%=resend_otp_mobile_path(id: @kyc_onboarding.mobile_otp)%>"
+      hx-post="<%=resend_otp_mobile_path(@kyc_onboarding.mobile_otp)%>"
+      hx-include="[name='otp[mobile]']"
       hx-trigger="click"
       _="on htmx:afterRequest remove .hidden from #countdown-container then call countdown()"
       class="font-farmbank-teal pointer-events-none">

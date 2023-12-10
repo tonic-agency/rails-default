@@ -14,10 +14,12 @@
   
   <p class="mt-8 text-sm tracking-wide text-gray-500">
     Didn't receive your code? 
+     <input type="hidden" name="otp[email]" value="<%=@kyc_onboarding.email%>">
     <a 
       id="resend-otp-link" 
-      hx-post="<%=resend_otp_email_path(id: @kyc_onboarding.email_otp)%>"
+      hx-post="<%=resend_otp_email_path(@kyc_onboarding.email_otp)%>"
       hx-trigger="click"
+      hx-include="[name='otp[email]']"
       _="on htmx:afterRequest remove .hidden from #countdown-container then call countdown()"
       class="font-farmbank-teal pointer-events-none">
         Resend OTP 

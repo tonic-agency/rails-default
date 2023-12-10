@@ -1,4 +1,5 @@
 class AppController < ApplicationController
+  before_action :authenticate_user_otp!, except: [:terms_and_conditions]
 
   def home
     return redirect_to root_path unless current_user.present?
