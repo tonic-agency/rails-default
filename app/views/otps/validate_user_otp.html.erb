@@ -13,7 +13,6 @@
       <h5 class="text-gray-600 font-semibold text-lg"> Verify OTP </h5>
 
       <form id="login-otp-form" method="post" action="<%=validate_user_otp_path%>" class="farmbank-input-styling">
-
         <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>"/>
 
         <div _="init set $timer to 30 then call countdown()" class="flex flex-col items-start justify-center w-full ">
@@ -27,18 +26,20 @@
             <input name="otp[value_5]" id="otp_value_5" maxlength="1" _="on keyup if my.value.length > 0 focus() on the next <input/> then call submitForm()" class="<%=@otp.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
             <input name="otp[value_6]" id="otp_value_6" maxlength="1" _="on keyup call submitForm()" class="<%=@otp.errors.present? ? 'invalid bg-red-50' : 'bg-gray-50' %> mr-2 text-lg md:text-5xl text-center border-2 outline-none w-14 otp-input-field" type="text" style="padding-top: 40px; padding-bottom: 40px">
           </div>
+
           <% if @otp.errors.present? %>
             <div class="mt-4 text-sm text-red-500">
               <%= @otp.errors.full_messages.join(', ') %>
             </div>
           <% end %>
+
           <p class="mt-4 text-sm tracking-wide text-gray-500">
             Didn't receive your code?
             <input type="hidden" name="otp[mobile]" value="<%=current_user.kyc_onboarding.phone%>">
             <a 
               id="resend-otp-link" 
               hx-post="<%=resend_otp_mobile_path(current_user.login_otp)%>"
-              hx-include="[name='user[mobile]']"
+              hx-include="[name='otp[mobile]']"
               hx-trigger="click"
               _="on htmx:afterRequest remove .hidden from #countdown-container then call countdown()"
               class="font-farmbank-teal pointer-events-none">
@@ -46,12 +47,9 @@
                 <span id="countdown-container"> in <span id="countdown"> 30 </span> seconds </span>
             </a>
           </p>
-
         </div>
       </form>
-
     </div>
-
   </div>
 </div>
 

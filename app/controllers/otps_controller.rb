@@ -10,7 +10,12 @@ class OtpsController < ApplicationController
     if request.post?
       values = otp_params.values_at(:value_1, :value_2, :value_3, :value_4, :value_5, :value_6).join
       if @otp.validate_otp(values)
-        redirect_to app_home_path
+        welcome = params[:welcome].present? ? true : false
+        if welcome
+          redirect_to app_home_path(welcome: true)
+        else
+          redirect_to app_home_path
+        end
       else
         @otp.errors.add(:base, "Invalid OTP")
       end 

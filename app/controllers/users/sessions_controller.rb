@@ -3,8 +3,11 @@ class Users::SessionsController < Devise::SessionsController
   
   def create
     super do |user|
+      return unless user&.login_otp.present?
+      return unless user&.kyc_onboarding&.phone.present?
+      return unless user&.kyc_onboarding&.state == KycOnboarding::STATES[:submitted][:id]
+      
       if user.persisted?
-        
         @otp = user.login_otp
         @otp.generate_otp!
         @otp.mobile = user.kyc_onboarding.phone

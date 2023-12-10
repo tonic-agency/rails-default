@@ -59,7 +59,9 @@ class KycOnboardingsController < ApplicationController
   def submit 
     @kyc_onboarding = KycOnboarding.find_by_identifier(params[:kyc_onboarding_identifier])
     if @kyc_onboarding.submit!
-      redirect_to app_home_path(welcome: true)
+      @kyc_onboarding.user.login_otp.mobile = @kyc_onboarding.phone
+      @kyc_onboarding.user.login_otp.send_sms
+      redirect_to validate_user_otp_path(welcome: true)
     end
   end 
 

@@ -7,6 +7,8 @@ class Otp < ApplicationRecord
   
   after_create :generate_otp
 
+  attr_accessor :value_1, :value_2, :value_3, :value_4, :value_5, :value_6
+
   cattr_accessor :email, :mobile
   
   def generate_otp
@@ -56,7 +58,7 @@ class Otp < ApplicationRecord
 
     message = "Enter the one-time-password (OTP) below to verify your mobile number.\n\n #{self.value} \n\nFor your account safety please do not share this with anyone." if message.nil?
     
-    # Sms::Base.new.send_message(self.mobile, message)
+    Sms::Base.new.send_message(self.mobile, message)
   end
 
   def resend_sms(message = nil)
