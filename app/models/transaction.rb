@@ -1,4 +1,7 @@
 class Transaction < ApplicationRecord
+  # only digits and optional spaces or dashes
+  BANK_ACCOUNT_REGEX = /\A[0-9\s-]*\z/
+  
   has_one_attached :deposit_slip
   has_one :transaction_approval, dependent: :destroy, inverse_of: :corresponding_transaction
   accepts_nested_attributes_for :transaction_approval
@@ -75,9 +78,11 @@ class Transaction < ApplicationRecord
   validates_presence_of :amount
   validates :amount, numericality: { greater_than: 0.0 }
   validate :no_duplicate_records_within_timeframe
-  validate :validate_invoice_number 
   # validates_presence_of :from_account_id, :from_account_type, :deposit_slip, on: [:edit, :update]
-  # validate :acceptable_deposit_slip, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
+  validates_presence_of :deposit_slip, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
+  validate :acceptable_deposit_slip
+  validates_presence_of :bank_account_number, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
+  validates_format_of :bank_account_number, with: BANK_ACCOUNT_REGEX, message: "must only contain numbers, spaces and hyphens.", if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
 
   scope :pending, -> { where(state: 'pending') }
   scope :rejected, -> { where(state: 'rejected') }
@@ -85,16 +90,11 @@ class Transaction < ApplicationRecord
   scope :time_deposits, -> { where(transaction_type: 'create_time_deposit') }
 
   before_save :set_balance, if: -> { self.state == Transaction::STATES[:cleared][:identifier] }
+  before_save :sanitize_bank_account_number, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
 
-  attr_accessor :invoice_number_provided
 
   def label 
     "#{self.id} - #{self.transaction_type.titleize} - #{self.amount}"
-  end
-
-  # TODO: Refactor
-  def invoice_number_provided
-    @invoice_number_provided || false
   end
 
   def set_balance
@@ -124,24 +124,6 @@ class Transaction < ApplicationRecord
       self.to_settlement_account
     when 'time_deposit'
       self.to_time_deposit_account
-    end
-  end
-
-  def acceptable_deposit_slip
-    unless deposit_slip.attached?
-      errors.add(:deposit_slip, "is missing")
-      return
-    end
-  
-    unless deposit_slip.blob.byte_size <= 1.megabyte
-      errors.add(:deposit_slip, "is too big")
-      return
-    end
-  
-    acceptable_types = ["image/jpeg", "image/png", "application/pdf"] 
-    
-    unless acceptable_types.include?(deposit_slip.content_type)
-      errors.add(:deposit_slip, "must be a JPEG, PDF or PNG")
     end
   end
 
@@ -196,18 +178,11 @@ class Transaction < ApplicationRecord
       'bg-orange-200 text-orange-700'
     end
   end
-  
+
   private
 
-  def validate_invoice_number
-    return unless self.invoice_number_provided == true
-    return unless self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier]
-    
-    if self.invoice_number.blank?
-      errors.add(:invoice_number, "can't be blank")
-    elsif self.invoice_number.length < 6
-      errors.add(:invoice_number, "must be at least 6 characters")
-    end
+  def sanitize_bank_account_number
+    self.bank_account_number = self.bank_account_number.gsub(/[ -]/, '')
   end
 
   def no_duplicate_records_within_timeframe
@@ -225,6 +200,26 @@ class Transaction < ApplicationRecord
 
     # Add an error if duplicate records are found
     errors.add(:amount, 'cannot create a duplicate Transaction within 1 minute') if existing_records.any?
+  end
+
+  def acceptable_deposit_slip
+    return unless self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier]
+    
+    unless deposit_slip.attached?
+      errors.add(:deposit_slip, "is missing")
+      return
+    end
+  
+    unless deposit_slip.blob.byte_size <= 1.megabyte
+      errors.add(:deposit_slip, "is too big")
+      return
+    end
+  
+    acceptable_types = ["image/jpeg", "image/png", "application/pdf"] 
+    
+    unless acceptable_types.include?(deposit_slip.content_type)
+      errors.add(:deposit_slip, "must be a JPEG, PDF or PNG")
+    end
   end
 
 end

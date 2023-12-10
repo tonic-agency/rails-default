@@ -93,6 +93,10 @@ ActiveAdmin.register Transaction do
         end
       end
       row :date
+      row :bank_account_number do |transaction|
+        transaction.bank_account_number || 'N/A'
+      end
+
       row :deposit_slip do |transaction|
         if transaction.deposit_slip.present?
           link_to transaction&.deposit_slip&.url, target: '_blank' do 

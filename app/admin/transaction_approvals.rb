@@ -98,6 +98,14 @@ ActiveAdmin.register TransactionApproval do
           label 'State:', class: 'font-bold'
           div f.object.corresponding_transaction.state&.titleize
         end
+        div class: 'grid grid-cols-2 w-full' do
+          label 'Transaction Type:', class: 'font-bold'
+          div f.object.corresponding_transaction.transaction_type&.titleize
+        end
+        div class: 'grid grid-cols-2 w-full' do
+          label 'Bank Account Number:', class: 'font-bold'
+          div f.object.corresponding_transaction&.bank_account_number || 'N/A'
+        end
         div class: "w-full grid #{f.object.corresponding_transaction.deposit_slip.attached? ? 'grid-cols-1' : 'grid-cols-2'}" do 
           label 'Deposit Slip:', class: 'font-bold'
           div class: 'w-full' do 

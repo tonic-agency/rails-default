@@ -15,7 +15,7 @@
 			</svg>
 		</div>
 
-		<form id="add-funds-form" class="farmbank-input-styling h-full flex flex-col flex-grow sm:flex-grow-0 w-full">
+		<form id="add-funds-form" class="farmbank-input-styling h-full flex flex-col flex-grow sm:flex-grow-0 w-full mb-10">
 			<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>" />
 			
 			<% if @errors.present?  %>
@@ -34,7 +34,7 @@
 					<div class="relative w-full">
 						<input 
 							autofocus
-							_="on htmx:afterRequest
+							_="on htmx:afterRequest 
 								if event.detail.xhr.response.length > 0 
 									add .invalid to #balance
 									add @disabled to #add-funds-next-button
@@ -56,16 +56,16 @@
 							style="padding: 2rem 2rem 2rem 2rem; position: relative" 
 							class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
 							name="transaction[amount]"
-							hx-post="<%= add_funds_validate_transaction_path(field: 'amount') %>"
-							hx-encoding='multipart/form-data'
+							hx-post="<%= add_funds_validate_amount_path %>"
 							hx-trigger="keyup changed"
 							hx-target="#add-funds-errors"
+							hx-include="[name='transaction[amount]']"
 							type="number"
 							min="0"
 							step="0.01"
 							id="balance"
 							placeholder="0.00"
-							value="<%=@transaction.amount%>" />
+							value="" />
 						<div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
 
 						<div id="add-funds-errors">
@@ -79,8 +79,7 @@
 						id="add-funds-next-button"
 						_="on click set $page to 2
 							add .hidden to #page-1 
-							remove .hidden from #page-2
-							focus() on #invoice-number
+							remove .hidden from #page-2 
 						"
 						type="button"
 						class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80"
@@ -112,107 +111,83 @@
 					</div>
 				</div>
 				<div class="w-full mt-8">
-					<div class="mb-8">
-						<label class="no-style text-gray-600 text-base font-semibold leading-normal">Invoice Number</label>
-						<input 
-							_="on htmx:afterRequest 
-								if event.detail.xhr.response.length > 0 
-									add .invalid to me
-									add @disabled to #confirm-transaction-button
-									add .cursor-not-allowed to #confirm-transaction-button
+					<div class="mb-6">
+						<label class="no-style relative text-base text-gray-500 " for="bank-account_number">
+							<span class="text-gray-600 text-base font-semibold leading-normal">Bank Account Number <br/></span>
+							<span class="text-gray-600 text-base font-normal leading-normal">This information is stored securely and used only to verify your transfer.</span>
+						</label>
+						<div class="mt-4 pb-2">
+							<input
+							id="bank-account-number"
+							hx-post="<%= add_funds_validate_transaction_path(field: 'bank_account_number') %>"
+							hx-trigger="keyup changed"
+							hx-target="#add-funds-bank-account-number-errors"
+							hx-include="[name='transaction[bank_account_number]']"
+							hx-encoding='multipart/form-data'
+							hx-swap="innerHtml"
+							_="on htmx:afterRequest
+								if event.detail.xhr.response.length > 0
 									add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
 									remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-								else 
-									remove .invalid from #invoice-number
-									if #deposit-slip.value.length < 1 and #dummy-invoice-number-present-toggle.value == '1'
-										add @disabled to #confirm-transaction-button
-										add .cursor-not-allowed to #confirm-transaction-button
-										add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-										remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-									else
-										remove @disabled from #confirm-transaction-button
-										remove .cursor-not-allowed from #confirm-transaction-button
-										add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-										remove .bg-gray-300 from #confirm-transaction-button
-									end
-								end
-							"
-							hx-post="<%= add_funds_validate_transaction_path(field: 'invoice_number') %>"
-							hx-encoding='multipart/form-data'
-							hx-trigger="keyup changed"
-							hx-target="#add-funds-invoice-number-errors"
-							hx-include="[name='transaction[invoice_number_provided]']"
-							name="transaction[invoice_number]"
-							class="w-full p-4 border-2 outline-none focus:border-blue-100 focus:border" 
-							type="text" 
-							id="invoice-number" 
-							autofocus
-							value="<%=@transaction.invoice_number%>"
-							placeholder="Invoice Number" />
+									add .invalid to #bank-account-number
+									add @disabled to #confirm-transaction-button
+								else
+									remove .invalid from #bank-account-number
+									remove @disabled from #confirm-transaction-button
+									remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button 
+									add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
+								end"
+							name="transaction[bank_account_number]"
+							class="w-full p-4 border-2 outline-none"
+							type="text"
+							required
+							placeholder="Enter your bank account number"
+							>
 
-							<div id="add-funds-invoice-number-errors">
-							</div>
-
-							<%# toggle switch for setting invoice_number_provided %>
-							<input
-								id="dummy-invoice-number-present-toggle" 
-								name="transaction[invoice_number_provided]" 
-								type="hidden"  
-								value="<%=@transaction.invoice_number_provided ? 1 : 0%>">
-							
-							<div _="on click call toggleInvoiceNumberProvided()" class="flex mt-4 cursor-pointer items-center">
-								<button id="invoice-number-present-btn" type="button" class="<%=@transaction.invoice_number_provided ? 'bg-gray-200' : 'bg-farmbank-teal'%> relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-offset-2" role="switch" aria-checked="false" aria-labelledby="invoice-number-provided-label">
-									<span id="toggle-bg" aria-hidden="true" class="<%=@transaction.invoice_number_provided ? 'translate-x-0' : 'translate-x-5'%> pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
-								</button>
-								<span class="ml-3 ">
-									<span class="font-medium text-gray-900">My Bank doesn't provide this</span>
-								</span>
-							</div>
+						</div>
+						<div id="add-funds-bank-account-number-errors">
+						</div>
 					</div>
-					
-					<label class="no-style relative text-base text-gray-500 " for="deposit-slip">
-						<span class="text-gray-600 text-base font-semibold leading-normal">Upload your proof of payment <br/></span>
-						<span class="text-gray-600 text-base font-normal leading-normal">(ex. physical deposit slip or transfer screenshot)</span>
-					
-						<div class="input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
-							<input 
-								hx-post="<%= add_funds_validate_transaction_path(field: 'deposit_slip') %>"
-								hx-trigger="change"
-								hx-encoding='multipart/form-data'
-								hx-target="#add-funds-deposit-slip-errors"
-								hx-include="[name='transaction[deposit_slip]']"
-								hx-swap="innerHtml"
-								_="on htmx:afterRequest
-									if event.detail.xhr.response.length > 0
-										add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-										remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-										add .invalid to #deposit-slip
-										add @disabled to #confirm-transaction-button
-									else
-										remove .invalid from #deposit-slip
-										if #invoice-number.value.length < 1 and #dummy-invoice-number-present-toggle.value == '1'
-											add @disabled to #confirm-transaction-button
-											add .cursor-not-allowed to #confirm-transaction-button
+
+					<div>
+						<label class="no-style relative text-base text-gray-500 " for="deposit-slip">
+							<span class="text-gray-600 text-base font-semibold leading-normal">Upload your proof of payment <br/></span>
+							<span class="text-gray-600 text-base font-normal leading-normal">(ex. physical deposit slip or transfer screenshot)</span>
+						
+							<div class="input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
+								<input 
+									hx-post="<%= add_funds_validate_transaction_path(field: 'deposit_slip') %>"
+									hx-trigger="change"
+									hx-encoding='multipart/form-data'
+									hx-target="#add-funds-deposit-slip-errors"
+									hx-include="[name='transaction[bank_account_number]']"
+									hx-swap="innerHtml"
+									_="on htmx:afterRequest
+										if event.detail.xhr.response.length > 0
 											add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
 											remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
+											add .invalid to #deposit-slip
+											add @disabled to #confirm-transaction-button
 										else
+											remove .invalid from #deposit-slip
 											remove @disabled from #confirm-transaction-button
 											remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button 
 											add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-										end
-									end" 
-								name="transaction[deposit_slip]" 
-								class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" 
-								type="file" 
-								id="deposit-slip">
-							<div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
-								Choose files	
+										end" 
+									name="transaction[deposit_slip]" 
+									class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" 
+									type="file"
+									required
+									id="deposit-slip">
+								<div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+									Choose files	
+								</div>
 							</div>
-						</div>
-						<div class="w-full mt-2 mb-6 sm:mb-0 text-gray-500 text-xs font-normal leading-none">PNG, JPG or PDF</div>
-					</label>
+							<div class="w-full mt-2 mb-6 sm:mb-0 text-gray-500 text-xs font-normal leading-none">PNG, JPG or PDF</div>
+						</label>
 
-					<div id="add-funds-deposit-slip-errors">
+						<div id="add-funds-deposit-slip-errors">
+						</div>
 					</div>
 				</div>
 				
@@ -236,6 +211,7 @@
 </section>
 
 <script type="text/hyperscript">
+
 	def go_back()
 		if $page is 2 
 			add .hidden to #page-2 
@@ -244,49 +220,6 @@
 		else 
 			go to url <%=app_home_path %>
 		end
-	end
-
-	def toggleInvoiceNumberProvided()
-		toggle .bg-farmbank-teal .bg-gray-200 on #invoice-number-present-btn in me
-		toggle .translate-x-5 on #toggle-bg in me
-		
-		if #dummy-invoice-number-present-toggle.value == "0"
-			set #dummy-invoice-number-present-toggle.value to "1"
-			remove @disabled from #invoice-number
-			remove .cursor-not-allowed from #invoice-number
-			remove .hidden from #add-funds-invoice-number-errors
-			if #deposit-slip.value.length < 1
-				add @disabled to #confirm-transaction-button
-				add .cursor-not-allowed to #confirm-transaction-button
-				add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-				remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-			else 
-				remove @disabled from #confirm-transaction-button
-				remove .cursor-not-allowed from #confirm-transaction-button
-				remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button
-				add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-			end
-		else
-			set #dummy-invoice-number-present-toggle.value to "0"
-			set #invoice-number.value to ""
-			add @disabled to #invoice-number
-			add .cursor-not-allowed to #invoice-number
-			remove .invalid from #invoice-number
-			set #add-funds-invoice-number-errors.innerHTML to ""
-			if #deposit-slip.value.length > 0
-				remove @disabled from #confirm-transaction-button
-				remove .cursor-not-allowed from #confirm-transaction-button
-				remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button
-				add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-			else 
-				add @disabled to #confirm-transaction-button
-				add .cursor-not-allowed to #confirm-transaction-button
-				add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-				remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-			
-			end
-		end
-
 	end
 
 </script>
