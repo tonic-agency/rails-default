@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
 
   protected
   def after_sign_in_path_for(resource)
-    validate_user_otp_path
+    if resource.is_a?(User)
+      return validate_user_otp_path if resource.login_otp.present? && resource.login_otp.validated_at.nil?
+    end 
+    
+    super
   end
   
 end
