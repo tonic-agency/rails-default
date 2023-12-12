@@ -1,0 +1,47 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@recipient&.name%>,
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 24px; margin: 32px 0px; font-family: Helvetica; font-weight: 700; line-height: 32px; word-wrap: break-word; display: inline-flex;">
+  Congratulations, your recent referral was a success! 🤝
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+   As a reward, we've boosted your interest rate by 0.5%.
+  <br/><br/><br/>
+</div>
+
+<div style="width: 100%; display: flex; align-items: center; justify-content: center; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <div style="color: #111928; font-family: Helvetica; font-size: 16px; width: 80%; padding: 26px; background: #DEF7EC; border-radius: 20.67px; gap: 8px;">
+  
+    <div style="font-weight: 400; line-height: 24px; color: black;">
+      Your New Interest Rate 
+      <br/>
+    </div>
+    
+    <div style="font-weight: 700; line-height: 24px; color: black;">
+      6.5%
+      <br/>
+    </div>
+  </div>
+</div>
+
+<br/><br/>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  This increased rate will be applied to all your active time deposits, enhancing the total interest you’ll earn.
+  <br/><br/>
+  Remember, there's no limit to the number of referrals you can make. Keep the momentum going!
+  <br/><br/>
+  Want to refer more? Encourage friends and family to use your unique code <span style="font-weight: 600; color: #409384"><%=@recipient.referral_code.code%></span> when they join Farmbank. 
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/>
+  Happy Saving,
+  <br/><br/>
+  The Farmbank Team
+</div>

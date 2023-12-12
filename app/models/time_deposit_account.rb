@@ -29,6 +29,7 @@ class TimeDepositAccount < ApplicationRecord
   before_validation :before_create_callbacks, on: :create
   before_save :set_expected_base_interest
   before_create :build_default_transaction
+  after_create :send_account_creation_email, :send_referral_scheme_info_email
 
   def before_create_callbacks
     self.start_date = DateTime.now
@@ -107,6 +108,30 @@ class TimeDepositAccount < ApplicationRecord
     interest_earned = (maturity.to_d / 100) * expected_interest
     return interest_earned
   end
+
+  def send_account_creation_email
+    TimeDepositMailer.account_creation_email(self).deliver_later
+  end
+
+  def send_referral_scheme_info_email
+    return unless self.user.referral_code.present?
+    TimeDepositMailer.referral_scheme_info_email(self).deliver_later
+  end
+
+  def send_referral_interest_bonus_email
+    # TODO: Polish out this functionality - 
+    #    - need to make sure it's the first account created by given user
+    #    - need to make sure the referrer's account bonus rate is incremented
+    
+    # referral = Referral.find_by(from_id: self.user.id)
+    # is_first_account = self.user.time_deposit_accounts.count == 1
+    
+    # return unless referral.present?
+    # return unless is_first_account
+
+    # TimeDepositMailer.referral_interest_bonus_email(referral).deliver_later
+  end
+
 
   private 
   def no_duplicate_records_within_timeframe

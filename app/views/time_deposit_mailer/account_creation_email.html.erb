@@ -1,0 +1,91 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@recipient&.name%>,
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 24px; margin: 32px 0px; font-family: Helvetica; font-weight: 700; line-height: 32px; word-wrap: break-word; display: inline-flex;">
+  Your time deposit is now active! ⏳
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+   We’ve successfully set up your new time deposit with Farmbank. Its details are as follows:
+  <br/><br/><br/>
+</div>
+
+<div style="width: 100%; display: flex; align-items: center; justify-content: center; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <div style="color: #111928; font-family: Helvetica; font-size: 16px; width: 80%; padding: 26px; background: #DEF7EC; border-radius: 20.67px; gap: 8px;">
+  
+    <div style="font-weight: 700; line-height: 24px; color: black;">
+      Initial Amount
+      <br/>
+    </div>
+    
+    <div style="font-weight: 400; line-height: 24px; color: black;">
+      <%=number_to_currency(@time_deposit_account.amount.to_d, unit: '₱')%>
+      <br/>
+    </div><br/>
+
+    <div style="font-weight: 700; line-height: 24px; color: black;">
+      Maturity Date
+      <br/>
+    </div>
+
+    <div style="font-weight: 400; line-height: 24px; color: black;">
+      <%=@time_deposit_account.maturity_date.strftime('%d %b %Y')%>
+    </div><br/>
+
+    <div style="font-weight: 700; line-height: 24px; color: black;">
+      Base Rate
+      <br/>
+    </div>
+    
+    <div style="font-weight: 400; line-height: 24px; color: black;">
+      <%=(@time_deposit_account.base_interest_rate * 100).round(2)%>%
+      <br/>
+    </div><br/>
+
+    <div style="font-weight: 700; line-height: 24px; color: black;">
+      Total Interest (excl. referrals)
+      <br/>
+    </div>
+    
+    <div style="font-weight: 400; line-height: 24px; color: black;">
+      <%=number_to_currency(@time_deposit_account.expected_base_interest, unit: '₱')%>
+      <br/>
+    </div>
+  </div>
+</div>
+
+<br/><br/>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  You may keep track of it in your account home page.
+  
+</div>
+
+<div style="width: 100%; display: flex; align-items: center; justify-content: center; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <div style="margin: 40px auto">
+      <img src="/images/percentage-mail.png" />
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <b>Grow Your Savings with Our Referral Scheme</b>
+  <br/><br/>
+  <%# TODO: Link to new referral terms and conditions page %>
+  You can boost your total interest rate by <%=(TimeDepositAccount::BASE_INTEREST_RATE_DEC_6 * 100).to_d%>% with each successful Farmbank account referral. Spread the word and watch your savings grow! Find out more <a href="#" style="color: #409384; font-weight: bold"> here.</a>
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  Thank you for trusting Farmbank with your financial goals.
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/>
+  Best regards, 
+  <br/><br/>
+  The Farmbank Team
+</div>

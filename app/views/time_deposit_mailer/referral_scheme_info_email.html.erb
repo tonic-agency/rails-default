@@ -1,0 +1,56 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@recipient&.name%>,
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 24px; margin: 32px 0px; font-family: Helvetica; font-weight: 700; line-height: 32px; word-wrap: break-word; display: inline-flex;">
+  Increase your earnings with Farmbank’s new referral scheme ⚡️
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+   Did you know that you can get a 0.5% interest rate increase for every referral on ALL your time deposits?
+  <br/><br/><br/>
+</div>
+
+<div style="width: 100%; display: flex; align-items: center; justify-content: center; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <div style="margin: 40px auto">
+      <img src="/images/percentage-mail.png" />
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  Here's how it works:
+  <ul style="list-style-type: disc; margin-left: 20px;">
+    <li>For every friend or family member who opens a Farmbank account using your unique referral code, you'll earn additional 0.5% interest.</li>
+    <li>Your new total interest rate will be applied to ALL active time deposits.</li>
+    <li>There's no limit to how many people you can refer!</li>
+  </ul>
+  <br/>
+  
+  Your Unique Referral Code: <span style="font-weight: 700; color: #409384"><%= @recipient.referral_code&.code %></span>
+  
+  <br/><br/>
+
+  Start referring today and watch your interest rate soar! Simply share your unique code and remind your referrals to use it when they sign up.
+
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  Thank you for banking with Farmbank, where your financial growth is our priority.
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/>
+  Best regards, 
+  <br/><br/>
+  The Farmbank Team
+</div>
+
+<table style="width: 100%; margin-top: 30px">
+  <td style="text-align: center">
+    <%= link_to 'Terms & Conditions', terms_and_conditions_url, style: 'float: center; font-family: Helvetica; display: block; margin: auto; color: #156A60;  text-decoration: underline' %>
+  </td>
+</table>
