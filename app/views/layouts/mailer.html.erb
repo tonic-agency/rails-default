@@ -23,7 +23,7 @@
         <%= yield %>
       </div>
 
-      <div style="width: 100%; position: relative">
+      
     
       <div style="width: 100%; postion: fixed; bottom: 0; background: #F9FAFB; padding: 30px 0px">
         <div style="width: 100%; padding-bottom: 8px; top: 16px; align-items: center;">
@@ -34,12 +34,8 @@
           </div>
           <div style="width: 100%; text-align: center">
             <span style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; line-height: 16px; word-wrap: break-word">
-              If you need any help, please email <%=ENV.fetch('DEFAULT_FROM_EMAIL')%> or call 
+              If you need any help, please email <%=ENV.fetch('DEFAULT_FROM_EMAIL')%> 
             </span>
-            <a href="tel:<%=ENV.fetch('DEFAULT_CONTACT_NUMBER')%>" style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; text-decoration: underline; line-height: 16px; word-wrap: break-word">
-              <%=ENV.fetch('DEFAULT_CONTACT_NUMBER')%>
-            </a>
-            
           </div>
         </div>
       </div>
