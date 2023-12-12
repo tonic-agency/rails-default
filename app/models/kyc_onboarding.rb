@@ -78,6 +78,9 @@ class KycOnboarding < ApplicationRecord
   
   scope :incomplete, -> { where(state: STATES[:incomplete][:id]) }
   scope :submitted, -> { where(state: STATES[:submitted][:id]) }
+  scope :verified, -> { joins(:kyc_onboarding_check).where(kyc_onboarding_checks: { result: KycOnboardingCheck::STATES[:verified][:id] }) }
+  scope :rejected, -> { joins(:kyc_onboarding_check).where(kyc_onboarding_checks: { result: KycOnboardingCheck::STATES[:rejected][:id] }) }
+  scope :awaiting_additional_info, -> { joins(:kyc_onboarding_check).where(kyc_onboarding_checks: { result: KycOnboardingCheck::STATES[:awaiting_additional_info][:id] }) }
 
   STATES = {
     :incomplete => {
@@ -168,7 +171,7 @@ class KycOnboarding < ApplicationRecord
   end
 
   def trigger_verification_in_progress_email
-    # KycOnboardingMailer.account_verification_in_progress_email(self).deliver_now
+    KycOnboardingMailer.account_verification_in_progress_email(self, self.email_variables).deliver
   end
 
   def generate_referral_code

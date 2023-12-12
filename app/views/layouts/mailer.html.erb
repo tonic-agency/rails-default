@@ -13,7 +13,7 @@
         <div style="width: 100%; border-top-left-radius: 16px; border-top-right-radius: 16px; overflow: hidden; justify-content: center; align-items: center;">
           <div style="flex: 1 1 0; align-self: stretch; padding-left: 3.5%; padding-top: 40px; padding-bottom: 24px; justify-content: flex-start; align-items: center;">
             <div style="display: flex; align-self: stretch; justify-content: flex-start; align-items: center;">
-              <img src="https://farmbank.toniclabs.ltd/images/logo.png" alt="Farmbank Logo"/>
+              <img src="https://staging.farmbankph.com/images/logo.png" alt="Farmbank Logo"/>
             </div>
           </div>
         </div>
@@ -34,15 +34,12 @@
           </div>
           <div style="width: 100%; text-align: center">
             <span style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; line-height: 16px; word-wrap: break-word">
-              If you need any help, please email support@farmbank.com or call 
+              If you need any help, please email <%=ENV.fetch('DEFAULT_FROM_EMAIL')%> or call 
             </span>
-            <span style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; text-decoration: underline; line-height: 16px; word-wrap: break-word">
-              +632 
-            </span>
-            <span style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; line-height: 16px; word-wrap: break-word">
-              XXXX XXXX
-              <br/>
-            </span>
+            <a href="tel:<%=ENV.fetch('DEFAULT_CONTACT_NUMBER')%>" style="color: #6B7280; font-size: 12px; font-family: Helvetica; font-weight: 400; text-decoration: underline; line-height: 16px; word-wrap: break-word">
+              <%=ENV.fetch('DEFAULT_CONTACT_NUMBER')%>
+            </a>
+            
           </div>
         </div>
       </div>

@@ -65,7 +65,7 @@ Rails.application.configure do
   config.action_mailer.show_previews = true
 
   # Required for devise 
-  config.action_mailer.default_url_options = { :host => 'farmbank.toniclabs.ltd' }
+  config.action_mailer.default_url_options = { :host => 'staging.farmbankph.com' }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
