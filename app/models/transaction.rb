@@ -86,12 +86,14 @@ class Transaction < ApplicationRecord
 
   scope :pending, -> { where(state: 'pending') }
   scope :rejected, -> { where(state: 'rejected') }
+  scope :cleared, -> { where(state: 'cleared') }
   scope :add_funds, -> { where(transaction_type: 'add_funds') }
   scope :time_deposits, -> { where(transaction_type: 'create_time_deposit') }
 
   before_save :set_balance, if: -> { self.state == Transaction::STATES[:cleared][:identifier] }
   before_save :sanitize_bank_account_number, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
-
+  after_create :send_add_funds_verification_in_progress_email, if: -> { self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
+  after_save :send_add_funds_cleared_email, if: -> { self.state == Transaction::STATES[:cleared][:identifier] && self.transaction_type == Transaction::TRANSACTION_TYPES[:add_funds][:identifier] }
 
   def label 
     "#{self.id} - #{self.transaction_type.titleize} - #{self.amount}"
@@ -177,6 +179,14 @@ class Transaction < ApplicationRecord
     when 'cancellation_pending'
       'bg-orange-200 text-orange-700'
     end
+  end
+
+  def send_add_funds_verification_in_progress_email
+    AddFundsMailer.transaction_created(self).deliver_later
+  end
+
+  def send_add_funds_cleared_email
+    AddFundsMailer.transaction_cleared(self).deliver_later
   end
 
   private
