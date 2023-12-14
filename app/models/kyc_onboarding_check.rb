@@ -33,15 +33,15 @@ class KycOnboardingCheck < ApplicationRecord
   end
 
   def trigger_account_verification_complete_email
-    KycOnboardingMailer.account_verification_complete_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver
+    KycOnboardingMailer.account_verification_complete_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver_later
   end
 
   def trigger_account_verification_rejected_email
-    KycOnboardingMailer.account_verification_rejected_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver
+    KycOnboardingMailer.account_verification_rejected_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver_later
   end
 
   def trigger_account_verification_requires_info_email
-    KycOnboardingMailer.account_verification_requires_info_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver
+    KycOnboardingMailer.account_verification_requires_info_email(self.kyc_onboarding, self.kyc_onboarding.email_variables).deliver_later
   end
 
   def checks_passed_if_verified
