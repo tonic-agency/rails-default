@@ -21,8 +21,6 @@ Rails.application.routes.draw do
 
   get "/activity", to: "app#history"
   match "/add_funds", to: "add_funds#new", as: "add_funds", via: [:get,:post]
-  post "/add_funds/validate_amount", to: "add_funds#validate_amount", as: "add_funds_validate_amount"
-  post "/add_funds/validate_deposit_slip", to: "add_funds#validate_deposit_slip", as: "add_funds_validate_deposit_slip"
   post "/add_funds/validate_transaction", to: "add_funds#validate_transaction", as: "add_funds_validate_transaction"
   get "/withdraw", to: "app#withdraw", as: "withdraw"
   match "/time_deposits/new", to: "time_deposits#new", as: "new_time_deposit", via: [:get,:post]

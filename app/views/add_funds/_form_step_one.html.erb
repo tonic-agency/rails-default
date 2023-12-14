@@ -24,7 +24,7 @@
         style="padding: 2rem 2rem 2rem 2rem; position: relative" 
         class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
         name="transaction[amount]"
-        hx-post="<%= add_funds_validate_amount_path %>"
+        hx-post="<%= add_funds_validate_transaction_path(field: 'amount') %>"
         hx-trigger="keyup changed"
         hx-target="#add-funds-errors"
         hx-include="[name='transaction[amount]']"
