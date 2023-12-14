@@ -1,0 +1,36 @@
+<div id="check-deposit-step-three" _="init set $transfer_valid to true if $amount_valid and $check_valid else set $transfer_valid to false" class="hidden w-full h-full flex overflow-y-auto flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600 sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
+	<div class="w-full">
+    <div class="w-full inline-flex">
+      <p class="text-gray-600 text-base font-semibold leading-normal">
+        Are these details correct?
+      </p>
+    </div>
+    <div class="bg-farmbank-green-100 w-full mt-4 px-5 py-6 rounded-3xl justify-start items-start gap-2 inline-flex">
+      <div class="text-gray-600 text-base font-normal leading-normal space-y-6">
+        <div>
+          <span>Check Amount<br/></span>
+          <span class="font-semibold deposit-amount"></span>
+        </div>
+        <div>
+          <span>Check Holder<br/></span>
+          <span class="font-semibold"><%="#{current_user.name} - #{current_user.kyc_onboarding.phone}"%></span>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0 ">
+    <button
+      disabled
+      _="on click add @disabled then add .cursor-not-allowed to #confirm-check-deposit-button"
+      id="confirm-check-deposit-button"
+      type="submit"
+      hx-post="<%=add_funds_path %>"
+      hx-target="#add-funds-container"
+      hx-encoding='multipart/form-data'
+      hx-trigger="click"
+      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-gray-300 cursor-not-allowed rounded-full sm:py-3 sm:w-80 ">
+        Confirm
+    </button>
+  </div>
+</div>

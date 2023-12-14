@@ -1,4 +1,4 @@
-<section id="add-funds-container"  _="init set $page to 1" class="flex items-center justify-center w-screen min-h-screen sm:bg-gray-50 ">
+<section id="add-funds-container" _="init set $page to 'add_funds_step_one' then set $deposit_type to ''" class="flex items-center justify-center w-screen min-h-screen sm:bg-gray-50 ">
   <div class="flex flex-col items-center justify-start w-full min-h-screen sm:w-2/3 sm:max-w-xl sm:justify-start ">
 		<div class="flex items-center justify-between w-full px-6 sm:px-0 pb-8 pt-14 ">
 			
@@ -26,200 +26,89 @@
 				</div>
 			<% end %>
 			
-			<div id="page-1" class="w-full h-full flex flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600  sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
-				<div class="relative flex flex-col items-start justify-center w-full pb-8">
-					<h4 class="text-lg font-semibold ">How much are you adding?</h4>
-					<label class="mb-5 no-style" for="balance">These funds will be added to your Available Balance.</label>
-					
-					<div class="relative w-full">
-						<input 
-							autofocus
-							_="on htmx:afterRequest 
-								if event.detail.xhr.response.length > 0 
-									add .invalid to #balance
-									add @disabled to #add-funds-next-button
-									set #deposit-amount.innerText to '₱0.00'
-									add .text-gray-400 to #dummy-placeholder
-									add .cursor-not-allowed to #add-funds-next-button
-									add .bg-gray-300 .cursor-not-allowed to #add-funds-next-button
-									remove .bg-farmbank-yellow .hover:bg-yellow-500 from #add-funds-next-button
-								else 
-									set #deposit-amount.innerText to Intl.NumberFormat('fil-PH', { maximumFractionDigits: 2, style: 'currency', currency: 'PHP' }).format(my.value)
-									remove .invalid from #balance
-									remove @disabled from #add-funds-next-button
-									remove .text-gray-400 from #dummy-placeholder
-									remove .cursor-not-allowed from #add-funds-next-button
-									add .bg-farmbank-yellow .hover:bg-yellow-500 to #add-funds-next-button
-									remove .bg-gray-300 from #add-funds-next-button
-								end
-							" 
-							style="padding: 2rem 2rem 2rem 2rem; position: relative" 
-							class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
-							name="transaction[amount]"
-							hx-post="<%= add_funds_validate_amount_path %>"
-							hx-trigger="keyup changed"
-							hx-target="#add-funds-errors"
-							hx-include="[name='transaction[amount]']"
-							type="number"
-							min="0"
-							step="0.01"
-							id="balance"
-							placeholder="0.00"
-							value="" />
-						<div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
-
-						<div id="add-funds-errors">
-						</div>
-					</div> 
-				</div> 
-			
-				<div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0">
-					<button
-						disabled
-						id="add-funds-next-button"
-						_="on click set $page to 2
-							add .hidden to #page-1 
-							remove .hidden from #page-2 
-						"
-						type="button"
-						class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80"
-					> Next 
-					</button>
-				</div>
-			</div>
+			<%= render partial: 'form_step_one'%>
 		
-			<div id="page-2" class="hidden w-full h-full flex overflow-y-auto flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600  sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
-				
-				<div class="w-full inline-flex">
-					<p class="text-gray-600 text-base font-semibold leading-normal">
-						Deposit
-						<span class="font-farmbank-teal text-base font-semibold leading-normal">
-						<span id="deposit-amount"></span> 
-						</span>
-						to the account below:
-					</p>
-				
-				</div>
-				<div class="bg-farmbank-green-100 w-full mt-8 px-5 py-6 rounded-3xl justify-start items-start gap-2 inline-flex">
-					<div class="text-gray-600 text-base font-normal leading-normal">
-						<span>Bank<br/></span>
-						<span class="font-semibold">Netbank<br/></span>
-						<span><br/>Account Number<br/></span>
-						<span class="font-semibold"><%=farmbank_bank_account%><br/></span>
-						<span><br/>Account Name<br/></span>
-						<span class="font-semibold">Farmbank</span>
-					</div>
-				</div>
-				<div class="w-full mt-8">
-					<div class="mb-6">
-						<label class="no-style relative text-base text-gray-500 " for="bank-account_number">
-							<span class="text-gray-600 text-base font-semibold leading-normal">Bank Account Number <br/></span>
-							<span class="text-gray-600 text-base font-normal leading-normal">This information is stored securely and used only to verify your transfer.</span>
-						</label>
-						<div class="mt-4 pb-2">
-							<input
-							id="bank-account-number"
-							hx-post="<%= add_funds_validate_transaction_path(field: 'bank_account_number') %>"
-							hx-trigger="keyup changed"
-							hx-target="#add-funds-bank-account-number-errors"
-							hx-include="[name='transaction[bank_account_number]']"
-							hx-encoding='multipart/form-data'
-							hx-swap="innerHtml"
-							_="on htmx:afterRequest
-								if event.detail.xhr.response.length > 0
-									add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-									remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-									add .invalid to #bank-account-number
-									add @disabled to #confirm-transaction-button
-								else
-									remove .invalid from #bank-account-number
-									remove @disabled from #confirm-transaction-button
-									remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button 
-									add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-								end"
-							name="transaction[bank_account_number]"
-							class="w-full p-4 border-2 outline-none"
-							type="text"
-							required
-							placeholder="Enter your bank account number"
-							>
+			<%= render partial: 'online_transfer_step_two'%>
 
-						</div>
-						<div id="add-funds-bank-account-number-errors">
-						</div>
-					</div>
-
-					<div>
-						<label class="no-style relative text-base text-gray-500 " for="deposit-slip">
-							<span class="text-gray-600 text-base font-semibold leading-normal">Upload your proof of payment <br/></span>
-							<span class="text-gray-600 text-base font-normal leading-normal">(ex. physical deposit slip or transfer screenshot)</span>
-						
-							<div class="input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
-								<input 
-									hx-post="<%= add_funds_validate_transaction_path(field: 'deposit_slip') %>"
-									hx-trigger="change"
-									hx-encoding='multipart/form-data'
-									hx-target="#add-funds-deposit-slip-errors"
-									hx-include="[name='transaction[bank_account_number]']"
-									hx-swap="innerHtml"
-									_="on htmx:afterRequest
-										if event.detail.xhr.response.length > 0
-											add .bg-gray-300 .cursor-not-allowed to #confirm-transaction-button
-											remove .bg-farmbank-yellow .hover:bg-yellow-500 from #confirm-transaction-button
-											add .invalid to #deposit-slip
-											add @disabled to #confirm-transaction-button
-										else
-											remove .invalid from #deposit-slip
-											remove @disabled from #confirm-transaction-button
-											remove .bg-gray-300 .cursor-not-allowed from #confirm-transaction-button 
-											add .bg-farmbank-yellow .hover:bg-yellow-500 to #confirm-transaction-button
-										end" 
-									name="transaction[deposit_slip]" 
-									class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" 
-									type="file"
-									required
-									id="deposit-slip">
-								<div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
-									Choose files	
-								</div>
-							</div>
-							<div class="w-full mt-2 mb-6 sm:mb-0 text-gray-500 text-xs font-normal leading-none">PNG, JPG or PDF</div>
-						</label>
-
-						<div id="add-funds-deposit-slip-errors">
-						</div>
-					</div>
-				</div>
-				
-				<div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0 ">
-					<button
-						disabled
-						_="on click add @disabled then add .cursor-not-allowed to #confirm-transaction-button"
-						id="confirm-transaction-button"
-						type="submit"
-						hx-post="<%=add_funds_path %>"
-						hx-target="#add-funds-container"
-						hx-encoding='multipart/form-data'
-						hx-trigger="click"
-						class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-gray-300 cursor-not-allowed rounded-full sm:py-3 sm:w-80 ">
-							Confirm
-					</button>
-				</div>
-			</div>
+			<%= render partial: 'check_deposit_step_two'%>
+			
+			<%= render partial: 'check_deposit_step_three'%>
 		</form>
 	</div>
 </section>
 
 <script type="text/hyperscript">
-
+	<%# TODO; Refactor this besed on deposit type selected during flow %>
+	def changePage(current_step, new_step)
+    add .hidden to current_step
+    remove .hidden from new_step
+  end
+	
 	def go_back()
-		if $page is 2 
-			add .hidden to #page-2 
-			remove .hidden from #page-1 
-			set $page to 1 
-		else 
+		if $page == 'add_funds_step_one'
 			go to url <%=app_home_path %>
 		end
+
+		if $page == 'online_transfer_step_two'
+			set $page to 'add_funds_step_one'
+			changePage(#online-transfer-step-two, #add-funds-step-one)
+		end
+
+		if $page == 'check_deposit_step_two'
+			set $page to 'add_funds_step_one'
+			changePage(#check-deposit-step-two, #add-funds-step-one)
+		end
+
+		if $page == 'check_deposit_step_three'
+			set $page to 'check_deposit_step_two'
+			changePage(#check-deposit-step-three, #check-deposit-step-two)
+		end
 	end
+
+	def validateForm()
+    set $form_valid to false
+    
+    if $page == 'add_funds_step_one'
+      set $next_button to #add-funds-next-button
+      
+      if $amount_valid and $deposit_type_valid
+        set $form_valid to true
+      end
+		end
+
+		if $page == 'online_transfer_step_two'
+			set $next_button to #confirm-online-transfer-button
+			
+			if $account_number_valid and $deposit_slip_valid
+				set $form_valid to true
+			end
+    end
+
+		if $page == 'check_deposit_step_two'
+			set $next_button to #check-deposit-next-button
+			 
+			if $check_valid
+				set $form_valid to true
+			end 
+		end
+
+    if $form_valid
+      call enableNextButton($next_button)
+    else 
+      call disableNextButton($next_button)
+    end
+  end 
+
+  def enableNextButton(next_button)
+    remove @disabled from next_button
+    remove .bg-gray-300 .cursor-not-allowed from next_button
+    add .bg-farmbank-yellow .hover:bg-yellow-500 to next_button
+  end
+
+  def disableNextButton(next_button) 
+    add @disabled to next_button
+    add .bg-gray-300 .cursor-not-allowed to next_button
+    remove .bg-farmbank-yellow .hover:bg-yellow-500 from next_button
+  end
 
 </script>

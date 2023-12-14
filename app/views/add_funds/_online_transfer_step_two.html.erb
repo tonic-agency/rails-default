@@ -1,0 +1,114 @@
+<div id="online-transfer-step-two" _="init set $account_number_valid to false then set $deposit_slip_valid to false" class="hidden w-full h-full flex overflow-y-auto flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600  sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
+				
+  <div class="w-full inline-flex">
+    <p class="text-gray-600 text-base font-semibold leading-normal">
+      Deposit
+      <span class="font-farmbank-teal text-base font-semibold leading-normal">
+      <span class="deposit-amount"></span> 
+      </span>
+      to the account below:
+    </p>
+  
+  </div>
+  <div class="bg-farmbank-green-100 w-full mt-8 px-5 py-6 rounded-3xl justify-start items-start gap-2 inline-flex">
+    <div class="text-gray-600 text-base font-normal leading-normal">
+      <span>Bank<br/></span>
+      <span class="font-semibold">Netbank<br/></span>
+      <span><br/>Account Number<br/></span>
+      <span class="font-semibold"><%=farmbank_bank_account%><br/></span>
+      <span><br/>Account Name<br/></span>
+      <span class="font-semibold">Farmbank</span>
+    </div>
+  </div>
+  <div class="w-full mt-8">
+    <div class="mb-6">
+      <label class="no-style relative text-base text-gray-500 " for="bank-account-number">
+        <span class="text-gray-600 text-base font-semibold leading-normal">Bank Account Number <br/></span>
+        <span class="text-gray-600 text-base font-normal leading-normal">This information is stored securely and used only to verify your transfer.</span>
+      </label>
+      <div class="mt-4 pb-2">
+        <input
+        id="bank-account-number"
+        hx-post="<%= add_funds_validate_transaction_path(field: 'bank_account_number') %>"
+        hx-trigger="keyup changed"
+        hx-target="#add-funds-bank-account-number-errors"
+        hx-include="[name='transaction[bank_account_number]']"
+        hx-encoding='multipart/form-data'
+        hx-swap="innerHtml"
+        _="on htmx:afterRequest
+          if event.detail.xhr.response.length > 0
+            add .invalid to #bank-account-number
+            set $account_number_valid to false
+            call validateForm()
+          else
+            remove .invalid from #bank-account-number
+            set $account_number_valid to true
+            call validateForm()
+          end"
+        name="transaction[bank_account_number]"
+        class="w-full p-4 border-2 outline-none"
+        type="text"
+        required
+        placeholder="Enter your bank account number"
+        >
+
+      </div>
+      <div id="add-funds-bank-account-number-errors">
+      </div>
+    </div>
+
+    <div>
+      <label class="no-style relative text-base text-gray-500 " for="deposit-slip">
+        <span class="text-gray-600 text-base font-semibold leading-normal">Upload your proof of payment <br/></span>
+        <span class="text-gray-600 text-base font-normal leading-normal">(ex. physical deposit slip or transfer screenshot)</span>
+      
+        <div class="input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
+          <input 
+            hx-post="<%= add_funds_validate_transaction_path(field: 'deposit_slip') %>"
+            hx-trigger="change"
+            hx-encoding='multipart/form-data'
+            hx-target="#add-funds-deposit-slip-errors"
+            hx-include="[name='transaction[bank_account_number]']"
+            hx-swap="innerHtml"
+            _="on htmx:afterRequest
+              if event.detail.xhr.response.length > 0
+                add .invalid to #deposit-slip
+                set $deposit_slip_valid to false
+                validateForm()
+              else
+                remove .invalid from #deposit-slip
+                set $deposit_slip_valid to true
+                validateForm()
+              end" 
+            name="transaction[deposit_slip]" 
+            class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" 
+            type="file"
+            required
+            id="deposit-slip">
+          <div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+            Choose files	
+          </div>
+        </div>
+        <div class="w-full mt-2 mb-6 sm:mb-0 text-gray-500 text-xs font-normal leading-none">PNG, JPG or PDF</div>
+      </label>
+
+      <div id="add-funds-deposit-slip-errors">
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0 ">
+    <button
+      disabled
+      _="on click add @disabled then add .cursor-not-allowed to #confirm-online-transfer-button"
+      id="confirm-online-transfer-button"
+      type="submit"
+      hx-post="<%=add_funds_path %>"
+      hx-target="#add-funds-container"
+      hx-encoding='multipart/form-data'
+      hx-trigger="click"
+      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all bg-gray-300 cursor-not-allowed rounded-full sm:py-3 sm:w-80 ">
+        Confirm
+    </button>
+  </div>
+</div>

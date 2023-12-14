@@ -49,6 +49,8 @@ class AddFundsController < ApplicationController
     
     @test_transaction.deposit_slip.attach(add_funds_params[:deposit_slip]) if add_funds_params[:deposit_slip].present?
     
+    @test_transaction.check.attach(add_funds_params[:check]) if add_funds_params[:check].present?
+    
     if @test_transaction.invalid? && @test_transaction.errors.messages[field_to_validate].any?
       render partial: "shared/inline_form_input_errors", locals: {errors: @test_transaction.errors.messages[field_to_validate]}
     else
@@ -64,8 +66,10 @@ class AddFundsController < ApplicationController
   def add_funds_params
     params.require(:transaction).permit(
       :amount,
+      :deposit_type,
       :deposit_slip,
-      :bank_account_number
+      :bank_account_number,
+      :check
     )
   end
 end

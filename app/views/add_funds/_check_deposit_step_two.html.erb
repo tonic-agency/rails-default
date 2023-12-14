@@ -1,0 +1,106 @@
+<div id="check-deposit-step-two" _="init set $check_valid to false" class="hidden w-full h-full flex overflow-y-auto flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600 sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
+				
+  <div class="w-full inline-flex">
+    <p class="text-gray-600 text-base font-semibold leading-normal">
+      Please write a physical check amounting to 
+      <span class="font-farmbank-teal text-base font-semibold leading-normal">
+      <span class="deposit-amount"></span> 
+      </span>
+      and ensure it follows the guidelines below: 
+    </p>
+  </div>
+  <div class="mt-4 text-gray-900 space-y-4">
+    <div class="flex items-start space-x-3">
+      <div class="rounded-full text-gray-500 bg-gray-100 w-6 h-6 p-1 flex items-center justify-center">
+        1
+      </div>
+      <div>
+        Check must be paid to the order of <span class="font-semibold">“FARMBANK, INC.”</span>
+      </div> 
+    </div>
+
+    <div class="flex items-start space-x-3">
+      <div class="rounded-full text-gray-500 bg-gray-100 w-6 h-6 p-1 flex items-center justify-center">
+        2
+      </div>
+      <div>
+        Check must not be stale-dated, i.e. older than 6 months
+      </div> 
+    </div>
+
+    <div class="flex items-start space-x-3">
+      <div class="rounded-full text-gray-500 bg-gray-100 w-6 h-6 p-1 flex items-center justify-center">
+        3
+      </div>
+      <div>
+        Check must be legible and free of any erasures, alterations, or deficiencies
+      </div> 
+    </div>
+
+    <div class="flex items-start space-x-3">
+      <div class="rounded-full text-gray-500 bg-gray-100 w-6 h-6 p-1 flex items-center justify-center">
+        4
+      </div>
+      <div>
+        Check photo must be clear, well-lit, and capturing the entire front side of the check
+      </div> 
+    </div>
+  </div>
+
+  <div class="w-full mt-8">
+    <div class="mb-6">
+      <label class="no-style relative text-base text-gray-500" for="check">
+        <span class="text-gray-600 text-base font-semibold leading-normal">Upload a photo of the check (front only)</span>
+        
+        <div class="input-container relative w-full pb-2 mt-4 border-2 outline-none focus:border-blue-100 focus:border">
+          <input 
+            hx-post="<%= add_funds_validate_transaction_path(field: 'check') %>"
+            hx-trigger="change"
+            hx-encoding='multipart/form-data'
+            hx-target="#add-funds-check-errors"
+            hx-include="[name='transaction[check]']"
+            hx-swap="innerHtml"
+            _="on htmx:afterRequest
+              if event.detail.xhr.response.length > 0
+                add .invalid to #check
+                set $check_valid to false
+                validateForm()
+                call disableNextButton(#confirm-check-deposit-button)
+              else
+                remove .invalid from #check
+                set $check_valid to true
+                validateForm()
+                call enableNextButton(#confirm-check-deposit-button)
+              end" 
+            name="transaction[check]" 
+            class="dropzone cursor-pointer w-full p-4 relative z-10 h-full pl-3" 
+            type="file"
+            required
+            id="check">
+          <div class=" text-white px-3 bg-farmbank-teal absolute z-20 top-0 left-0 cursor-pointer h-full flex flex-col justify-center items-center">
+            Choose files	
+          </div>
+        </div>
+        <div class="w-full mt-2 mb-6 sm:mb-0 text-gray-500 text-xs font-normal leading-none">PNG, JPG or PDF</div>
+      </label>
+      
+      <div id="add-funds-check-errors">
+      </div>
+    </div>
+    
+  </div>
+  
+  <div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0 ">
+    <button
+      disabled
+      id="check-deposit-next-button"
+      _="on click 
+          set $page to 'check_deposit_step_three'
+          call changePage(#check-deposit-step-two, #check-deposit-step-three)
+        end"
+      type="button"
+      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80"
+    > Next 
+    </button>
+  </div>
+</div>

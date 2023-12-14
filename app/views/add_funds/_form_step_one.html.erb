@@ -1,74 +1,127 @@
-<% errors = local_assigns[:errors] || [] %>
-<% step = local_assigns[:step] || 'amount' %>
-<% step_one_hidden = local_assigns[:step_one_hidden] || false %>
+<div id="add-funds-step-one" _="init set $amount_valid to false then set $deposit_type_valid to false" class="w-full h-full flex flex-col flex-grow sm:flex-grow-0 items-start justify-between sm:justify-start px-6 sm:px-8 pt-6 pb-6 mb-auto sm:mb-0 text-gray-600  sm:bg-white sm:h-auto sm:rounded-md shadow-sm">
+  <div class="relative flex flex-col items-start justify-center w-full pb-8">
+    <h4 class="text-lg font-semibold ">How much are you adding?</h4>
+    <label class="mb-5 no-style" for="balance">These funds will be added to your Available Balance.</label>
+    
+    <div class="relative w-full mb-6">
+      <input 
+        autofocus
+        _="on htmx:afterRequest 
+          if event.detail.xhr.response.length > 0 
+            set .deposit-amount.innerText to '₱0.00'
+            add .text-gray-400 to #dummy-placeholder
+            add .invalid to #balance
+            set $amount_valid to false
+            call validateForm()
+          else 
+            set .deposit-amount.innerText to Intl.NumberFormat('fil-PH', { maximumFractionDigits: 2, style: 'currency', currency: 'PHP' }).format(my.value)
+            remove .text-gray-400 from #dummy-placeholder
+            remove .invalid from #balance
+            set $amount_valid to true
+            call validateForm()
+          end
+        " 
+        style="padding: 2rem 2rem 2rem 2rem; position: relative" 
+        class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
+        name="transaction[amount]"
+        hx-post="<%= add_funds_validate_amount_path %>"
+        hx-trigger="keyup changed"
+        hx-target="#add-funds-errors"
+        hx-include="[name='transaction[amount]']"
+        type="number"
+        min="0"
+        step="0.01"
+        id="balance"
+        placeholder="0.00"
+        value="" />
+      <div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
 
-<div class="relative flex flex-col items-start justify-center w-full pb-8">
-  <h4 class="text-lg font-semibold ">How much are you adding?</h4>
-  <label class="mb-5 no-style" for="balance">These funds will be added to your Available Balance.</label>
-  
-  <div class="relative w-full">
-    <input 
-      autofocus 
-      _="on keyup
-        set #deposit-amount.innerText to my.value as Fixed:2 
-      then if my.value > 0
-        remove .text-gray-400 from #dummy-placeholder
-        remove .cursor-not-allowed from #add-funds-next-button
-        add .bg-farmbank-yellow .hover:bg-yellow-500 to #add-funds-next-button
-        remove .bg-gray-300 from #add-funds-next-button
-      else
-        add .text-gray-400 to #dummy-placeholder
-        add .cursor-not-allowed to #add-funds-next-button
-        add .bg-gray-300 .cursor-not-allowed to #add-funds-next-button
-        remove .bg-farmbank-yellow .hover:bg-yellow-500 from #add-funds-next-button
-      end" 
-      style="padding: 2rem 2rem 2rem 2rem; position: relative" 
-      class="w-full p-6 border-2 outline-none text-2xl focus:border-blue-100 focus:border" 
-      name="transaction[amount]" 
-      type="number" 
-      min="1" 
-      step=".01" 
-      id="balance"
-      placeholder="0.00"
-      value="" />
-    <div id="dummy-placeholder" class="absolute text-gray-400 left-0 px-3 h-full top-0 mt-2 transform">₱</div>
+      <div id="add-funds-errors">
+      </div>
+    </div>
 
-    <div id="add-funds-errors" class="hidden">
-      <p class="text-red-500"> Can't be blank </p>
+    <div class="w-full">
+      <label for="deposit_type">
+        <h4 class="text-lg font-semibold ">How would you like to add to your account?</h4>
+        <p class="mb-6 no-style" for="balance">Deposit details will be provided in the next step.</p>
+      </label>
+
+      <input id="deposit_type" _="on change if my value.length > 0 set $deposit_type to my.value then set $deposit_type_valid to true else set $deposit_type_valid to false end call validateForm() then call clearPreviouslySelectedDepositType()" name="transaction[deposit_type]" value="<%=@transaction.deposit_type%>" class="hidden"/>
+
+      <div _="on click set {value: 'online_transfer'} on #deposit_type then trigger change on #deposit_type then call addActiveDepositTypeLabel()" class="deposit-type-label rounded-lg cursor-pointer block bg-gray-100 border-gray-300 border-2 p-4 lg:p-6 mb-3">
+        <div class="flex items-center justify-between">
+          <%=inline_svg_tag('money-transfer.svg', class: 'w-8') %>
+
+          <div class="check-circle-container w-6 h-6 bg-white rounded-full border border-gray-300">
+            <%=inline_svg_tag('farmbank-check.svg', class: 'hidden check-circle w-full h-full rounded-full')%>
+          </div>
+        </div>
+        <h5 class="font-semibold text-lg text-gray-900 my-2">Bank deposit/online transfer</h5>
+        <p class="text-gray-500 font-normal">Send funds to the official Farmbank account, then upload proof of payment.</p>
+      </div>
+      
+      <div _="on click set {value: 'check_deposit'} on #deposit_type then trigger change on #deposit_type then call addActiveDepositTypeLabel()" class="deposit-type-label rounded-lg cursor-pointer block bg-gray-100 border-gray-300 border-2 p-4 lg:p-6">
+        <div class="flex items-center justify-between">
+          <%=inline_svg_tag('hand-with-pen.svg', class: 'w-8') %>
+
+          <div class="check-circle-container w-6 h-6 bg-white rounded-full border border-gray-300">
+            <%=inline_svg_tag('farmbank-check.svg', class: 'check-circle w-6 rounded-full hidden')%>
+          </div>
+
+        </div>
+        <h5 class="font-semibold text-lg text-gray-900 my-2">Check Deposit</h5>
+        <p class="text-gray-500 font-normal">Write a check to the official Farmbank account and upload a photo. We will then pick up the physical copy (NCR only).</p>
+      </div>
+    
     </div>
   </div> 
-</div> 
 
-<div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0">
-
-  <% if errors.empty? %>
+  <div class="flex items-center justify-center w-full px-8 py-8 border-t sm:border-t-0">
     <button
-      _="on click 
-      if #balance.value > 0
-        add .hidden to #page-1
-        remove .hidden from #page-2
-        remove .invalid from #balance
-        add .hidden to #add-funds-errors
-        set $page to 2
-      else 
-        add .cursor-not-allowed
-        add .invalid to #balance
-        remove .hidden from #add-funds-errors
-      end"
+      disabled
       id="add-funds-next-button"
+      _="on click 
+        if $deposit_type == 'online_transfer'
+          set $page to 'online_transfer_step_two'
+          call changePage(#add-funds-step-one, #online-transfer-step-two)
+        else if $deposit_type == 'check_deposit'
+          set $page to 'check_deposit_step_two'
+          call changePage(#add-funds-step-one, #check-deposit-step-two)
+        end"
       type="button"
-      class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80">
-      Next
-    </button>
-  <% else %>
-    <button 
-      hx-post="<%= add_funds_amount_validator_path %>"
-      hx-trigger="click"
-      hx-target="#add-funds-errors"
-      hx-swap="outerHTML"
-      hx-swap-oob="true"
-      type="submit"
       class="no-style cursor-pointer block w-full py-3 font-bold text-center text-white transition-all cursor-not-allowed bg-gray-300 rounded-full sm:py-3 sm:w-80"
     > Next 
     </button>
+  </div>
 </div>
+
+<script type="text/hyperscript">
+  def addActiveDepositTypeLabel(evt)
+    remove .bg-farmbank-green-100 .border-farmbank-teal from .deposit-type-label
+    add .bg-gray-100 .border-gray-300 to .deposit-type-label
+    add .hidden to .check-circle in .deposit-type-label
+    add .border .border-gray-300 to .check-circle-container 
+    
+    add .bg-farmbank-green-100 .border-farmbank-teal to evt.me
+    remove .hidden from .check-circle in evt.me
+    remove .border .border-gray-300 from .check-circle-container in evt.me
+  end
+
+  <%# Ensures if a user enters into online transfer flow, then comes back to step one and changes to check deposit flow %>
+  <%# All previously entered values for the online transfer flow removed and vice versa %>
+  def clearPreviouslySelectedDepositType()
+    if $deposit_type == 'online_transfer'
+      set $account_number_valid to false 
+      set $deposit_slip_valid to false
+      set #bank-account-number.value to ''
+      set #deposit-slip.value to ''
+      call disableNextButton(#confirm-online-transfer-button)
+    else if $deposit_type == 'check_deposit'
+      set $check_valid to false
+      set $transfer_valid to false
+      set #check.value to ''
+      call disableNextButton(#check-deposit-next-button)
+      call disableNextButton(#confirm-check-deposit-button)
+    end
+  end
+</script>
