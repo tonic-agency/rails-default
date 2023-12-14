@@ -64,10 +64,10 @@ class KycOnboarding < ApplicationRecord
   # validates_presence_of :ssis_gsis_number, if: proc { |kyc| kyc.validation_set == "tax_id" && kyc.address_country == 'Philippines' }
   
   validates_presence_of :id_file_front, :id_file_back, if: proc { |kyc| kyc.validation_set == "id_upload" }
-  validate :acceptable_id_files, if: proc { |kyc| kyc.validation_set == "id_upload" }
+  # validate :acceptable_id_files, if: proc { |kyc| kyc.validation_set == "id_upload" }
   
   validates_presence_of :signature_id, if: proc { |kyc| kyc.validation_set == "signature_specimen" && kyc.signature_present_at_onboarding }
-  validate :acceptable_signature_id, if: proc { |kyc| kyc.validation_set == "signature_specimen" && kyc.signature_present_at_onboarding }
+  # validate :acceptable_signature_id, if: proc { |kyc| kyc.validation_set == "signature_specimen" && kyc.signature_present_at_onboarding }
   
   validate :validate_security_questions, if: proc { |kyc| kyc.validation_set == "security_questions" }
 
