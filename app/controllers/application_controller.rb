@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include FeatureFlagsHelper
 
   def support_partial_response
     if request.headers['HX-Request']
@@ -7,13 +8,6 @@ class ApplicationController < ActionController::Base
     else  
       render 
     end
-  end
-
-  def feature_flag?(env_key)
-    return false if env_key.blank?
-    
-    # returns whether value is true or false
-    return ENV.fetch(env_key, false).to_s.casecmp('true').zero?
   end
 
   helper_method :feature_flag?

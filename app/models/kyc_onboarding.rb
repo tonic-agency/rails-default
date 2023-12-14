@@ -1,4 +1,5 @@
 class KycOnboarding < ApplicationRecord
+  include FeatureFlagsHelper
   # spaces, hyphens and brackets around the first four digits are optional,
   # but must be exactly 11 digits in the format 09XX XXX XXXX excluding special characters
   PHONE_NUMBER_REGEX = /\A(?:\(\d{4}\)|\d{4})(?:[\s\-]?\d){7}\z/
@@ -91,11 +92,6 @@ class KycOnboarding < ApplicationRecord
     }
   }
 
-  def generate_and_send_otp 
-    # generate mobile otp
-    # send to user 
-  end
-
   def generate_identifier
     Utilities.generate_identifier(self)
   end
@@ -171,7 +167,7 @@ class KycOnboarding < ApplicationRecord
   end
 
   def trigger_verification_in_progress_email
-    KycOnboardingMailer.account_verification_in_progress_email(self, self.email_variables).deliver
+    KycOnboardingMailer.account_verification_in_progress_email(self, self.email_variables).deliver_later
   end
 
   def generate_referral_code
@@ -228,13 +224,15 @@ class KycOnboarding < ApplicationRecord
   end
 
   def trigger_otp_email
+    return unless feature_flag?('KYC_ONBOARDING_EMAIL_2FA')
     # TODO: Change this to self.email
     # self.email_otp.email = self.email
-    self.email_otp.email = 'meganennis.dev@gmail.com'
+    self.email_otp.email = self.email
     self.email_otp.send_email
   end
 
   def trigger_otp_sms
+    return unless feature_flag?('KYC_ONBOARDING_MOBILE_2FA')
     # TODO: Change this to self.phone
     # self.mobile_otp.mobile = self.phone
     self.mobile_otp.mobile = '645614966'
@@ -244,9 +242,9 @@ class KycOnboarding < ApplicationRecord
   def current_step
     return "name" if self.first_name.blank? || self.last_name.blank?
     return "phone" if self.phone.blank?
-    return "mobile_otp" if !self.mobile_validated
+    return "mobile_otp" if !self.mobile_validated && feature_flag?('KYC_ONBOARDING_MOBILE_2FA')
     return "email" if self.email.blank?
-    return "email_otp" if !self.email_validated
+    return "email_otp" if !self.email_validated && feature_flag?('KYC_ONBOARDING_EMAIL_2FA')
     return "password" if self.user_id.blank?
     return "personal_info" if self.date_of_birth.blank? || self.place_of_birth.blank? || self.nationality.blank? || self.marital_status.blank?
     return "residential_info" if self.address_house_number.blank? || self.address_street_name.blank? || self.address_province.blank? || self.address_city.blank? || self.address_barangay.blank? || self.address_country.blank?
@@ -301,11 +299,11 @@ class KycOnboarding < ApplicationRecord
         return "financial_info"
       end
     when "password"
-      if self.email_validated
+      if self.email_validated || !feature_flag?('KYC_ONBOARDING_EMAIL_2FA')
         return "email"
       end
     when "email"
-      if self.mobile_validated
+      if self.mobile_validated || !feature_flag?('KYC_ONBOARDING_MOBILE_2FA')
         return "phone"
       end
     when "summary"
@@ -327,11 +325,11 @@ class KycOnboarding < ApplicationRecord
         return "tax_id"
       end
     when "phone"
-      if self.mobile_validated
+      if self.mobile_validated || !feature_flag?('KYC_ONBOARDING_MOBILE_2FA')
         return "email"
       end
     when "email"
-      if self.email_validated
+      if self.email_validated || !feature_flag?('KYC_ONBOARDING_EMAIL_2FA')
         return "password"
       end
     when "referral_program_start"
