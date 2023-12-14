@@ -44,7 +44,7 @@ class Otp < ApplicationRecord
     variables = self.owner.email_variables
     return if variables.nil?
     
-    OtpMailer.default_email(self.email, variables).deliver
+    OtpMailer.default_email(self.email, variables).deliver_later
   end
 
   def resend_email(variables = {})
