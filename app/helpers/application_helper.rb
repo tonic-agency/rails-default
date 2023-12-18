@@ -1,11 +1,11 @@
 module ApplicationHelper
 
   def page_title
-    "Farm Bank"
+    "Farmbank"
   end
 
   def page_description
-    "An approach for building web software"
+    "Grow your wealth"
   end
 
   def cache_buster 
