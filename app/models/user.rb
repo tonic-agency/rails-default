@@ -25,6 +25,7 @@ class User < ApplicationRecord
   def total_interest_rate 
     return 0 if self.time_deposit_accounts.nil?
     
+    
     return (TimeDepositAccount::BASE_INTEREST_RATE_DEC_6 + self.bonus_rate) * 100
   end
 
@@ -34,9 +35,9 @@ class User < ApplicationRecord
 
   def bonus_rate 
     return 0 if self.time_deposit_accounts.nil?
-    num_referrals = self.referrals.count
-    bonus_rate = num_referrals * TimeDepositAccount::BONUS_INTEREST_RATE
-    return bonus_rate
+    # num_referrals = self.referrals.count
+    # bonus_rate = num_referrals * TimeDepositAccount::BONUS_INTEREST_RATE * 100
+    return 0
   end
 
   def authorized_to_create_transactions?
