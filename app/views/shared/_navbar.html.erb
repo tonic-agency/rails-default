@@ -1,5 +1,7 @@
 <div class="flex items-center justify-between pt-12 pb-5 relative">
-  <%=inline_svg_tag('farmbank-logo.svg')%>
+  <%=link_to root_path do %>
+    <%=inline_svg_tag('farmbank-logo.svg')%>
+  <% end %>
   
   <div class="flex items-center">
     <% if user_signed_in? %>

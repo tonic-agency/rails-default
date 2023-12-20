@@ -9,6 +9,15 @@ class AppController < ApplicationController
   def terms_and_conditions
   end
 
+  def privacy_policy
+  end
+
+  def cookie_policy
+  end
+
+  def referral_terms_and_conditions
+  end
+
   private
   def transaction_params
     params.require(:transaction).permit(
