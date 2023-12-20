@@ -22,20 +22,40 @@
 
   --bold-font-weight: 600;
 
-  --farmbank-green-100: #DEF7EC;
+  /* OLD Colors: */
+  /* --farmbank-green-100: #DEF7EC;
   --farmbank-green-200: #BCF0DA;
   --farmbank-teal: #409384;
   --farmbank-dark-teal: #156A60;
   --farmbank-light-teal: #6FADA6;
   --farmbank-yellow: #E7AE44;
+  --form-label-color: #4B5563; */
+
+  /* Updated 15 Dec */
+  --farmbank-green-100: #DEF7EC;
+  --farmbank-green-200: #BCF0DA;
+  --farmbank-dark-teal: #156A60;
+  
+  --farmbank-teal: #298D7B;
+  --farmbank-light-teal: #3DA297;
+  --farmbank-yellow: #DF9B1B;
+  --form-label-color: #4B5563;
+
   --form-input-border-width-small-screens: 1px !important;
   --form-input-padding-small-screens: 0.5rem !important;
   --form-label-font-size: 1rem !important;
-  --form-label-color: #4B5563;
 }
 
 html {
   font-family: var(--font-family);
+}
+
+.bg-gray-50 {
+  background: #F9FAFB !important;
+}
+
+.text-gray-600 {
+  color: #4B5563 !important;
 }
 
 .custom-button {
