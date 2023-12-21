@@ -59,7 +59,7 @@ ActiveAdmin.register Transaction do
       end
       if transaction.eligible_for_approval?
         div class: 'inline-flex' do 
-          link_to "Verify", new_admin_transaction_approval_path(transaction_id: transaction.id), class: "rounded p-2 text-white text-xs ", style: 'background: #409384'
+          link_to "Verify", new_admin_transaction_approval_path(transaction_id: transaction.id), class: "rounded p-2 text-white text-xs ", style: 'background: #298D7B'
         end
       end
     end
@@ -68,6 +68,14 @@ ActiveAdmin.register Transaction do
   show do
     attributes_table do
       row :id
+      row :state do |t|
+        div class: "inline-flex px-2 py-1 rounded-lg #{t.state_style_helper}" do
+          t.state&.titleize
+        end
+      end
+      row :created_at
+      row :updated_at
+      row :date
       row :amount
       row :balance
       row :from_account_type do |t| t.from_account_type&.titleize end
@@ -87,12 +95,8 @@ ActiveAdmin.register Transaction do
         end
       end
       row :transaction_type do |t| t.transaction_type&.titleize end
-      row :state do |t|
-        div class: "inline-flex px-2 py-1 rounded-lg #{t.state_style_helper}" do
-          t.state&.titleize
-        end
-      end
-      row :date
+      row :deposit_type do |t| t&.deposit_type&.titleize || 'N/A' end
+      row :bank_account_number do |t| t.bank_account_number || 'N/A' end
       row :deposit_slip do |transaction|
         if transaction.deposit_slip.present?
           link_to transaction&.deposit_slip&.url, target: '_blank' do 
@@ -102,8 +106,15 @@ ActiveAdmin.register Transaction do
           'No deposit slip attached'
         end
       end
-      row :created_at
-      row :updated_at
+      row :check do |transaction|
+        if transaction.check.present?
+          link_to transaction&.check&.url, target: '_blank' do
+            image_tag transaction&.check&.url || '', class: 'w-80 h-80 object-contain'
+          end
+        else
+          'No check attached'
+        end
+      end
       if transaction.requires_approval?
         row :approved do |transaction|
           if transaction.transaction_approval.present?
@@ -119,7 +130,7 @@ ActiveAdmin.register Transaction do
         else 
           row :transaction_approval do |transaction|
             div class: 'inline-flex' do
-              link_to "Verify", new_admin_transaction_approval_path(transaction_id: transaction.id), class: "rounded p-2 text-white text-xs ", style: 'background: #409384'
+              link_to "Verify", new_admin_transaction_approval_path(transaction_id: transaction.id), class: "rounded p-2 text-white text-xs ", style: 'background: #298D7B'
             end
           end
         end

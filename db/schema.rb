@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_12_173403) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,8 +64,41 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "first_name"
+    t.text "last_name"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "config_variables", force: :cascade do |t|
+    t.string "name"
+    t.string "value"
+    t.string "description"
+    t.string "identifier"
+    t.integer "last_updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "institutions", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "kyc_onboarding_checks", force: :cascade do |t|
@@ -108,6 +141,49 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
     t.text "email"
     t.text "phone"
     t.string "address_province"
+    t.boolean "tin_known", default: true
+    t.boolean "signature_present_at_onboarding", default: true
+    t.boolean "was_referred"
+    t.boolean "mobile_validated", default: false
+    t.boolean "email_validated", default: false
+  end
+
+  create_table "otps", force: :cascade do |t|
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
+    t.string "otp_type"
+    t.string "value"
+    t.datetime "validated_at"
+    t.integer "invalid_attempts", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["owner_type", "owner_id"], name: "index_otps_on_owner"
+  end
+
+  create_table "referral_codes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_referral_codes_on_user_id"
+  end
+
+  create_table "referral_schemes", force: :cascade do |t|
+    t.decimal "relative_balance", default: "0.0", null: false
+    t.decimal "referral_interest_rate", default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "referrals", force: :cascade do |t|
+    t.bigint "from_id", null: false
+    t.bigint "to_id", null: false
+    t.bigint "referral_scheme_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_id"], name: "index_referrals_on_from_id"
+    t.index ["referral_scheme_id"], name: "index_referrals_on_referral_scheme_id"
+    t.index ["to_id"], name: "index_referrals_on_to_id"
   end
 
   create_table "security_questions", force: :cascade do |t|
@@ -125,6 +201,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "account_number"
+    t.string "account_name"
   end
 
   create_table "time_deposit_accounts", force: :cascade do |t|
@@ -134,12 +212,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
     t.datetime "maturity_date"
     t.decimal "base_interest_rate"
     t.decimal "expected_base_interest"
-    t.boolean "auto_renewal", default: false
+    t.boolean "auto_renewal", default: true
     t.string "state"
     t.boolean "realised_interest", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_time_deposit_accounts_on_user_id"
+  end
+
+  create_table "transaction_approvals", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "admin_user_id", null: false
+    t.string "result", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "settlement_account_id"
+    t.index ["admin_user_id"], name: "index_transaction_approvals_on_admin_user_id"
+    t.index ["settlement_account_id"], name: "index_transaction_approvals_on_settlement_account_id"
+    t.index ["transaction_id"], name: "index_transaction_approvals_on_transaction_id"
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -153,6 +243,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
     t.datetime "updated_at", null: false
     t.string "from_account_type"
     t.string "to_account_type"
+    t.decimal "balance", precision: 10, scale: 2
+    t.string "bank_account_number"
+    t.string "deposit_type"
   end
 
   create_table "users", force: :cascade do |t|
@@ -176,6 +269,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_15_130831) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "referral_codes", "users"
+  add_foreign_key "referrals", "referral_schemes"
+  add_foreign_key "referrals", "users", column: "from_id"
+  add_foreign_key "referrals", "users", column: "to_id"
   add_foreign_key "security_questions", "kyc_onboardings"
   add_foreign_key "time_deposit_accounts", "users"
+  add_foreign_key "transaction_approvals", "admin_users"
+  add_foreign_key "transaction_approvals", "settlement_accounts"
+  add_foreign_key "transaction_approvals", "transactions"
 end

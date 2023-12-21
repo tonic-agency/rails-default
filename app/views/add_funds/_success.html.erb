@@ -1,10 +1,15 @@
 <section class="flex items-center justify-center w-screen min-h-screen bg-white sm:bg-gray-50">
   <div class="relative flex flex-col items-center sm:justify-start my-0 sm:my-10 py-10 lg:py-20 min-h-screen sm:min-h-0 w-screen sm:w-2/3 sm:max-w-xl bg-farmbank-teal sm:rounded-md">
     
-    <div class="flex flex-col items-center justify-center w-full min-h-screen sm:min-h-0 sm:w-2/3 sm:max-w-xl  text-white text-center space-y-12 font-light px-12">
-      <img src="/images/success.svg" alt="">
-      <p>You've added <%=format_amount(transaction.amount)%> to your account.</p>
-      <p>Pending successful verification, your funds should appear in your Available Balance in 1-2 business days.</p>
+    <div class="flex flex-col items-center justify-center w-full min-h-screen sm:min-h-0 sm:max-w-xl text-white text-center font-light px-12">
+      <img src="/images/success.svg" alt="Success" class="mb-12">
+      <p class="mb-10">You've added <%=format_amount(transaction.amount)%> to your account.</p>
+      <p class="mb-10">Your funds will appear in your Available Balance once cleared into our settlement account which takes 1-2 business days.</p>
+      
+      <% if transaction.deposit_type == Transaction::DEPOSIT_TYPES_FOR_ADD_FUNDS[:check_deposit][:identifier] %>
+        <p class="mb-10">Our team will coordinate with <%=current_user.name%> (<%=current_user.kyc_onboarding.phone%>) for the pickup of the physical check for clearing.</p>
+      <% end %>
+      
       <a href="<%=app_home_path%>" class="block  py-3 font-bold text-center text-white transition-all bg-farmbank-yellow rounded-full sm:py-3 w-80 hover:bg-yellow-500 ">Got it</a>
     </div>
   </div>

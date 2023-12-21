@@ -98,20 +98,52 @@ ActiveAdmin.register TransactionApproval do
           label 'State:', class: 'font-bold'
           div f.object.corresponding_transaction.state&.titleize
         end
-        div class: "w-full grid #{f.object.corresponding_transaction.deposit_slip.attached? ? 'grid-cols-1' : 'grid-cols-2'}" do 
-          label 'Deposit Slip:', class: 'font-bold'
-          div class: 'w-full' do 
-            if f.object.corresponding_transaction&.deposit_slip&.attached?
-              if f.object.corresponding_transaction.deposit_slip.blob.content_type == 'application/pdf'
-                link_to f.object.corresponding_transaction.deposit_slip.url, target: '_blank', class: 'w-full ' do 
-                  div class: 'inline-flex items-center' do inline_svg_tag 'heroicons/icon-link.svg', class: 'w-4 h-4' end
-                  div class: 'inline-flex items-center' do "View Deposit Slip" end
+        div class: 'grid grid-cols-2 w-full' do
+          label 'Transaction Type:', class: 'font-bold'
+          div f.object.corresponding_transaction.transaction_type&.titleize
+        end
+        div class: 'grid grid-cols-2 w-full' do
+          label 'Deposit Type:', class: 'font-bold'
+          div f.object.corresponding_transaction.deposit_type&.titleize
+        end
+        if f.object.corresponding_transaction.of_deposit_type_online_transfer?
+          div class: 'grid grid-cols-2 w-full' do
+            label 'Bank Account Number:', class: 'font-bold'
+            div f.object.corresponding_transaction&.bank_account_number || 'N/A'
+          end
+          div class: "w-full grid #{f.object.corresponding_transaction.deposit_slip.attached? ? 'grid-cols-1' : 'grid-cols-2'}" do 
+            label 'Deposit Slip:', class: 'font-bold'
+            div class: 'w-full' do 
+              if f.object.corresponding_transaction&.deposit_slip&.attached?
+                if f.object.corresponding_transaction.deposit_slip.blob.content_type == 'application/pdf'
+                  link_to f.object.corresponding_transaction.deposit_slip.url, target: '_blank', class: 'w-full ' do 
+                    div class: 'inline-flex items-center' do inline_svg_tag 'heroicons/icon-link.svg', class: 'w-4 h-4' end
+                    div class: 'inline-flex items-center' do "View Deposit Slip" end
+                  end
+                else
+                  image_tag f.object.corresponding_transaction&.deposit_slip&.url, class: 'w-full'
                 end
-              else
-                image_tag f.object.corresponding_transaction&.deposit_slip&.url, class: 'w-full'
+              else 
+                "No deposit slip attached"
               end
-            else 
-              "No deposit slip attached"
+            end
+          end
+        elsif f.object.corresponding_transaction.of_deposit_type_check_deposit?
+          div class: 'grid grid-cols-2 w-full' do
+            label 'Check:', class: 'font-bold'
+            div class: 'w-full' do 
+              if f.object.corresponding_transaction&.check&.attached?
+                if f.object.corresponding_transaction.check.blob.content_type == 'application/pdf'
+                  link_to f.object.corresponding_transaction.check.url, target: '_blank', class: 'w-full ' do 
+                    div class: 'inline-flex items-center' do inline_svg_tag 'heroicons/icon-link.svg', class: 'w-4 h-4' end
+                    div class: 'inline-flex items-center' do "View Check" end
+                  end
+                else
+                  image_tag f.object.corresponding_transaction&.check&.url, class: 'w-full'
+                end
+              else 
+                "No check attached"
+              end
             end
           end
         end
@@ -130,6 +162,13 @@ ActiveAdmin.register TransactionApproval do
               div do link_to 'Settlement Accounts', admin_settlement_accounts_path, class: 'font-semibold underline', target: '_blank' end
             end
           end
+          # show errors
+          f.object.errors.full_messages.each do |msg|
+            div do 
+              div class: 'my-2 text-red-500' do "*#{msg}" end
+            end
+          end
+            
           f.input :admin_user_id, as: :hidden, input_html: { value: current_admin_user.id }
           f.input :transaction_id, as: :hidden
           # f.input :from_account_number, as: :string, input_html: { value: f.object&.settlement_account&.account_number || f.object.from_account_number  }

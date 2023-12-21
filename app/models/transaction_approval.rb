@@ -20,6 +20,7 @@ class TransactionApproval < ApplicationRecord
   # validates :from_account_number, :from_account_institution_id, presence: true
 
   after_save :update_transaction_state
+  validate :validate_corresponding_transaction
 
   def update_transaction_state
     if self.result == TransactionApproval::RESULTS[:approved][:id]
@@ -29,5 +30,9 @@ class TransactionApproval < ApplicationRecord
     end
   end
 
-
+  def validate_corresponding_transaction
+    unless self.corresponding_transaction.valid?
+      self.errors.add(:transaction, self.corresponding_transaction.errors.full_messages.join(", "))
+    end
+  end
 end
