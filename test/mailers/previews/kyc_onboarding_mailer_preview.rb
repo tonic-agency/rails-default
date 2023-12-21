@@ -2,6 +2,30 @@
 class KycOnboardingMailerPreview < ActionMailer::Preview
 
   def account_verification_in_progress_email
-    KycOnboardingMailer.with(kyc_onboarding: KycOnboarding.first).account_verification_in_progress_email
+    KycOnboardingMailer.account_verification_in_progress_email(KycOnboarding.submitted.first, KycOnboarding.submitted.first.email_variables)
+  end
+
+  def account_verification_complete_email
+    KycOnboardingMailer.account_verification_complete_email(KycOnboarding.verified.first, KycOnboarding.verified.first.email_variables)
+  end
+
+  def account_verification_rejected_email
+    KycOnboardingMailer.account_verification_rejected_email(KycOnboarding.submitted.first, KycOnboarding.submitted.first.email_variables)
+  end
+
+  def trigger_account_verification_requires_info_email
+    KycOnboardingMailer.account_verification_requires_info_email(KycOnboarding.submitted.first, KycOnboarding.submitted.first.email_variables)
+  end
+
+  def link_to_sign_in_email
+    KycOnboardingMailer.link_to_sign_in_email(KycOnboarding.submitted.first, KycOnboarding.submitted.first.email_variables)
+  end
+
+  def link_to_finish_onboarding_email
+    KycOnboardingMailer.link_to_finish_onboarding_email(KycOnboarding.incomplete.first, KycOnboarding.incomplete.first.email_variables)
+  end
+
+  def prompt_to_finish_onboarding_email
+    KycOnboardingMailer.prompt_to_finish_onboarding_email(KycOnboarding.incomplete.first, KycOnboarding.incomplete.first.email_variables)
   end
 end

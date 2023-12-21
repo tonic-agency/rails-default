@@ -1,0 +1,27 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@name%>,
+  </div>
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  It looks like you attempted to sign up for a new Farmbank account with this email address. However, we noticed that you already have an account with us.
+  <br/><br/>
+  Please sign in to your account here:
+</div>
+
+<div style="width: 100%; display: flex; justify-content: center; margin: 32px 0px;">
+  <%=link_to 'Sign in', redirect_from_onboarding_url(:email => @email), target: "_blank",  style: "display: block; margin: 0 auto; text-decoration: none; color: white; font-size: 16px; font-weight: 600; font-family: Helvetica; line-height: 32px; word-wrap: break-word; padding-left: 25%; padding-right: 25%; padding-top: 8px; padding-bottom: 8px; background: #DF9B1B; border-radius: 32px; overflow: hidden; justify-content: center; align-items: center;" %>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  If this was not you, please contact us immediately at <a href="mailto:<%=ENV['DEFAULT_FROM_EMAIL']%>" style="color: #298D7B; font-weight: 600"><%=ENV['DEFAULT_FROM_EMAIL']%></a>.
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/><br/>
+  Warm regards, 
+  <br/><br/>
+  The Farmbank Team
+</div>

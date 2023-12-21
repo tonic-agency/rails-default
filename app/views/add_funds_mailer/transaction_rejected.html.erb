@@ -1,0 +1,60 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@recipient&.name%>,
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 24px; margin: 32px 0px; font-family: Helvetica; font-weight: 700; line-height: 32px; word-wrap: break-word; display: inline-flex;">
+  Your funds transfer has been rejected ❌
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  Unfortunately, your request to transfer funds to your Farmbank account has not been approved.
+  <br/><br/><br/>
+</div>
+
+<div style="width: 100%; display: flex; align-items: center; justify-content: center; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <div style="color: #111928; font-family: Helvetica; font-size: 16px; width: 80%; padding: 26px; background: #DEF7EC; border-radius: 20.67px; gap: 8px;">
+  
+    <div style="font-weight: 700; line-height: 24px;">
+      Date and Time Initiated 
+      <br/>
+    </div>
+    
+    <div style="font-weight: 400; line-height: 24px;">
+      <%=@transaction.created_at.strftime('%d %b %Y, %I:%M%p')%>
+      <br/>
+    </div>
+
+    <br/>
+
+    <div style="font-weight: 700; line-height: 24px;">
+      Amount to Transfer
+      <br/>
+    </div>
+
+    <div style="font-weight: 400; line-height: 24px;">
+      <%=number_to_currency(@transaction.amount.to_d, unit: '₱')%>
+    </div>
+   
+  </div>
+</div>
+
+<br/><br/>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  To understand more about the specific reasons for this decision and explore potential solutions, you may contact us directly. Our team is here to assist you and provide any necessary guidance.
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  Please reach out to us at <a href="mailto:<%=ENV.fetch('DEFAULT_FROM_EMAIL')%>"><%=ENV.fetch('DEFAULT_FROM_EMAIL')%></a>. We are committed to helping you with this process.
+  <br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/><br/>
+  Warm regards, 
+  <br/><br/>
+  The Farmbank Team
+</div>

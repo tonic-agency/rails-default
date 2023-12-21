@@ -1,0 +1,35 @@
+<div style="width: 100%; padding-bottom: 1px; justify-content: center; align-items: center;">
+  <div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+    Dear <%=@name%>,
+  </div>
+</div>
+
+<div style="width: 100%; color: black; font-size: 24px; margin: 32px 0px; font-family: Helvetica; font-weight: 700; line-height: 32px; word-wrap: break-word; display: inline-flex;">
+  Complete your Farmbank account application today! 🏆
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  We noticed you started your application for a new Farmbank account but haven't completed it yet. We're here to help you finish the process!
+  <br/><br/>
+  Finalizing your application is quick and easy. By doing so, you'll be on your way to earning 7% and higher on your savings!
+  <br/><br/>
+  Click below to resume your application now:
+</div>
+
+<div style="width: 100%; display: flex; justify-content: center; margin: 32px 0px;">
+  <%=link_to 'Complete application', new_kyc_onboarding_url(code: @kyc_onboarding.identifier, complete_onboarding: true), target: "_blank",  style: "display: block; margin: 0 auto; text-decoration: none; color: white; font-size: 16px; font-weight: 600; font-family: Helvetica; line-height: 32px; word-wrap: break-word; padding-left: 25%; padding-right: 25%; padding-top: 8px; padding-bottom: 8px; background: #DF9B1B; border-radius: 32px; overflow: hidden; justify-content: center; align-items: center;" %>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  If you have any questions or need assistance, our team is ready to assist you.
+  <br/><br/>
+  Looking forward to welcoming you to Farmbank!
+  <br/><br/>
+</div>
+
+<div style="width: 100%; color: black; font-size: 16px; font-family: Helvetica; font-weight: 400; word-wrap: break-word">
+  <br/><br/>
+  Best regards, 
+  <br/><br/>
+  The Farmbank Team
+</div>
