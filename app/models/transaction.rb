@@ -97,7 +97,7 @@ class Transaction < ApplicationRecord
   validates :deposit_type, inclusion: { in: DEPOSIT_TYPES_FOR_ADD_FUNDS.map{|symbol,attributes| attributes[:identifier] }, message: "Not a valid deposit type"}, if: -> { self.of_type_add_funds? }
   # Online Transfers
   validate :acceptable_deposit_slip, if: -> { self.of_type_add_funds? && self.of_deposit_type_online_transfer? }
-  validates_presence_of :bank_account_number, if: -> { self.of_type_add_funds? && self.of_deposit_type_online_transfer? }
+  validates_presence_of :bank_account_number, if: -> { self.of_type_add_funds? && self.of_deposit_type_online_transfer? }, on: :create
   validates_format_of :bank_account_number, with: BANK_ACCOUNT_REGEX, message: "must only contain numbers, spaces and hyphens.", if: -> { self.of_type_add_funds? && self.of_deposit_type_online_transfer? }
   # Check Deposits
   validate :acceptable_check, if: -> { self.of_type_add_funds? && self.of_deposit_type_check_deposit? }
