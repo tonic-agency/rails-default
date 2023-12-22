@@ -114,9 +114,7 @@ ActiveAdmin.register KycOnboarding do
             "N/A"
           end
         end
-        row :accepted_terms_and_conditions do |kyc|
-          status_tag kyc&.terms_accepted
-        end
+        
         row :link_to_verify do |kyc|
           if kyc.eligible_for_verification?
             link_to "Verify", new_admin_kyc_onboarding_check_path(kyc_onboarding: kyc.id), class: "bg-gray-800 rounded p-2 text-white"
