@@ -162,14 +162,35 @@
 
             <div class="w-full flex flex-col px-6 sm:px-0 py-8 sm:max-w-xl mx-auto justify-center items-center">
                 <!-- <a href="#" class="block bg-gray-300 py-3 font-bold w-full  text-center rounded-full text-white sm:py-3 sm:w-80">Next</a> -->
-                <a href="<%= current_user.authorized_to_create_transactions? ?  new_time_deposit_path : nil %>" class="<%=current_user.authorized_to_create_transactions? ? 'hover:bg-yellow-500' : 'opacity-60 cursor-not-allowed'%> bg-farmbank-yellow  py-3 font-semibold w-full text-center rounded-full text-white sm:py-3 sm:w-80 transition-all flex justify-center items-center space-x-2">
-                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.5 4V8M8.5 8V12M8.5 8H12.5M8.5 8H4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>
-                        Start new time deposit
-                    </span>
-                </a>
+                <% authorized_to_create_time_deposits = current_user.authorized_to_create_transactions? && current_user&.settlement_account&.current_available_balance >= 1%>
+                
+                <% if authorized_to_create_time_deposits %>
+                    <a href="<%=new_time_deposit_path%>" class="hover:bg-yellow-500 bg-farmbank-yellow py-3 font-semibold w-full text-center rounded-full text-white sm:py-3 sm:w-80 transition-all flex justify-center items-center space-x-2">
+                        
+                        <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.5 4V8M8.5 8V12M8.5 8H12.5M8.5 8H4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span>
+                            Start new time deposit
+                        </span>
+                    </a>
+                <% else %>
+                    <div _="on mouseover remove .hidden from #td-tooltip end on mouseleave add .hidden to #td-tooltip" class="relative w-full sm:w-80">
+                        <div id="td-tooltip" class="absolute text-sm mb-2 hidden text-gray-600 z-60 bottom-full bg-white rounded shadow border p-4 ">
+                            You must add funds to your account before you can start a time deposit.
+                        </div>
+                        <div class="opacity-60 z-10 cursor-not-allowed bg-farmbank-yellow py-3 font-semibold w-full text-center rounded-full text-white sm:py-3 sm:w-80 transition-all flex justify-center items-center space-x-2">
+                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.5 4V8M8.5 8V12M8.5 8H12.5M8.5 8H4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span>
+                                Start new time deposit
+                            </span>
+                        </div>
+                    </div>
+                   
+                    
+                <% end %>
                 <div class="w-full  py-8 flex flex-col justify-center items-center">
                     <% if @open_time_deposits.any? %>
                         <%@open_time_deposits.each.with_index(1) do |time_deposit, index| %>
